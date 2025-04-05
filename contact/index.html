@@ -19,20 +19,24 @@
 
   </nav>
 
-  <form action="mailto:emma.shamir@gmail.com" method="get">
-    <label for="email">Email Address</label>
+  <form action="mailto:emma.shamir@gmail.com" method="POST" enctype="text/plain">
+
+    <label for="email">Email Address:</label>
     <input type="email" name="email" id="email" required>
-    <br>
+    <br><br>
 
-    <label for="subject">Subject</label>
-    <input type="text" name="subject" id="subject" required>
-    <br>
+    <!-- Subject -->
+    <label for="subject">Subject:</label>
+    <input name="subject" id="subject" required>
+    <br><br>
 
-    <label for="body">Message</label>
+    <!-- Message Body -->
+    <label for="body">Message:</label>
     <textarea name="body" id="body" rows="5" required></textarea>
-    <br>
+    <br><br>
 
-    <button>Submit</button>
+    <!-- Submit Button -->
+    <button type="submit">Submit</button>
 </form>
 
  
