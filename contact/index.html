@@ -1,4 +1,12 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+</head>
+
 <h1>Contact Me</h1>
+
+
 <nav>
 
     <div class="heading">
@@ -15,28 +23,29 @@
 
       <li><a href=".projects/index.html">Projects</a></li>
 
+      <li><a href=".resume/index.html" class="active">Resume</a></li>
+
     </ul>
 
   </nav>
 
-  <form action="mailto:emma.shamir@gmail.com" method="POST" enctype="text/plain">
-
-    <label for="email">Email Address:</label>
-    <input type="email" name="email" id="email" required>
-    <br><br>
-
-    <!-- Subject -->
-    <label for="subject">Subject:</label>
-    <input name="subject" id="subject" required>
-    <br><br>
-
-    <!-- Message Body -->
-    <label for="body">Message:</label>
-    <textarea name="body" id="body" rows="5" required></textarea>
-    <br><br>
-
-    <!-- Submit Button -->
-    <button type="submit">Submit</button>
-</form>
+  <form action="mailto:foo@example.com" method="POST" enctype="text/plain">
+    <label>
+      Email:
+      <input name="email" type="email">
+    </label>
+    <br>
+    <label>
+      Subject:
+      <input name="subject">
+    </label>
+    <br>
+    <label>
+      Message:
+      <textarea name="body"></textarea>
+    </label>
+    <br>
+    <button>Submit</button>
+  </form>
 
  
