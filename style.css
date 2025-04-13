@@ -64,4 +64,63 @@
     background-color: oklch(from var(--color-accent) 95% 5% h);
     cursor: pointer;
   }
+
+  
+  /* Step 3.1: Typography + Block Behavior */
+form {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1em;
+    margin-top: 2rem;
+    font: inherit;
+  }
+  
+  label {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+    font-weight: bold;
+  }
+  
+  label > span {
+    grid-column: 1;
+    align-self: center;
+  }
+  
+  label > input,
+  label > textarea {
+    grid-column: 2;
+    font: inherit;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 0.4em;
+    background-color: #fdfdfd;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  input:focus,
+  textarea:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px oklch(from var(--color-accent) 95% 10% h / 30%);
+    outline: none;
+  }
+  
+  button {
+    grid-column: 1 / -1;
+    justify-self: start;
+    font: inherit;
+    padding: 0.6em 1.2em;
+    border: none;
+    border-radius: 0.4em;
+    background-color: var(--color-accent);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  button:hover {
+    background-color: oklch(from var(--color-accent) 60% 40% h);
+  }
   
