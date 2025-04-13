@@ -192,7 +192,7 @@
     position: sticky;
     top: 4.5rem; /* ensure it starts below top nav */
     height: calc(100vh - 4.5rem);
-    background: #fff;
+    background: #ff66cf;
     border-right: 1px solid #ddd;
     padding: 2rem 1rem;
   }
@@ -265,5 +265,17 @@
     .resume-content {
       padding: 1rem;
     }
+  }
+
+  .sidebar nav ul li a {
+    display: block;
+    padding: 0.4em 0.6em;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--color, black);
+    background-color: white;
+    border: 2px solid var(--color);
+    border-radius: 0.3em;
+    transition: all 0.3s ease;
   }
   
