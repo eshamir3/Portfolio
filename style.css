@@ -173,3 +173,92 @@
   }
   
   
+
+  :root {
+    --edu: #f6bd60;
+    --exp: #f7ede2;
+    --lead: #84a59d;
+    --awards: #f28482;
+    --skills: #cdb4db;
+  }
+  
+  .resume-wrapper {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100vh;
+  }
+  
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    background: #fff;
+    border-right: 1px solid #ddd;
+    padding: 2rem 1rem;
+  }
+  
+  .sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar nav ul li {
+    margin-bottom: 1.5rem;
+  }
+  
+  .sidebar nav ul li a {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--color, black);
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  
+  .sidebar nav ul li a:hover {
+    transform: translateX(5px);
+    color: var(--color);
+  }
+  
+  .resume-content {
+    padding: 2rem;
+  }
+  
+  .resume-content h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .resume-section {
+    margin-bottom: 4rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+  
+  #education { background-color: var(--edu); }
+  #experience { background-color: var(--exp); }
+  #leadership { background-color: var(--lead); }
+  #awards { background-color: var(--awards); }
+  #skills-interests { background-color: var(--skills); }
+  
+  .resume-section h2 {
+    margin-top: 0;
+    font-size: 2rem;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .resume-wrapper {
+      grid-template-columns: 1fr;
+    }
+  
+    .sidebar {
+      position: static;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid #ccc;
+    }
+  
+    .resume-content {
+      padding: 1rem;
+    }
+  }
+  
