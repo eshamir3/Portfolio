@@ -192,7 +192,7 @@
     position: sticky;
     top: 4.5rem; /* ensure it starts below top nav */
     height: calc(100vh - 4.5rem);
-    background: #ff66cf;
+    background: #edeaec;
     border-right: 1px solid #ddd;
     padding: 2rem 1rem;
   }
