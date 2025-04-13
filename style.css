@@ -13,30 +13,34 @@
     line-height: 1.6;
     margin: 0;
     padding: 0;
-  }
-  
-  .main-content {
     max-width: 100ch;
     margin-inline: max(1em, (100% - 100ch) / 2);
     padding-inline: 1em;
   }
   
-  /* Allow images to scale inside the layout */
-  img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 1.5rem auto;
+  /* Headings */
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.1;
+    text-wrap: balance;
   }
   
-  /* NAVIGATION BAR STYLES */
+  h1 {
+    font-size: 4rem;
+    margin: 1.5rem 0;
+  }
+  
+  h2 {
+    margin: 0;
+  }
+  
+  /* NAVIGATION BAR */
   nav {
     display: flex;
     justify-content: space-around;
     background-color: #f2f2f2;
     border-bottom: 1px solid oklch(80% 3% 200);
-    margin-bottom: 1.5rem;
     padding: 1em 0;
+    margin-bottom: 2rem;
   }
   
   nav ul,
@@ -66,7 +70,23 @@
     cursor: pointer;
   }
   
-  /* CONTACT FORM: Grid layout and typography integration */
+  /* MAIN CONTENT LAYOUT */
+  .main-content {
+    max-width: 100ch;
+    margin-inline: max(1em, (100% - 100ch) / 2);
+    padding-inline: 1em;
+  }
+  
+  /* IMAGES */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 2rem auto 1rem auto;
+    border-radius: 0.5rem;
+  }
+  
+  /* CONTACT FORM */
   form {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -124,27 +144,7 @@
     background-color: oklch(from var(--color-accent) 60% 40% h);
   }
   
-
-  /* -------------------- */
-/* PROJECTS PAGE STYLES */
-/* -------------------- */
-
-/* Make sure all headings have good spacing and hierarchy */
-h1, h2, h3, h4, h5, h6 {
-    line-height: 1.1;
-    text-wrap: balance;
-  }
-  
-  h1 {
-    font-size: 400%;
-    margin-bottom: 1rem;
-  }
-  
-  h2 {
-    margin: 0;
-  }
-  
-  /* Projects container grid */
+  /* PROJECTS PAGE GRID */
   .projects {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
@@ -152,12 +152,12 @@ h1, h2, h3, h4, h5, h6 {
     margin-block: 2rem;
   }
   
-  /* Each article inside the grid */
+  /* PROJECT CARDS */
   .projects article {
     display: grid;
     grid-template-rows: subgrid;
     grid-row: span 3;
-    gap: 0.5em;
+    gap: 0.75em;
     padding: 1em;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -165,12 +165,11 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   }
   
-  /* Image inside project */
   .projects img {
     width: 100%;
     height: auto;
-    display: block;
-    background: #f0f0f0;
-    border-radius: 0.5em;
+    background: #e0e0e0;
+    border-radius: 0.4em;
   }
+  
   
