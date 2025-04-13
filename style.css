@@ -124,3 +124,53 @@
     background-color: oklch(from var(--color-accent) 60% 40% h);
   }
   
+
+  /* -------------------- */
+/* PROJECTS PAGE STYLES */
+/* -------------------- */
+
+/* Make sure all headings have good spacing and hierarchy */
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+  
+  h1 {
+    font-size: 400%;
+    margin-bottom: 1rem;
+  }
+  
+  h2 {
+    margin: 0;
+  }
+  
+  /* Projects container grid */
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+    gap: 1em;
+    margin-block: 2rem;
+  }
+  
+  /* Each article inside the grid */
+  .projects article {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 3;
+    gap: 0.5em;
+    padding: 1em;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 0.5em;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Image inside project */
+  .projects img {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #f0f0f0;
+    border-radius: 0.5em;
+  }
+  
