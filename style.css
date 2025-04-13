@@ -1,3 +1,4 @@
+
 :root {
     --color-accent: oklch(65% 50% 0);
   }
@@ -10,18 +11,22 @@
     font: 100%/1.5 system-ui;
     font-family: sans-serif;
     line-height: 1.6;
+    margin: 0;
+    padding: 0;
+  }
   
-    /* Step 1: Prevent content from getting too wide + center it */
+  .main-content {
     max-width: 100ch;
     margin-inline: max(1em, (100% - 100ch) / 2);
     padding-inline: 1em;
-    margin-top: 0; /* optional: remove gap if added */
   }
   
   /* Allow images to scale inside the layout */
   img {
     max-width: 100%;
     height: auto;
+    display: block;
+    margin: 1.5rem auto;
   }
   
   /* NAVIGATION BAR STYLES */
@@ -34,13 +39,11 @@
     padding: 1em 0;
   }
   
-  /* Optional — if you're still using <ul><li> in your nav */
   nav ul,
   nav li {
     display: contents;
   }
   
-  /* Nav links */
   nav a {
     flex: 1;
     text-decoration: none;
@@ -51,23 +54,20 @@
     border-bottom: 0 solid transparent;
   }
   
-  /* Highlight current page link */
   nav a.current {
     border-bottom: 0.4em solid oklch(80% 3% 200);
     padding-bottom: 0.1em;
     font-weight: bold;
   }
   
-  /* Hover effect using accent color */
   nav a:hover {
     border-bottom: 0.4em solid var(--color-accent);
     background-color: oklch(from var(--color-accent) 95% 5% h);
     cursor: pointer;
   }
-
   
-  /* Step 3.1: Typography + Block Behavior */
-form {
+  /* CONTACT FORM: Grid layout and typography integration */
+  form {
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 1em;
