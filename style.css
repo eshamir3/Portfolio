@@ -1,48 +1,3 @@
-body {
-    /* Set line height to 1.5 times the font size
-         and use the OS’s UI font as the website font
-       */
-    font: 100%/1.5 system-ui;
-  }
-
-  body {
-    font-family: sans-serif;
-    max-width: 100ch;
-    margin-inline: max(1em, (100% - 100ch) / 2);
-    padding-inline: 1em;
-    line-height: 1.6;
-  }
-  
-  /* Optional image scaling on smaller viewports */
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  /* Basic nav styling (you can customize more) */
-  nav {
-    background-color: #f2f2f2;
-    padding: 1em;
-  }
-  
-  .nav-links {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    gap: 1em;
-  }
-  
-  .nav-links li a {
-    text-decoration: none;
-    color: #333;
-  }
-  
-  .nav-links li a.active {
-    font-weight: bold;
-  }
-
-
-  /* Step 2.0: Accent Color */
 :root {
     --color-accent: oklch(65% 50% 0);
   }
@@ -51,20 +6,41 @@ body {
     accent-color: var(--color-accent);
   }
   
-  /* Step 2.1: Optional - if you're still using <ul>/<li> inside <nav> */
-  nav ul, nav li {
-    display: contents;
+  body {
+    font: 100%/1.5 system-ui;
+    font-family: sans-serif;
+    line-height: 1.6;
+  
+    /* Step 1: Prevent content from getting too wide + center it */
+    max-width: 100ch;
+    margin-inline: max(1em, (100% - 100ch) / 2);
+    padding-inline: 1em;
+    margin-top: 0; /* optional: remove gap if added */
   }
   
-  /* Step 2.2: Flex Layout */
+  /* Allow images to scale inside the layout */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* NAVIGATION BAR STYLES */
   nav {
     display: flex;
     justify-content: space-around;
-    margin-bottom: 1.5rem;
+    background-color: #f2f2f2;
     border-bottom: 1px solid oklch(80% 3% 200);
+    margin-bottom: 1.5rem;
+    padding: 1em 0;
   }
   
-  /* Make links take up equal space */
+  /* Optional — if you're still using <ul><li> in your nav */
+  nav ul,
+  nav li {
+    display: contents;
+  }
+  
+  /* Nav links */
   nav a {
     flex: 1;
     text-decoration: none;
@@ -75,14 +51,14 @@ body {
     border-bottom: 0 solid transparent;
   }
   
-  /* Step 2.3: Style current page */
+  /* Highlight current page link */
   nav a.current {
     border-bottom: 0.4em solid oklch(80% 3% 200);
     padding-bottom: 0.1em;
     font-weight: bold;
   }
   
-  /* Step 2.4: Hover Styles */
+  /* Hover effect using accent color */
   nav a:hover {
     border-bottom: 0.4em solid var(--color-accent);
     background-color: oklch(from var(--color-accent) 95% 5% h);
