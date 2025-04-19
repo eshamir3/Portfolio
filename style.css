@@ -1,15 +1,21 @@
-
 :root {
     --color-accent: oklch(65% 50% 0);
+    --edu: #f6bd60;
+    --exp: #ff6f61;
+    --lead: #84a59d;
+    --awards: #f28482;
+    --skills: #cdb4db;
   }
   
   html {
+    color-scheme: light dark;
+    background-color: Canvas;
+    color: CanvasText;
     accent-color: var(--color-accent);
   }
   
   body {
     font: 100%/1.5 system-ui;
-    font-family: sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -37,14 +43,14 @@
   nav {
     display: flex;
     justify-content: space-around;
-    background-color: #f2f2f2;
-    border-bottom: 1px solid oklch(80% 3% 200);
+    background-color: Canvas;
+    --border-color: oklch(50% 10% 200 / 40%);
+    border-bottom: 1px solid var(--border-color);
     padding: 1em 0;
     margin-bottom: 2rem;
   }
   
-  nav ul,
-  nav li {
+  nav ul, nav li {
     display: contents;
   }
   
@@ -59,15 +65,39 @@
   }
   
   nav a.current {
-    border-bottom: 0.4em solid oklch(80% 3% 200);
+    border-bottom: 0.4em solid var(--border-color);
     padding-bottom: 0.1em;
     font-weight: bold;
   }
   
   nav a:hover {
     border-bottom: 0.4em solid var(--color-accent);
-    background-color: oklch(from var(--color-accent) 95% 5% h);
+    background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
     cursor: pointer;
+  }
+  
+  /* THEME SWITCHER */
+  label.color-scheme {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.8em;
+    font-family: inherit;
+    background-color: Canvas;
+    color: CanvasText;
+    padding: 0.4em 0.6em;
+    border: 1px solid var(--border-color);
+    border-radius: 0.4em;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  label.color-scheme select {
+    background: inherit;
+    color: inherit;
+    border: 1px solid var(--border-color);
+    border-radius: 0.3em;
+    font: inherit;
   }
   
   /* MAIN CONTENT LAYOUT */
@@ -172,16 +202,7 @@
     border-radius: 0.4em;
   }
   
-  
-
-  :root {
-    --edu: #f6bd60;
-    --exp: #ff6f61;
-    --lead: #84a59d;
-    --awards: #f28482;
-    --skills: #cdb4db;
-  }
-  
+  /* RESUME SECTION */
   .resume-wrapper {
     display: grid;
     grid-template-columns: 220px 1fr;
@@ -190,14 +211,13 @@
   
   .sidebar {
     position: sticky;
-    top: 4.5rem; /* ensure it starts below top nav */
+    top: 4.5rem;
     height: calc(100vh - 4.5rem);
     background: #edeaec;
     border-right: 1px solid #ddd;
     padding: 2rem 1rem;
   }
   
-  /* Merge both definitions */
   .sidebar nav ul {
     list-style: none;
     padding: 0;
@@ -213,9 +233,10 @@
     font-weight: bold;
     text-decoration: none;
     color: var(--color, black);
-    background-color: #f7f7f7;
+    background-color: white;
+    border: 2px solid var(--color);
     border-radius: 0.3em;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
   }
   
   .sidebar nav ul li a:hover {
@@ -266,48 +287,4 @@
       padding: 1rem;
     }
   }
-
-  .sidebar nav ul li a {
-    display: block;
-    padding: 0.4em 0.6em;
-    font-weight: bold;
-    text-decoration: none;
-    color: var(--color, black);
-    background-color: white;
-    border: 2px solid var(--color);
-    border-radius: 0.3em;
-    transition: all 0.3s ease;
-  }
-
-  html {
-    color-scheme: light dark; /* 👈 Automatically adapts */
-    background-color: Canvas;
-    color: CanvasText;
-  }
-  
-  /* Optional: Fix border color for nav */
-  nav {
-    --border-color: oklch(50% 10% 200 / 40%);
-    border-bottom: 1px solid var(--border-color);
-  }
-  
-  /* Optional: fix hover background if you use it */
-  a:hover {
-    background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
-  }
-  
-  label.color-scheme {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font-size: 0.8em;
-    font-family: inherit;
-    background-color: oklch(95% 10% 200 / 90%);
-    padding: 0.4em 0.6em;
-    border-radius: 0.4em;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  
   
