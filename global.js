@@ -11,7 +11,7 @@ let pages = [
   { url: "projects/", title: "Projects" },
   { url: "resume/", title: "Resume" },
   { url: "contact/", title: "Contact" },
-  { url: "https://github.com/yourusername", title: "GitHub" } // Replace with your actual GitHub URL
+  { url: "https://github.com/eshamir3", title: "GitHub" } // Replace with your actual GitHub URL
 ];
 
 // Create <nav> and add it to the top of <body>
