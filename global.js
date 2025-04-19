@@ -83,4 +83,21 @@ document.body.insertAdjacentHTML(
     setColorScheme(saved);
     select.value = saved;
   }
+
+  const form = document.querySelector("#contact-form");
+
+form?.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const data = new FormData(form);
+  let params = [];
+
+  for (let [name, value] of data) {
+    params.push(`${name}=${encodeURIComponent(value)}`);
+  }
+
+  const url = `${form.action}?${params.join("&")}`;
+  location.href = url; // opens default mail app with prefilled subject/body
+});
+
   
