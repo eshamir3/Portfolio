@@ -42,3 +42,45 @@ for (let p of pages) {
 
   nav.append(a);
 }
+
+
+// STEP 4: DARK MODE TOGGLE
+
+// Add the switch dropdown to the page
+document.body.insertAdjacentHTML(
+    'afterbegin',
+    `
+    <label class="color-scheme">
+      Theme:
+      <select>
+        <option value="light dark">Automatic</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
+  `
+  );
+  
+  // Get the dropdown element
+  const select = document.querySelector(".color-scheme select");
+  
+  // Function to apply color scheme to root
+  function setColorScheme(scheme) {
+    document.documentElement.style.setProperty("color-scheme", scheme);
+  }
+  
+  // Listen for user changes
+  select.addEventListener("input", function (event) {
+    const selected = event.target.value;
+    console.log("Color scheme changed to", selected);
+    setColorScheme(selected);
+    localStorage.colorScheme = selected;
+  });
+  
+  // On page load: restore saved preference (if any)
+  if ("colorScheme" in localStorage) {
+    const saved = localStorage.colorScheme;
+    setColorScheme(saved);
+    select.value = saved;
+  }
+  

@@ -278,4 +278,31 @@
     border-radius: 0.3em;
     transition: all 0.3s ease;
   }
+
+  html {
+    color-scheme: light dark; /* 👈 Automatically adapts */
+    background-color: Canvas;
+    color: CanvasText;
+  }
+  
+  /* Optional: Fix border color for nav */
+  nav {
+    --border-color: oklch(50% 10% 200 / 40%);
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  /* Optional: fix hover background if you use it */
+  a:hover {
+    background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
+  }
+  
+  /* Step 4.3: Position the switch top right */
+  label.color-scheme {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.8em;
+    font-family: inherit;
+  }
+  
   
