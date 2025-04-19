@@ -7,7 +7,7 @@ const BASE_PATH = (location.hostname === "localhost" || location.hostname === "1
 
 // Step 3.1: Define pages for navigation
 let pages = [
-  { url: "", title: "Home" },
+  { url: "", title: "portfolio" },
   { url: "projects/", title: "Projects" },
   { url: "resume/", title: "Resume" },
   { url: "contact/", title: "Contact" },
