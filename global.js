@@ -3,7 +3,7 @@ console.log("IT’S ALIVE!");
 // Base path for GitHub Pages vs local dev
 const BASE_PATH = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
   ? "/"
-  : "/portfolio/"; // Change this if your repo name is different!
+  : "/Portfolio/"; // Change this if your repo name is different!
 
 // Step 3.1: Define pages for navigation
 let pages = [
