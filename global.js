@@ -3,15 +3,15 @@ console.log("IT’S ALIVE!");
 // Base path for GitHub Pages vs local dev
 const BASE_PATH = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
   ? "/"
-  : "/Portfolio/"; // Change this if your repo name is different!
+  : "/Portfolio/"; // ✅ Matches your repo name exactly (capital "P")
 
-// Step 3.1: Define pages for navigation
+// Define pages for navigation
 let pages = [
-  { url: "", title: "portfolio" },
+  { url: "index.html", title: "Home" }, // ✅ FIXED: use "index.html" instead of ""
   { url: "projects/", title: "Projects" },
   { url: "resume/", title: "Resume" },
   { url: "contact/", title: "Contact" },
-  { url: "https://github.com/eshamir3", title: "GitHub" } // Replace with your actual GitHub URL
+  { url: "https://github.com/eshamir3", title: "GitHub" } // ✅ Use your real GitHub URL
 ];
 
 // Create <nav> and add it to the top of <body>
@@ -23,10 +23,10 @@ for (let p of pages) {
   let url = p.url;
   let title = p.title;
 
-  // Add BASE_PATH to relative URLs
+  // Add BASE_PATH to internal URLs
   url = !url.startsWith("http") ? BASE_PATH + url : url;
 
-  // Create anchor element
+  // Create link element
   let a = document.createElement("a");
   a.href = url;
   a.textContent = title;
@@ -37,7 +37,7 @@ for (let p of pages) {
     a.host === location.host && a.pathname === location.pathname
   );
 
-  // Open external links in new tab
+  // Open external links in a new tab
   a.toggleAttribute("target", a.host !== location.host);
 
   nav.append(a);
