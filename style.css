@@ -43,7 +43,7 @@
   nav {
     display: flex;
     justify-content: space-around;
-    background-color: Canvas;
+    background-color: inherit; /* ✅ Fixes white nav in dark mode */
     --border-color: oklch(50% 10% 200 / 40%);
     border-bottom: 1px solid var(--border-color);
     padding: 1em 0;
