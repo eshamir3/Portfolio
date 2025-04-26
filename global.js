@@ -7,11 +7,11 @@ const BASE_PATH = (location.hostname === "localhost" || location.hostname === "1
 
 // Define pages for navigation
 let pages = [
-  { url: "index.html", title: "Home" }, // ✅ FIXED: use "index.html" instead of ""
+  { url: "index.html", title: "Home" },
   { url: "projects/", title: "Projects" },
   { url: "resume/", title: "Resume" },
   { url: "contact/", title: "Contact" },
-  { url: "https://github.com/eshamir3", title: "GitHub" } // ✅ Use your real GitHub URL
+  { url: "https://github.com/eshamir3", title: "GitHub" }
 ];
 
 // Create <nav> and add it to the top of <body>
@@ -31,10 +31,10 @@ for (let p of pages) {
   a.href = url;
   a.textContent = title;
 
-  // Highlight current page
+  // Highlight current page safely (fix for GitHub Pages)
   a.classList.toggle(
     "current",
-    a.host === location.host && a.pathname === location.pathname
+    a.pathname.replace(BASE_PATH, "/") === location.pathname.replace(BASE_PATH, "/")
   );
 
   // Open external links in a new tab
@@ -43,13 +43,10 @@ for (let p of pages) {
   nav.append(a);
 }
 
-
-// STEP 4: DARK MODE TOGGLE
-
-// Add the switch dropdown to the page
+// DARK MODE TOGGLE
 document.body.insertAdjacentHTML(
-    'afterbegin',
-    `
+  "afterbegin",
+  `
     <label class="color-scheme">
       Theme:
       <select>
@@ -59,32 +56,31 @@ document.body.insertAdjacentHTML(
       </select>
     </label>
   `
-  );
-  
-  // Get the dropdown element
-  const select = document.querySelector(".color-scheme select");
-  
-  // Function to apply color scheme to root
-  function setColorScheme(scheme) {
-    document.documentElement.style.setProperty("color-scheme", scheme);
-  }
-  
-  // Listen for user changes
-  select.addEventListener("input", function (event) {
-    const selected = event.target.value;
-    console.log("Color scheme changed to", selected);
-    setColorScheme(selected);
-    localStorage.colorScheme = selected;
-  });
-  
-  // On page load: restore saved preference (if any)
-  if ("colorScheme" in localStorage) {
-    const saved = localStorage.colorScheme;
-    setColorScheme(saved);
-    select.value = saved;
-  }
+);
 
-  const form = document.querySelector("#contact-form");
+const select = document.querySelector(".color-scheme select");
+
+function setColorScheme(scheme) {
+  document.documentElement.style.setProperty("color-scheme", scheme);
+}
+
+// Listen for user changes
+select.addEventListener("input", (event) => {
+  const selected = event.target.value;
+  console.log("Color scheme changed to", selected);
+  setColorScheme(selected);
+  localStorage.colorScheme = selected;
+});
+
+// On page load: restore saved preference (if any)
+if ("colorScheme" in localStorage) {
+  const saved = localStorage.colorScheme;
+  setColorScheme(saved);
+  select.value = saved;
+}
+
+// CONTACT FORM SUBMIT
+const form = document.querySelector("#contact-form");
 
 form?.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -97,22 +93,52 @@ form?.addEventListener("submit", (event) => {
   }
 
   const url = `${form.action}?${params.join("&")}`;
-  location.href = url; // opens default mail app with prefilled subject/body
+  location.href = url; // Opens default mail app with prefilled subject/body
 });
 
-
+// FETCH JSON DATA
 export async function fetchJSON(url) {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch projects: ${response.statusText}`);
-      }
-      console.log(response); // Optional: For debugging
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching or parsing JSON data:', error);
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch projects: ${response.statusText}`);
     }
+    console.log(response); // Optional: For debugging
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching or parsing JSON data:", error);
   }
-  
-  
+}
+
+// RENDER PROJECTS
+export function renderProjects(projects, containerElement, headingLevel = "h2") {
+  if (!containerElement || !Array.isArray(projects)) return;
+
+  containerElement.innerHTML = '';
+
+  if (projects.length === 0) {
+    containerElement.innerHTML = "<p>No projects available. Stay tuned!</p>";
+    return;
+  }
+
+  for (const project of projects) {
+    const article = document.createElement("article");
+    const headingTag = document.createElement(headingLevel);
+
+    headingTag.textContent = project.title;
+
+    article.innerHTML = `
+      ${headingTag.outerHTML}
+      <img src="${project.image || ''}" alt="${project.title}">
+      <p>${project.description || ''}</p>
+    `;
+
+    containerElement.appendChild(article);
+  }
+}
+
+// FETCH GITHUB DATA
+export async function fetchGitHubData(username) {
+  return fetchJSON(`https://api.github.com/users/${username}`);
+}
