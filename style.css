@@ -210,5 +210,30 @@
     transition: transform 0.2s ease;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
+
+  #profile-stats dl {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    text-align: center;
+    background: canvas;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-top: 2rem;
+  }
+  
+  #profile-stats dt {
+    font-weight: bold;
+    font-size: 1rem;
+    grid-row: 1;
+  }
+  
+  #profile-stats dd {
+    margin: 0;
+    font-size: 0.9rem;
+    grid-row: 2;
+  }
+  
     
   
