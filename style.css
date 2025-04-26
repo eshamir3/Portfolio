@@ -169,25 +169,46 @@
   /*            PROJECTS PAGE         */
   /* ================================ */
   
-  .projects-grid {
+  
+  .projects {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
   }
   
-  .project-card {
+  .projects article {
+    background-color: canvas;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     text-align: center;
   }
   
-  .project-image {
+  .projects img {
+    width: 100%;
+    max-height: 150px;
+    object-fit: cover;
     background-color: #dbe1e8;
-    height: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-    color: gray;
-    margin: 1rem 0;
+    display: block;
+    margin: 1rem auto;
   }
+  
+  .projects h2, .projects h3 {
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .projects p {
+    font-size: 0.9rem;
+    color: inherit;
+  }
+
+  .projects article:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+    
   
