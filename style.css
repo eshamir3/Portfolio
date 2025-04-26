@@ -12,7 +12,7 @@
     background-color: Canvas;
     color: CanvasText;
     accent-color: var(--color-accent);
-    scroll-behavior: smooth; /* ✅ Smooth scrolling! */
+    scroll-behavior: smooth;
   }
   
   body {
@@ -38,6 +38,8 @@
   h2 {
     margin: 0;
   }
+  
+  /* ============== TOP NAVIGATION ============== */
   
   nav {
     display: flex;
@@ -75,6 +77,8 @@
     cursor: pointer;
   }
   
+  /* ============== THEME SWITCHER ============== */
+  
   label.color-scheme {
     position: absolute;
     top: 1rem;
@@ -97,6 +101,8 @@
     border-radius: 0.3em;
     font: inherit;
   }
+  
+  /* ============== CONTACT FORM ============== */
   
   #contact-form {
     margin-top: 2rem;
@@ -155,6 +161,8 @@
       padding: 1rem;
     }
   }
+  
+  /* ============== HERO IMAGE ============== */
   
   img.hero {
     width: 150px;
@@ -247,6 +255,7 @@
     display: grid;
     grid-template-columns: 220px 1fr;
     min-height: 100vh;
+    gap: 2rem;
   }
   
   .resume-sidebar {
@@ -258,6 +267,12 @@
     padding: 2rem 1rem;
   }
   
+  .resume-sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
   .resume-sidebar nav ul {
     list-style: none;
     padding: 0;
@@ -265,16 +280,17 @@
   }
   
   .resume-sidebar nav ul li {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
   
   .resume-sidebar nav ul li a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    padding: 0.5rem 0.8rem;
     display: block;
+    padding: 0.5rem 0.8rem;
+    text-align: center;
+    font-weight: bold;
+    color: white;
     border-radius: 0.5rem;
+    text-decoration: none;
     transition: background-color 0.3s ease;
   }
   
@@ -282,19 +298,15 @@
   .resume-sidebar a.edu {
     background-color: var(--edu);
   }
-  
   .resume-sidebar a.exp {
     background-color: var(--exp);
   }
-  
   .resume-sidebar a.lead {
     background-color: var(--lead);
   }
-  
   .resume-sidebar a.awards {
     background-color: var(--awards);
   }
-  
   .resume-sidebar a.skills {
     background-color: var(--skills);
   }
