@@ -3,125 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Emma Shamir: Personal site and portfolio</title>
+  <title>Emma Shamir: Resume</title>
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-    
 
-  <!-- Top Navigation Bar (Main site nav) -->
- 
+<div class="resume-wrapper">
+  
+  <!-- Sticky Sidebar -->
+  <aside class="resume-sidebar">
+    <nav>
+      <ul>
+        <li><a href="#education" class="edu">Education</a></li>
+        <li><a href="#experience" class="exp">Experience</a></li>
+        <li><a href="#leadership" class="lead">Leadership</a></li>
+        <li><a href="#awards" class="awards">Awards</a></li>
+        <li><a href="#skills-interests" class="skills">Skills</a></li>
+      </ul>
+    </nav>
+  </aside>
 
-  <div class="resume-wrapper">
-    <!-- Sticky Sidebar Navigation for Resume Sections -->
-    <aside class="sidebar">
-      <nav>
+  <!-- Main Resume Content -->
+  <main class="resume-main">
+
+    <!-- Contact Header -->
+    <header>
+      <h1>Emma Shamir</h1>
+      <p>
+        Phone: <a href="tel:5103652913">510-365-2913</a> |
+        Email: <a href="mailto:eshamir@ucsd.edu">eshamir@ucsd.edu</a>
+      </p>
+    </header>
+
+    <!-- Resume Sections -->
+    <section id="education" class="resume-section">
+      <h2>Education</h2>
+      <article>
+        <h3>University of California, San Diego</h3>
+        <p>La Jolla, California</p>
+        <p>Bachelor of Science in Cognitive Behavioral Neuroscience</p>
+        <p><strong>Minor:</strong> Data Science</p>
+        <p>Expected Graduation: <time datetime="2025">2025</time></p>
+      </article>
+    </section>
+
+    <section id="experience" class="resume-section">
+      <h2>Experience</h2>
+      <article>
+        <h3>Programming Internship – Resilio Inc.</h3>
+        <p>Internship at a software company that synchronizes data between distributed systems. Participated after completing a Stanford programming course. Gained practical programming and team collaboration skills.</p>
+      </article>
+      <article>
+        <h3>Language Acquisition and Sound Recognition Lab</h3>
+        <p>Conducted preschool experiments under Dr. Sarah Creel to test children's speech recognition. Transcribed speech into IPA for further analysis.</p>
+      </article>
+      <article>
+        <h3>Economics Research Paper</h3>
+        <p>Researched untreated mental health effects on the economy under Prof. Shachar Kariv. Argued that comorbidities increase long-term healthcare costs.</p>
+      </article>
+      <article>
+        <h3>UC San Diego Hospital Volunteer</h3>
+        <p>On-call worker at UCSD hospital, assisting patients and staff, ensuring a smooth care experience. Volunteer 4 hours weekly.</p>
+      </article>
+      <article>
+        <h3>UCSD Dining Hall HDH Worker</h3>
+        <p>Handled customer disputes, stayed composed under pressure, upheld food standards during high-volume periods and events.</p>
+      </article>
+    </section>
+
+    <section id="leadership" class="resume-section">
+      <h2>Leadership</h2>
+      <article>
+        <h3>UCSD Well Being and Peer Educator</h3>
+        <p>Delivered well-being presentations, earned co-curricular credit, organized student programs, and volunteered 30+ hours.</p>
+      </article>
+      <article>
+        <h3>HIV Presentation</h3>
+        <p>Presented HIV prevention/treatment info to BILD 2 students. Prepared for months alongside a peer.</p>
+      </article>
+      <article>
+        <h3>Backpacking Camp Counselor</h3>
+        <p>Guided student trips, ran safety training and program design, handled emergencies and supervised peers.</p>
+      </article>
+      <article>
+        <h3>UCHARM Club</h3>
+        <p>Raised awareness about antibiotic resistance by creating and delivering presentations at UCSD.</p>
+      </article>
+    </section>
+
+    <section id="awards" class="resume-section">
+      <h2>Awards</h2>
+      <article>
+        <h3>National Urban Planning Competition</h3>
         <ul>
-
-          <li><a href="#education" style="--color: #f6bd60;">Education</a></li>
-          <li><a href="#experience" style="--color: #d612e4;">Experience</a></li>
-          <li><a href="#leadership" style="--color: #84a59d;">Leadership</a></li>
-          <li><a href="#awards" style="--color: #f28482;">Awards</a></li>
-          <li><a href="#skills-interests" style="--color: #ec102d;">Skills</a></li>
+          <li>2nd place nationally</li>
+          <li>Worked in a team of 4 under 9-hour constraints</li>
+          <li>Weeks of preparation beforehand</li>
+          <li>Awarded $500</li>
         </ul>
-      </nav>
-    </aside>
+      </article>
+    </section>
 
-    <!-- Main Resume Content -->
-    <main class="resume-content">
+    <section id="skills-interests" class="resume-section">
+      <h2>Skills and Interests</h2>
+      <ul>
+        <li>Guitar playing and singing</li>
+        <li>Backpacking, hiking, and running</li>
+      </ul>
+    </section>
 
-      <!-- Contact Header -->
-      <header>
-        <h1>Emma Shamir</h1>
-        <p>
-          Phone: <a href="tel:5103652913">510-365-2913</a> |
-          Email: <a href="mailto:eshamir@ucsd.edu">eshamir@ucsd.edu</a>
-        </p>
-      </header>
+  </main>
 
-      <!-- Education Section -->
-      <section id="education" class="resume-section">
-        <h2>Education</h2>
-        <article>
-          <h3>University of California, San Diego</h3>
-          <p>La Jolla, California</p>
-          <p>Bachelor of Science in Cognitive Behavioral Neuroscience</p>
-          <p><strong>Minor:</strong> Data Science</p>
-          <p>Expected Graduation: <time datetime="2025">2025</time></p>
-        </article>
-      </section>
+</div>
 
-      <!-- Experience Section -->
-      <section id="experience" class="resume-section">
-        <h2>Experience</h2>
-        <article>
-          <h3>Programming Internship – Resilio Inc.</h3>
-          <p>Internship at a software company that synchronizes data between distributed systems. Participated after completing a Stanford programming course. Gained practical programming and team collaboration skills.</p>
-        </article>
-        <article>
-          <h3>Language Acquisition and Sound Recognition Lab</h3>
-          <p>Conducted preschool experiments under Dr. Sarah Creel to test children's speech recognition. Transcribed speech into IPA for further analysis.</p>
-        </article>
-        <article>
-          <h3>Economics Research Paper</h3>
-          <p>Researched untreated mental health effects on the economy under Prof. Shachar Kariv. Argued that comorbidities increase long-term healthcare costs.</p>
-        </article>
-        <article>
-          <h3>UC San Diego Hospital Volunteer</h3>
-          <p>On-call worker at UCSD hospital, assisting patients and staff, ensuring a smooth care experience. Volunteer 4 hours weekly.</p>
-        </article>
-        <article>
-          <h3>UCSD Dining Hall HDH Worker</h3>
-          <p>Handled customer disputes, stayed composed under pressure, upheld food standards during high-volume periods and events.</p>
-        </article>
-      </section>
-
-      <!-- Leadership Section -->
-      <section id="leadership" class="resume-section">
-        <h2>Leadership</h2>
-        <article>
-          <h3>UCSD Well Being and Peer Educator</h3>
-          <p>Delivered well-being presentations, earned co-curricular credit, organized student programs, and volunteered 30+ hours.</p>
-        </article>
-        <article>
-          <h3>HIV Presentation</h3>
-          <p>Presented HIV prevention/treatment info to BILD 2 students. Prepared for months alongside a peer.</p>
-        </article>
-        <article>
-          <h3>Backpacking Camp Counselor</h3>
-          <p>Guided student trips, ran safety training and program design, handled emergencies and supervised peers.</p>
-        </article>
-        <article>
-          <h3>UCHARM Club</h3>
-          <p>Raised awareness about antibiotic resistance by creating and delivering presentations at UCSD.</p>
-        </article>
-      </section>
-
-      <!-- Awards Section -->
-      <section id="awards" class="resume-section">
-        <h2>Awards</h2>
-        <article>
-          <h3>National Urban Planning Competition</h3>
-          <ul>
-            <li>2nd place nationally</li>
-            <li>Worked in a team of 4 under 9-hour constraints</li>
-            <li>Weeks of preparation beforehand</li>
-            <li>Awarded $500</li>
-          </ul>
-        </article>
-      </section>
-
-      <!-- Skills and Interests Section -->
-      <section id="skills-interests" class="resume-section">
-        <h2>Skills and Interests</h2>
-        <ul>
-          <li>Guitar playing and singing</li>
-          <li>Backpacking, hiking, and running</li>
-        </ul>
-      </section>
-
-    </main>
-  </div>
-  <script type="module" src="../global.js"></script>
+<script src="../global.js" type="module"></script>
 </body>
 </html>

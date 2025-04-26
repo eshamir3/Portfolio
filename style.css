@@ -12,6 +12,7 @@
     background-color: Canvas;
     color: CanvasText;
     accent-color: var(--color-accent);
+    scroll-behavior: smooth; /* ✅ Smooth scrolling! */
   }
   
   body {
@@ -169,7 +170,6 @@
   /*            PROJECTS PAGE         */
   /* ================================ */
   
-  
   .projects {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -204,13 +204,17 @@
     font-size: 0.9rem;
     color: inherit;
   }
-
+  
   .projects article:hover {
     transform: scale(1.02);
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease-out;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
-
+  
+  /* ================================ */
+  /*         PROFILE STATS GRID       */
+  /* ================================ */
+  
   #profile-stats dl {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -235,5 +239,76 @@
     grid-row: 2;
   }
   
-    
+  /* ================================ */
+  /*            RESUME PAGE           */
+  /* ================================ */
+  
+  .resume-wrapper {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100vh;
+  }
+  
+  .resume-sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    background: #fff;
+    border-right: 1px solid var(--border-color);
+    padding: 2rem 1rem;
+  }
+  
+  .resume-sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .resume-sidebar nav ul li {
+    margin-bottom: 1.5rem;
+  }
+  
+  .resume-sidebar nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem 0.8rem;
+    display: block;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Color coding for sidebar links */
+  .resume-sidebar a.edu {
+    background-color: var(--edu);
+  }
+  
+  .resume-sidebar a.exp {
+    background-color: var(--exp);
+  }
+  
+  .resume-sidebar a.lead {
+    background-color: var(--lead);
+  }
+  
+  .resume-sidebar a.awards {
+    background-color: var(--awards);
+  }
+  
+  .resume-sidebar a.skills {
+    background-color: var(--skills);
+  }
+  
+  .resume-sidebar nav ul li a:hover {
+    opacity: 0.85;
+    cursor: pointer;
+  }
+  
+  .resume-main {
+    padding: 2rem;
+  }
+  
+  .resume-main section {
+    margin-bottom: 4rem;
+  }
   
