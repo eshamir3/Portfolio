@@ -154,7 +154,7 @@
       padding: 1rem;
     }
   }
-
+  
   img.hero {
     width: 150px;
     height: 150px;
@@ -163,5 +163,31 @@
     display: block;
     margin: 2rem auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* ================================ */
+  /*            PROJECTS PAGE         */
+  /* ================================ */
+  
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .project-card {
+    text-align: center;
+  }
+  
+  .project-image {
+    background-color: #dbe1e8;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: gray;
+    margin: 1rem 0;
   }
   
