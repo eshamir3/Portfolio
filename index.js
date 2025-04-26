@@ -1,15 +1,16 @@
 import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
 
+// Fetch and display latest projects
 const projects = await fetchJSON('./lib/projects.json');
 const latestProjects = projects.slice(0, 3);
 
 const projectsContainer = document.querySelector('.projects');
 renderProjects(latestProjects, projectsContainer, 'h2');
 
-// Step 3: GitHub API
-const githubData = await fetchGitHubData('YOUR_GITHUB_USERNAME');
-const profileStats = document.querySelector('#profile-stats');
+// Fetch and display GitHub data
+const githubData = await fetchGitHubData('eshamir3'); // ✅ Replace with your GitHub username
 
+const profileStats = document.querySelector('#profile-stats');
 if (profileStats) {
   profileStats.innerHTML = `
     <dl>
