@@ -2,7 +2,7 @@ import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
 
 // Fetch and display latest projects
 const allProjects = await fetchJSON('./lib/projects.json');
-const latestProjects = projects.slice(0, 3);
+const latestProjects = allProjects.slice(0, 3);
 
 const projectsContainer = document.querySelector('.projects');
 renderProjects(latestProjects, projectsContainer, 'h2');
