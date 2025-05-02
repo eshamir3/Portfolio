@@ -1,8 +1,10 @@
-import { fetchJSON, renderProjects } from '../global.js';
+import { fetchJSON, renderProjects, fetchGitHubData } from '../global.js';
+import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
 const projects = await fetchJSON('../lib/projects.json');
 const projectsContainer = document.querySelector('.projects');
 
+// RENDER PROJECTS
 function renderProject(project) {
   const article = document.createElement("article");
   article.className = "project";
@@ -18,24 +20,24 @@ function renderProject(project) {
   return article;
 }
 
-// ✅ Append projects to the DOM
 projects.forEach(project => {
   const el = renderProject(project);
   projectsContainer.appendChild(el);
 });
 
+// D3 PIE CHART
+let data = [
+  { value: 1, label: 'apples' },
+  { value: 2, label: 'oranges' },
+  { value: 3, label: 'mangos' },
+  { value: 4, label: 'pears' },
+  { value: 5, label: 'limes' },
+  { value: 5, label: 'cherries' }
+];
 
-// 📊 D3 Pie Chart Setup
-import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
-
-let data = [1, 2, 3, 4, 5, 5]; // dummy data for now
 let svg = d3.select("#projects-pie-plot");
-
-let arcGenerator = d3.arc()
-  .innerRadius(0)
-  .outerRadius(50);
-
-let sliceGenerator = d3.pie();
+let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
+let sliceGenerator = d3.pie().value(d => d.value);
 let arcData = sliceGenerator(data);
 let colors = d3.scaleOrdinal(d3.schemeTableau10);
 
@@ -45,14 +47,7 @@ arcData.forEach((d, i) => {
     .attr("fill", colors(i));
 });
 
-
-import { fetchJSON, renderProjects, fetchGitHubData } from '../global.js';
-
-const projects = await fetchJSON('../lib/projects.json');
-const projectsContainer = document.querySelector('.projects');
-projects.forEach(p => projectsContainer.appendChild(renderProject(p)));
-
-// Show GitHub stats
+// GitHub Stats
 const githubStatsEl = document.querySelector('.github-stats');
 fetchGitHubData("eshamir3").then(data => {
   if (data) {

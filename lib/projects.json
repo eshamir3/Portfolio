@@ -1,18 +1,16 @@
 [
     {
-        "title": "AI Dental Scheduler Chatbot",
-        "year": "2025",
-        "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Built an interactive chatbot using OpenAI’s gpt-4o model to autonomously guide users through a natural conversation and extract key appointment details—including name, date of birth, and scheduling preferences—returning a clean JSON object only when complete. The system maintains context, handles ambiguity, and dynamically prompts for missing data, simulating a real-time intelligent virtual receptionist."
-      },
-
+      "title": "AI Dental Scheduler Chatbot",
+      "year": "2025",
+      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "description": "Built an interactive chatbot using OpenAI’s gpt-4o model to autonomously guide users through a natural conversation and extract key appointment details—including name, date of birth, and scheduling preferences—returning a clean JSON object only when complete. The system maintains context, handles ambiguity, and dynamically prompts for missing data, simulating a real-time intelligent virtual receptionist."
+    },
     {
-        "title": "Language Classifier: Predicting Spanish vs. French Using Word Structure",
-        "year": "2024",
-        "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "I developed a feature-rich Gaussian classifier that analyzes word characteristics—such as letter patterns, length, and phonetic cues—to accurately distinguish between Spanish and French words, achieving over 75% classification accuracy."
-      },
-    
+      "title": "Language Classifier: Predicting Spanish vs. French Using Word Structure",
+      "year": "2024",
+      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "description": "I developed a feature-rich Gaussian classifier that analyzes word characteristics—such as letter patterns, length, and phonetic cues—to accurately distinguish between Spanish and French words, achieving over 75% classification accuracy."
+    },
     {
       "title": "Recipes and Ratings Investigation",
       "year": "2024",
@@ -55,7 +53,6 @@
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
       "description": "Applied Python’s map, filter, and lambda functions to build logic-driven data transformations, including filtering sign strings, scoring teams, handling eliminations, and processing game stats in a simulated laser tag competition."
     },
-
     {
       "title": "Imaginative OOP and Firework Simulations in Python",
       "year": "2023",
