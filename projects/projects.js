@@ -1,7 +1,7 @@
 import { fetchJSON, renderProjects, fetchGitHubData } from '../global.js';
 
 // Fetch and render all projects
-const allProjects = await fetchJSON('./lib/projects.json');
+const allProjects = await fetchJSON('../lib/projects.json');
 const container = document.querySelector('.projects');
 renderProjects(allProjects, container, 'h2');
 
