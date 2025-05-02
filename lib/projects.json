@@ -1,75 +1,78 @@
 [
     {
-      "title": "Lorem ipsum dolor sit.",
+        "title": "AI Dental Scheduler Chatbot",
+        "year": "2025",
+        "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+        "description": "Built an interactive chatbot using OpenAI’s gpt-4o model to autonomously guide users through a natural conversation and extract key appointment details—including name, date of birth, and scheduling preferences—returning a clean JSON object only when complete. The system maintains context, handles ambiguity, and dynamically prompts for missing data, simulating a real-time intelligent virtual receptionist."
+      },
+
+    {
+        "title": "Language Classifier: Predicting Spanish vs. French Using Word Structure",
+        "year": "2024",
+        "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+        "description": "I developed a feature-rich Gaussian classifier that analyzes word characteristics—such as letter patterns, length, and phonetic cues—to accurately distinguish between Spanish and French words, achieving over 75% classification accuracy."
+      }
+    
+    {
+      "title": "Recipes and Ratings Investigation",
       "year": "2024",
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+      "description": "Investigated a dataset containing recipes and ratings, and built a predictive model to categorize recipes into practical cook time bins, such as “Weekday Recipe” or “Holiday Recipe,” based on factors like ingredients, steps, and nutritional data."
     },
     {
-      "title": "Reprehenderit molestias tenetur cupiditate!",
+      "title": "Generating and Evaluating Text with N-Gram Language Models",
+      "year": "2024",
+      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "description": "This project implements and compares three probabilistic language models—Uniform, Unigram, and N-Gram—to analyze and generate text based on a Project Gutenberg book, demonstrating natural language modeling and sampling from learned distributions."
+    },
+    {
+      "title": "Loan Data Deep Dive: Credit Scores, Income, and Simpson’s Paradox",
+      "year": "2022",
+      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "description": "This project analyzes and visualizes loan and tax data using data cleaning, statistical tests, and interactive Plotly plots to explore patterns in credit, income, and borrowing behavior—including a test for Simpson’s Paradox."
+    },
+    {
+      "title": "Automated Gradebook Analysis with Redemption Modeling",
       "year": "2023",
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Impedit mollitia expedita tempora possimus sunt?"
+      "description": "Built a comprehensive grade analytics tool that processes student scores, applies lateness penalties, simulates grade redemption scenarios, and visualizes performance distributions across sections using Python and Plotly."
     },
     {
-      "title": "Quia voluptas harum laborum?",
+      "title": "Custom Image Processor and Classifier in Python",
       "year": "2022",
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Cupiditate consequuntur ipsum, atque quo voluptatem error et."
+      "description": "Developed a full-featured image processing suite—including grayscale, blur, brightness adjustment, chroma keying, and KNN-based image classification—from scratch using Python, NumPy, and PIL, with tiered pricing logic and advanced image transformations."
     },
     {
-      "title": "Voluptates tempora voluptatum error.",
-      "year": "2024",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Qui non voluptatum consectetur obcaecati."
-    },
-    {
-      "title": "Illum distinctio delectus quos.",
-      "year": "2021",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Distinctio dolor sapiente nostrum quis nemo fugiat."
-    },
-    {
-      "title": "Velit quasi debitis tempora.",
+      "title": "Fall Festival Data Processing with Python",
       "year": "2022",
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Voluptatem atque tenetur, quidem harum voluptas molestias!"
+      "description": "Built a themed data processing pipeline in Python that manipulates strings, calculates delivery costs, decodes binary directions, and extracts information from CSV files using list comprehensions, conditionals, and file I/O."
     },
     {
-      "title": "Accusamus itaque dolores facilis.",
+      "title": "Lambda Laser Tag: Functional Programming with Python",
       "year": "2020",
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Explicabo voluptatibus repellendus voluptate optio hic."
+      "description": "Applied Python’s map, filter, and lambda functions to build logic-driven data transformations, including filtering sign strings, scoring teams, handling eliminations, and processing game stats in a simulated laser tag competition."
     },
+
     {
-      "title": "Ratione libero corrupti dolorum.",
+      "title": "Imaginative OOP and Firework Simulations in Python",
       "year": "2023",
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Ad deserunt dignissimos numquam porro accusantium."
+      "description": "Built a creative object-oriented program simulating themed parties and firework launches, implemented noise complaint logic, dynamic party info generation, and robust exception handling for user inputs and file operations using Python classes and doctests."
     },
     {
-      "title": "Minima dolorem nesciunt nihil!",
-      "year": "2021",
+      "title": "How Store Pricing Shapes Healthy Food Access",
+      "year": "2025",
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Aliquid aperiam, minima illo eos!"
+      "description": "This project explores how pricing strategies at major grocery chains influence access to healthier food options. By calculating the “unprocessed premium” — the price difference between minimally processed and ultra-processed foods — I visualized surprising disparities across Target, Walmart, and Whole Foods. While Target and Walmart charge more for unprocessed items, Whole Foods reverses the trend, pricing healthier food lower than processed alternatives. The visualization is designed for clarity and impact, using thoughtful color-coding, direct labeling, and a clear transformation of raw pricing data to highlight how food pricing may unintentionally shape consumer behavior and public health."
     },
     {
-      "title": "Temporibus blanditiis molestias amet.",
-      "year": "2022",
+      "title": "Graphing Both Sides: How Visual Design Skews Data",
+      "year": "2025",
       "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Itaque incidunt omnis laboriosam reprehenderit?"
-    },
-    {
-      "title": "Iste officiis molestias mollitia!",
-      "year": "2020",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Inventore voluptatibus optio dolores atque?"
-    },
-    {
-      "title": "Explicabo voluptatum enim quas.",
-      "year": "2024",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-      "description": "Quis quidem fugit praesentium asperiores illum."
+      "description": "Created two opposing and persuasive visualizations from the same dataset to illustrate how design choices can deceptively shape data interpretation."
     }
   ]
   
