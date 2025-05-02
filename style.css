@@ -324,3 +324,15 @@
     margin-bottom: 4rem;
   }
   
+
+  .project-text {
+    font-family: Georgia, Baskerville, serif;
+    font-variant-numeric: oldstyle-nums;
+  }
+  
+  .project-year {
+    color: gray;
+    font-style: italic;
+    margin-top: 0.5rem;
+  }
+  
