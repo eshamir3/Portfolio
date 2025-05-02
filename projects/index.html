@@ -23,11 +23,15 @@
     <!-- JavaScript will dynamically insert the project articles here -->
   </div>
 
-  <!-- Add the pie chart SVG here -->
+  <!-- Pie chart will appear below -->
   <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
 </div>
 
+<!-- 🔁 This should run first -->
 <script src="../global.js" type="module"></script>
+<script src="projects.js" type="module"></script>
+
+<!-- 📊 This should come after -->
 <script type="module">
   import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
@@ -47,7 +51,6 @@
     });
   });
 </script>
-<script src="projects.js" type="module"></script>   
 
 </body>
 </html>
