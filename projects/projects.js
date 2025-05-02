@@ -44,3 +44,22 @@ arcData.forEach((d, i) => {
     .attr("d", arcGenerator(d))
     .attr("fill", colors(i));
 });
+
+
+import { fetchJSON, renderProjects, fetchGitHubData } from '../global.js';
+
+const projects = await fetchJSON('../lib/projects.json');
+const projectsContainer = document.querySelector('.projects');
+projects.forEach(p => projectsContainer.appendChild(renderProject(p)));
+
+// Show GitHub stats
+const githubStatsEl = document.querySelector('.github-stats');
+fetchGitHubData("eshamir3").then(data => {
+  if (data) {
+    githubStatsEl.innerHTML = `
+      ⭐ Public Repos: ${data.public_repos} |
+      👥 Followers: ${data.followers} |
+      📦 Gists: ${data.public_gists}
+    `;
+  }
+});

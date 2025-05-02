@@ -342,4 +342,9 @@
     overflow: visible;
   }
   
-  
+  .github-stats {
+    margin-top: 2rem;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: gray;
+  }
