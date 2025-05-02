@@ -33,3 +33,5 @@ arcData.forEach((d, i) => {
     .attr('d', arcGenerator(d))
     .attr('fill', colors(i));
 });
+
+console.log("Fetched projects:", allProjects);
