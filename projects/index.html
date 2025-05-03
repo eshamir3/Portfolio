@@ -6,91 +6,75 @@
   <title>My Projects</title>
   <link rel="stylesheet" href="../style.css" />
   <style>
-    /* ========== CONTROLS ROW ========== */
+    /* ======== Controls at the top ======== */
     .controls {
       display: flex;
       flex-wrap: wrap;
-      align-items: flex-start;
-      gap: 2rem;
-      margin-bottom: 1.5rem;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 2rem;
     }
-    /* PIE CHART */
     #projects-pie-plot {
-      flex: 1 1 300px;
-      max-width: 20em;
-      view-box: -50 -50 100 100;
+      width: 200px;
+      height: 200px;
     }
-    /* fade out non-hover slices */
+    /* Fade non-hovered slices */
     #projects-pie-plot:has(path:hover) path:not(:hover) {
       opacity: 0.5;
     }
     #projects-pie-plot path {
-      transition: opacity 0.3s, transform 0.3s;
       cursor: pointer;
+      transition: 200ms;
     }
-    #projects-pie-plot path.selected {
-      transform: scale(1.05);
-      stroke: white;
-      stroke-width: 2px;
-      fill: var(--color-accent) !important;
-    }
-
-    /* LEGEND */
+    /* Legend styling */
     .legend {
-      flex: 1 1 300px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
-      gap: 0.5rem;
       list-style: none;
+      padding: 0.5rem;
       margin: 0;
-      padding: 1rem;
-      border: 1px solid var(--border-color, #ccc);
-      border-radius: 0.3rem;
-      background: #fafafa;
-      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(6em, 1fr));
+      gap: 0.5rem;
+      border: 1px solid #ccc;
     }
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
       cursor: pointer;
+    }
+    .legend-item .swatch {
+      width: 1em;
+      height: 1em;
+      border-radius: 0.2em;
+      background-color: var(--color);
+    }
+    /* Search-bar wide style */
+    .searchBar {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    /* Highlight selection */
+    path.selected {
+      --color: oklch(60% 45% 0) !important;
+      fill: var(--color) !important;
     }
     .legend-item.selected {
       font-weight: bold;
     }
-    .legend-item .swatch {
-      width: 1em;
-      aspect-ratio: 1/1;
-      background: var(--color);
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    /* SEARCH BAR */
-    .searchBar {
-      flex: 1 1 100%;
-      max-width: 700px;
-      padding: 0.75rem;
-      font-size: 1rem;
-      border: 1px solid var(--border-color, #ccc);
-      border-radius: 0.3rem;
-      box-sizing: border-box;
-    }
   </style>
 </head>
 <body>
-  <!-- global.js must load first to set up nav, theme, etc. -->
+  <!-- nav + theme from global.js -->
   <script src="../global.js" type="module"></script>
 
   <div class="main-content">
-    <h1 class="projects-title">My Projects</h1>
+    <h1>My Projects</h1>
 
     <div class="controls">
-      <!-- pie chart -->
       <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
-      <!-- legend will be populated by D3 -->
       <ul class="legend"></ul>
-      <!-- search filter -->
       <input
         type="search"
         class="searchBar"
@@ -99,11 +83,9 @@
       />
     </div>
 
-    <!-- project cards rendered here -->
     <div class="projects"></div>
   </div>
 
-  <!-- your interactive logic -->
   <script src="projects.js" type="module"></script>
 </body>
 </html>
