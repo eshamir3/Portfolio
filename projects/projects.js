@@ -1,100 +1,98 @@
 import { fetchJSON, renderProjects, fetchGitHubData } from '../global.js';
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
-const allProjects     = await fetchJSON('../lib/projects.json');
-const projectsContainer = document.querySelector('.projects');
-const statsContainer    = document.querySelector('.github-stats');
+// grab DOM elements
+const container = document.querySelector('.projects');
+const statsContainer = document.querySelector('.github-stats');
+const svg = d3.select('#projects-pie-plot');
+const legend = d3.select('.legend');
+const searchInput = document.querySelector('.searchBar');
 
-// Optional: GitHub stats
+let allProjects = await fetchJSON('../lib/projects.json');
+renderProjects(allProjects, container, 'h2');
+
+// GitHub stats (unchanged)
 if (statsContainer) {
   const gh = await fetchGitHubData('eshamir3');
-  statsContainer.innerHTML = gh
-    ? `⭐ Public Repos: ${gh.public_repos} |
-       👥 Followers: ${gh.followers} |
-       📦 Gists: ${gh.public_gists}`
+  statsContainer.textContent = gh
+    ? `⭐ ${gh.public_repos} | 👥 ${gh.followers} | 📦 ${gh.public_gists}`
     : '';
 }
 
-// grab our controls
-const svg         = d3.select('#projects-pie-plot');
-const legend      = d3.select('.legend');
-const searchInput = document.querySelector('.searchBar');
-
+// state for which wedge is selected
 let selectedIndex = -1;
-let currentData   = allProjects;
 
-// helper to render both the grid and the pie
-function updateAllDisplay() {
-  // grid
-  renderProjects(currentData, projectsContainer, 'h2');
+function renderPie(projects) {
+  // group by year
+  const rolled = d3.rollups(projects, v => v.length, d => d.year);
+  const data = rolled.map(([year, count]) => ({ label: year, value: count }));
 
-  // roll up by year
-  const rolled = d3.rollups(
-    currentData,
-    v => v.length,
-    d => d.year
-  ).sort((a,b) => b[0] - a[0]);
+  // generators
+  const arcGen = d3.arc().innerRadius(0).outerRadius(50);
+  const pieGen = d3.pie().value(d => d.value);
+  const arcs = pieGen(data);
+  const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-  const pieData = rolled.map(([year, count]) => ({
-    label: year,
-    value: count
-  }));
-
-  // build pie
-  const pieGen   = d3.pie().value(d => d.value);
-  const arcs     = pieGen(pieData);
-  const arcGen   = d3.arc().innerRadius(0).outerRadius(50);
-  const colors   = d3.scaleOrdinal(d3.schemeTableau10);
-
+  // clear old
   svg.selectAll('path').remove();
   legend.selectAll('li').remove();
 
   // draw slices
-  arcs.forEach((d,i) => {
-    svg.append('path')
-      .attr('d', arcGen(d))
-      .attr('fill', colors(i))
-      .classed('selected', i === selectedIndex)
-      .on('click', () => {
-        selectedIndex = (selectedIndex === i ? -1 : i);
-        applyFilter(pieData);
-      });
-  });
+  svg.selectAll('path')
+    .data(arcs)
+    .join('path')
+    .attr('d', arcGen)
+    .attr('fill', (_, i) => colors(i))
+    .classed('selected', (_, i) => i === selectedIndex)
+    .on('click', (_, d, nodes) => {
+      // get index
+      const i = d3.select(nodes[i]).datum().index;
+      // toggle
+      selectedIndex = selectedIndex === i ? -1 : i;
+      applyFilter();
+    });
 
   // draw legend
-  pieData.forEach((d,i) => {
-    legend.append('li')
-      .attr('class','legend-item')
-      .classed('selected', i === selectedIndex)
-      .style('--color', colors(i))
-      .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
-      .on('click', () => {
-        selectedIndex = (selectedIndex === i ? -1 : i);
-        applyFilter(pieData);
-      });
-  });
+  legend.selectAll('li')
+    .data(data)
+    .join('li')
+    .attr('class', 'legend-item')
+    .classed('selected', (_, i) => i === selectedIndex)
+    .attr('style', (_, i) => `--color:${colors(i)}`)
+    .html(d => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
+    .on('click', (_, __, nodes) => {
+      const i = nodes.indexOf(nodes.find(n => n === nodes[0])); // simpler: use bound index
+      selectedIndex = selectedIndex === i ? -1 : i;
+      applyFilter();
+    });
 }
 
-// apply the year‐based filter when a slice is clicked
-function applyFilter(pieData) {
+function applyFilter() {
+  // decide which projects to show
+  let filtered;
   if (selectedIndex === -1) {
-    currentData = allProjects;
+    filtered = allProjects;
   } else {
-    const year = pieData[selectedIndex].label;
-    currentData = allProjects.filter(p => p.year === year);
+    const year = d3.rollups(allProjects, v => v.length, d => d.year)
+      [selectedIndex][0];
+    filtered = allProjects.filter(p => p.year === year);
   }
-  updateAllDisplay();
+  // re-render everything
+  renderProjects(filtered, container, 'h2');
+  renderPie(filtered);
 }
 
-// live search
+// wire up search to also update filter
 searchInput.addEventListener('input', e => {
   const q = e.target.value.trim().toLowerCase();
-  selectedIndex = -1; // clear any slice selection
-  currentData = allProjects.filter(p =>
-    Object.values(p).join(' ').toLowerCase().includes(q)
+  allProjects = allProjects.filter(p =>
+    Object.values(p).some(v =>
+      String(v).toLowerCase().includes(q)
+    )
   );
-  updateAllDisplay();
+  selectedIndex = -1;    // clear any pie selection
+  applyFilter();
 });
 
-// initial paint
-updateAllDisplay();
+// initial draw
+renderPie(allProjects);
