@@ -348,3 +348,154 @@
     font-size: 0.9rem;
     color: gray;
   }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .searchBar {
+    flex: 1 1 100%;      /* allow it to grow/shrink and start at full width */
+    max-width: none;     /* remove any inline max-width if you set one */
+    padding: 0.75rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+
+  /* wrap the pie, legend & search into one responsive row */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  
+  /* make the SVG flex‐grow so it and the legend share space */
+  .controls svg#projects-pie-plot {
+    flex: 1 1 300px;
+    max-width: 20em;
+    /* your existing overflow/margin-block rules will still apply */
+  }
+  
+  /* style the legend container as a wide card */
+  .controls .legend {
+    flex: 1 1 300px;
+    width: 100%;
+    max-width: 700px;           /* adjust to taste */
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 0.25rem;
+    background: #fafafa;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
+    gap: 0.5rem;
+    box-sizing: border-box;
+  }
+  
+  /* each legend entry lines up its swatch and text */
+  .controls .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  /* the little color dot */
+  .controls .legend-item .swatch {
+    width: 1em;
+    aspect-ratio: 1/1;
+    background: var(--color);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  
+  /* make the search bar span full width under the legend */
+  .searchBar {
+    flex: 1 1 100%;
+    max-width: 700px;   /* or whatever your legend max-width is */
+    padding: 0.75rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin: 0 auto;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 0.25rem;
+  }
+
+  /* 1-row flex bar for chart + legend + search */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  /* pie grows up to a limit */
+  .controls svg#projects-pie-plot {
+    flex: 1 1 300px;
+    max-width: 20em;
+    overflow: visible;
+  }
+  /* legend styled as a box/grid */
+  .controls .legend {
+    flex: 1 1 300px;
+    max-width: 700px;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 0.3rem;
+    background: #fafafa;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  /* each legend entry */
+  .controls .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  /* colored swatch */
+  .controls .legend-item .swatch {
+    width: 1em;
+    aspect-ratio: 1;
+    background: var(--color);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  /* highlight on hover */
+  #projects-pie-plot path {
+    transition: opacity 0.3s, transform 0.3s;
+    cursor: pointer;
+  }
+  #projects-pie-plot:has(path:hover) path:not(:hover) {
+    opacity: 0.5;
+  }
+  /* selected styles */
+  #projects-pie-plot path.selected {
+    transform: scale(1.05);
+    stroke: white;
+    stroke-width: 2px;
+  }
+  .controls .legend-item.selected .swatch {
+    background: var(--color-accent);
+  }
+  /* wide search bar at bottom of control bar */
+  .searchBar {
+    flex: 1 1 100%;
+    max-width: 700px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 0.3rem;
+  }
+  
+  
