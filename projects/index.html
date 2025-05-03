@@ -6,12 +6,50 @@
   <title>Projects</title>
   <link rel="stylesheet" href="../style.css" />
   <style>
+    .dashboard {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 2em;
+      margin-bottom: 2em;
+    }
+
     #projects-pie-plot {
-      width: 400px;
-      height: 400px;
-      max-width: 20em;
-      margin-block: 2em;
+      width: 300px;
+      height: 300px;
       overflow: visible;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+      gap: 0.5em 1em;
+      list-style: none;
+      padding: 1em;
+      border: 1px solid #ddd;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    .legend-item .swatch {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      aspect-ratio: 1;
+      background-color: var(--color);
+      border-radius: 50%;
+    }
+
+    .searchBar {
+      font-size: 1rem;
+      padding: 0.5em;
+      width: 100%;
+      max-width: 40ch;
+      margin-block: 1.5em;
     }
 
     .github-stats {
@@ -21,72 +59,35 @@
       color: gray;
       text-align: center;
     }
-
-    /* Pie chart and legend container */
-    .pie-legend-container {
-      display: flex;
-      align-items: flex-start;
-      gap: 2em;
-      margin-block: 2em;
-    }
-    .legend {
-      list-style: none;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
-      border: 1px solid #ddd;
-      padding: 1em;
-      gap: 1em;
-      flex: 1;
-      margin: 0;
-    }
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
-    }
-    .swatch {
-      display: inline-block;
-      width: 1em;
-      height: 1em;
-      background-color: var(--color);
-      border-radius: 3px;
-    }
-    .searchBar {
-      display: block;
-      margin-block: 2em;
-      max-width: 20em;
-      width: 100%;
-    }
   </style>
 </head>
 <body>
+  <script src="../global.js" type="module"></script>
 
-<div class="main-content">
-  <h1 class="projects-title">My Projects</h1>
-  
-  <div class="projects">
-    <!-- JavaScript will dynamically insert the project articles here -->
+  <div class="main-content">
+    <h1 class="projects-title">My Projects</h1>
+
+    <!-- DASHBOARD: Pie + Legend -->
+    <div class="dashboard">
+      <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
+      <ul class="legend"></ul>
+    </div>
+
+    <!-- 🔍 SEARCH -->
+    <input
+      class="searchBar"
+      type="search"
+      aria-label="Search projects"
+      placeholder="🔍 Search projects..."
+    />
+
+    <!-- 📝 Projects will be inserted here -->
+    <div class="projects"></div>
+
+    <!-- 📦 GitHub stats -->
+    <div class="github-stats"></div>
   </div>
 
-  <!-- 🔢 GitHub stats will go here -->
-  <div class="github-stats"></div>
-
-  <input
-    class="searchBar"
-    type="search"
-    aria-label="Search projects"
-    placeholder="🔍 Search projects…"
-  />
-
-  <div class="pie-legend-container">
-    <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
-    <ul class="legend"></ul>
-  </div>
-</div>
-
-<!-- 🔁 This should run first -->
-<script src="../global.js" type="module"></script>
-<script src="./projects.js" type="module"></script>
-
+  <script src="./projects.js" type="module"></script>
 </body>
 </html>
