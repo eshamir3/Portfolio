@@ -21,6 +21,42 @@
       color: gray;
       text-align: center;
     }
+
+    /* Pie chart and legend container */
+    .pie-legend-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 2em;
+      margin-block: 2em;
+    }
+    .legend {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+      border: 1px solid #ddd;
+      padding: 1em;
+      gap: 1em;
+      flex: 1;
+      margin: 0;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+    .swatch {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      background-color: var(--color);
+      border-radius: 3px;
+    }
+    .searchBar {
+      display: block;
+      margin-block: 2em;
+      max-width: 20em;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -35,34 +71,22 @@
   <!-- 🔢 GitHub stats will go here -->
   <div class="github-stats"></div>
 
-  <!-- 📊 Pie chart will appear below -->
-  <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
+  <input
+    class="searchBar"
+    type="search"
+    aria-label="Search projects"
+    placeholder="🔍 Search projects…"
+  />
+
+  <div class="pie-legend-container">
+    <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
+    <ul class="legend"></ul>
+  </div>
 </div>
 
 <!-- 🔁 This should run first -->
 <script src="../global.js" type="module"></script>
 <script src="./projects.js" type="module"></script>
-
-<!-- 📊 D3 Pie chart -->
-<script type="module">
-  import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
-
-  window.addEventListener('DOMContentLoaded', () => {
-    const data = [1, 2, 3, 4, 5, 5];
-    const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
-    const sliceGenerator = d3.pie();
-    const arcData = sliceGenerator(data);
-    const arcs = arcData.map(d => arcGenerator(d));
-    const colors = d3.scaleOrdinal(d3.schemeTableau10);
-
-    arcs.forEach((arc, idx) => {
-      d3.select('#projects-pie-plot')
-        .append('path')
-        .attr('d', arc)
-        .attr('fill', colors(idx));
-    });
-  });
-</script>
 
 </body>
 </html>
