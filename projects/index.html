@@ -2,62 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Projects</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Projects</title>
   <link rel="stylesheet" href="../style.css" />
   <style>
-    .dashboard {
+    .controls {
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
-      gap: 2em;
-      margin-bottom: 2em;
+      gap: 2rem;
+      margin-bottom: 1rem;
     }
-
     #projects-pie-plot {
       width: 300px;
       height: 300px;
-      overflow: visible;
     }
-
     .legend {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
-      gap: 0.5em 1em;
       list-style: none;
-      padding: 1em;
-      border: 1px solid #ddd;
+      border: 1px solid #ccc;
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+      gap: 0.5rem;
+      margin: 0;
     }
-
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 0.5em;
+      gap: 0.5rem;
     }
-
     .legend-item .swatch {
-      display: inline-block;
       width: 1em;
       height: 1em;
-      aspect-ratio: 1;
       background-color: var(--color);
-      border-radius: 50%;
+      border-radius: 0.25em;
     }
-
     .searchBar {
-      font-size: 1rem;
-      padding: 0.5em;
       width: 100%;
-      max-width: 40ch;
-      margin-block: 1.5em;
-    }
-
-    .github-stats {
-      margin-top: 2em;
-      font-family: monospace;
-      font-size: 0.9rem;
-      color: gray;
-      text-align: center;
+      max-width: 400px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 2rem;
     }
   </style>
 </head>
@@ -65,29 +50,24 @@
   <script src="../global.js" type="module"></script>
 
   <div class="main-content">
-    <h1 class="projects-title">My Projects</h1>
+    <h1>My Projects</h1>
 
-    <!-- DASHBOARD: Pie + Legend -->
-    <div class="dashboard">
+    <div class="controls">
       <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
       <ul class="legend"></ul>
     </div>
 
-    <!-- 🔍 SEARCH -->
+    <!-- Make sure this has class="searchBar" -->
     <input
-      class="searchBar"
       type="search"
+      class="searchBar"
+      placeholder="🔍 Search projects…"
       aria-label="Search projects"
-      placeholder="🔍 Search projects..."
     />
 
-    <!-- 📝 Projects will be inserted here -->
     <div class="projects"></div>
-
-    <!-- 📦 GitHub stats -->
-    <div class="github-stats"></div>
   </div>
 
-  <script src="./projects.js" type="module"></script>
+  <script src="projects.js" type="module"></script>
 </body>
 </html>
