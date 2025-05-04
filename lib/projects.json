@@ -2,73 +2,73 @@
     {
       "title": "AI Dental Scheduler Chatbot",
       "year": "2025",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "image": "https://images.unsplash.com/photo-1588776814546-ec7b43f9f7d9?auto=format&fit=crop&w=800&q=60",
       "description": "Built an interactive chatbot using OpenAI’s gpt-4o model to autonomously guide users through a natural conversation and extract key appointment details—including name, date of birth, and scheduling preferences—returning a clean JSON object only when complete. The system maintains context, handles ambiguity, and dynamically prompts for missing data, simulating a real-time intelligent virtual receptionist."
     },
     {
       "title": "Language Classifier: Predicting Spanish vs. French Using Word Structure",
       "year": "2024",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "image": "https://images.unsplash.com/photo-1563797031254-9edfa7d90a4f?auto=format&fit=crop&w=800&q=60",
       "description": "I developed a feature-rich Gaussian classifier that analyzes word characteristics—such as letter patterns, length, and phonetic cues—to accurately distinguish between Spanish and French words, achieving over 75% classification accuracy."
     },
     {
       "title": "Recipes and Ratings Investigation",
       "year": "2024",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "image": "https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=800&q=60",
       "description": "Investigated a dataset containing recipes and ratings, and built a predictive model to categorize recipes into practical cook time bins, such as “Weekday Recipe” or “Holiday Recipe,” based on factors like ingredients, steps, and nutritional data."
     },
     {
       "title": "Generating and Evaluating Text with N-Gram Language Models",
       "year": "2024",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "image": "https://images.unsplash.com/photo-1612831813227-825d79e0fcbe?auto=format&fit=crop&w=800&q=60",
       "description": "This project implements and compares three probabilistic language models—Uniform, Unigram, and N-Gram—to analyze and generate text based on a Project Gutenberg book, demonstrating natural language modeling and sampling from learned distributions."
     },
     {
       "title": "Loan Data Deep Dive: Credit Scores, Income, and Simpson’s Paradox",
       "year": "2022",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "image": "https://images.unsplash.com/photo-1581090461232-834f871fd851?auto=format&fit=crop&w=800&q=60",
       "description": "This project analyzes and visualizes loan and tax data using data cleaning, statistical tests, and interactive Plotly plots to explore patterns in credit, income, and borrowing behavior—including a test for Simpson’s Paradox."
     },
     {
       "title": "Automated Gradebook Analysis with Redemption Modeling",
       "year": "2023",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "image": "https://images.unsplash.com/photo-1635070041648-31f61bb4ae54?auto=format&fit=crop&w=800&q=60",
       "description": "Built a comprehensive grade analytics tool that processes student scores, applies lateness penalties, simulates grade redemption scenarios, and visualizes performance distributions across sections using Python and Plotly."
     },
     {
       "title": "Custom Image Processor and Classifier in Python",
       "year": "2022",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "image": "https://images.unsplash.com/photo-1522093007474-d86e9e3ef3c4?auto=format&fit=crop&w=800&q=60",
       "description": "Developed a full-featured image processing suite—including grayscale, blur, brightness adjustment, chroma keying, and KNN-based image classification—from scratch using Python, NumPy, and PIL, with tiered pricing logic and advanced image transformations."
     },
     {
       "title": "Fall Festival Data Processing with Python",
       "year": "2022",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=60",
       "description": "Built a themed data processing pipeline in Python that manipulates strings, calculates delivery costs, decodes binary directions, and extracts information from CSV files using list comprehensions, conditionals, and file I/O."
     },
     {
       "title": "Lambda Laser Tag: Functional Programming with Python",
       "year": "2020",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "image": "https://images.unsplash.com/photo-1596568353710-4620c38819e4?auto=format&fit=crop&w=800&q=60",
       "description": "Applied Python’s map, filter, and lambda functions to build logic-driven data transformations, including filtering sign strings, scoring teams, handling eliminations, and processing game stats in a simulated laser tag competition."
     },
     {
       "title": "Imaginative OOP and Firework Simulations in Python",
       "year": "2023",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "image": "https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?auto=format&fit=crop&w=800&q=60",
       "description": "Built a creative object-oriented program simulating themed parties and firework launches, implemented noise complaint logic, dynamic party info generation, and robust exception handling for user inputs and file operations using Python classes and doctests."
     },
     {
       "title": "How Store Pricing Shapes Healthy Food Access",
       "year": "2025",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "image": "https://images.unsplash.com/photo-1616112645227-81eb2b177ee3?auto=format&fit=crop&w=800&q=60",
       "description": "This project explores how pricing strategies at major grocery chains influence access to healthier food options. By calculating the “unprocessed premium” — the price difference between minimally processed and ultra-processed foods — I visualized surprising disparities across Target, Walmart, and Whole Foods. While Target and Walmart charge more for unprocessed items, Whole Foods reverses the trend, pricing healthier food lower than processed alternatives. The visualization is designed for clarity and impact, using thoughtful color-coding, direct labeling, and a clear transformation of raw pricing data to highlight how food pricing may unintentionally shape consumer behavior and public health."
     },
     {
       "title": "Graphing Both Sides: How Visual Design Skews Data",
       "year": "2025",
-      "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+      "image": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=60",
       "description": "Created two opposing and persuasive visualizations from the same dataset to illustrate how design choices can deceptively shape data interpretation."
     }
   ]
