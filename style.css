@@ -497,5 +497,46 @@
     border: 1px solid var(--border-color, #ccc);
     border-radius: 0.3rem;
   }
+
+/* Selected slice or legend */
+.selected {
+    opacity: 1;
+    stroke: white;
+    stroke-width: 2px;
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Dimmed (non-selected) slices and project cards */
+  .dimmed {
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Legend item styling */
+  .legend-item {
+    cursor: pointer;
+    margin: 0.5em 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .legend-item .swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    background-color: var(--color);
+    border-radius: 50%;
+  }
+  
+  /* Optional: Give selected legend items a subtle highlight */
+  .legend-item.selected {
+    font-weight: bold;
+  }
+  
+  /* Optional: Give dimmed legend items reduced contrast */
+  .legend-item.dimmed {
+    opacity: 0.3;
+  }
   
   

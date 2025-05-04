@@ -27,52 +27,61 @@ function renderPie(projects) {
     svg.append('path')
       .attr('d', arcGen(d))
       .attr('fill', colors(i))
-      .attr('class', selectedIndex === i ? 'selected' : '')
-      .on('click', () => {
-        selectedIndex = selectedIndex === i ? -1 : i;
-
-        svg.selectAll('path')
-          .attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '');
-
-        legend.selectAll('li')
-          .attr('class', (_, idx) => 'legend-item' + (idx === selectedIndex ? ' selected' : ''));
-
-        const year = data[i].label;
-        const visible = selectedIndex === -1
-          ? currentProjects
-          : currentProjects.filter(p => p.year === year);
-
-        renderProjects(visible, container, 'h2');
-      });
+      .attr('data-year', data[i].label)
+      .attr('class', getSliceClass(i))
+      .on('click', () => handleClick(i, data));
   });
 
   data.forEach((d, i) => {
     legend.append('li')
-      .attr('class', 'legend-item' + (selectedIndex === i ? ' selected' : ''))
+      .attr('class', getLegendClass(i))
       .attr('style', `--color:${colors(i)}`)
       .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
-      .on('click', () => {
-        selectedIndex = selectedIndex === i ? -1 : i;
-
-        svg.selectAll('path')
-          .attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '');
-
-        legend.selectAll('li')
-          .attr('class', (_, idx) => 'legend-item' + (idx === selectedIndex ? ' selected' : ''));
-
-        const year = d.label;
-        const visible = selectedIndex === -1
-          ? currentProjects
-          : currentProjects.filter(p => p.year === year);
-
-        renderProjects(visible, container, 'h2');
-      });
+      .on('click', () => handleClick(i, data));
   });
 }
 
+// Helper: return class for pie slice
+function getSliceClass(i) {
+  if (selectedIndex === -1) return '';
+  return i === selectedIndex ? 'selected' : 'dimmed';
+}
+
+// Helper: return class for legend item
+function getLegendClass(i) {
+  if (selectedIndex === -1) return 'legend-item';
+  return 'legend-item' + (i === selectedIndex ? ' selected' : ' dimmed');
+}
+
+// Handles slice or legend click
+function handleClick(i, data) {
+  selectedIndex = selectedIndex === i ? -1 : i;
+
+  svg.selectAll('path')
+    .attr('class', (_, idx) => getSliceClass(idx));
+
+  legend.selectAll('li')
+    .attr('class', (_, idx) => getLegendClass(idx));
+
+  const year = data[i]?.label;
+  const visible = selectedIndex === -1
+    ? currentProjects
+    : currentProjects.filter(p => p.year === year);
+
+  renderProjects(visible, container, 'h2');
+
+  // Dim non-selected project cards
+  document.querySelectorAll('.project-card').forEach(card => {
+    const cardYear = card.getAttribute('data-year');
+    card.classList.toggle('dimmed', selectedIndex !== -1 && cardYear !== String(year));
+  });
+}
+
+// Initial render
 renderProjects(currentProjects, container, 'h2');
 renderPie(currentProjects);
 
+// Search input
 searchInput.addEventListener('input', (e) => {
   selectedIndex = -1;
   const q = e.target.value.toLowerCase();
@@ -84,6 +93,7 @@ searchInput.addEventListener('input', (e) => {
   renderPie(currentProjects);
 });
 
+// GitHub stats
 const statsContainer = document.querySelector('.github-stats');
 const githubData = await fetchGitHubData('eshamir3');
 
