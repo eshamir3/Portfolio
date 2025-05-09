@@ -7,12 +7,13 @@ const BASE_PATH = (location.hostname === "localhost" || location.hostname === "1
 
 // Define pages for navigation
 let pages = [
-  { url: "index.html", title: "Home" },
-  { url: "projects/", title: "Projects" },
-  { url: "resume/", title: "Resume" },
-  { url: "contact/", title: "Contact" },
-  { url: "https://github.com/eshamir3", title: "GitHub" }
-];
+    { url: "index.html", title: "Home" },
+    { url: "projects/", title: "Projects" },
+    { url: "resume/", title: "Resume" },
+    { url: "contact/", title: "Contact" },
+    { url: "meta/", title: "Code Analysis" },
+    { url: "https://github.com/eshamir3", title: "GitHub" }
+  ];
 
 // Create <nav> and add it to the top of <body>
 let nav = document.createElement("nav");
