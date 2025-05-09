@@ -15,6 +15,8 @@ async function loadData() {
       hourFrac: datetime.getHours() + datetime.getMinutes() / 60
     };
   });
+
+  console.log("Parsed datetimes:", data.map(d => d.datetime));
   return data;
 }
 
@@ -103,12 +105,11 @@ function renderSelectionCount(selection) {
 function renderLanguageBreakdown(selection) {
   const selected = selection ? commits.filter(c => isCommitSelected(selection, c)) : [];
   const container = document.getElementById('language-breakdown');
-  container.innerHTML = '';
-
-  if (selected.length === 0) return;
+  if (selected.length === 0) return container.innerHTML = '';
 
   const lines = selected.flatMap(d => d.lines);
   const breakdown = d3.rollup(lines, v => v.length, d => d.type);
+  container.innerHTML = '';
 
   for (const [lang, count] of breakdown) {
     const pct = d3.format('.1~%')(count / lines.length);
@@ -118,7 +119,8 @@ function renderLanguageBreakdown(selection) {
 
 function brushed(event) {
   const selection = event.selection;
-  d3.selectAll('circle').classed('selected', d => isCommitSelected(selection, d));
+  d3.selectAll('circle')
+    .classed('selected', d => isCommitSelected(selection, d));
   renderSelectionCount(selection);
   renderLanguageBreakdown(selection);
 }
@@ -126,7 +128,7 @@ function brushed(event) {
 function renderScatterPlot(commits) {
   const width = 1000;
   const height = 600;
-  const margin = { top: 10, right: 40, bottom: 50, left: 50 };
+  const margin = { top: 40, right: 40, bottom: 60, left: 60 };
 
   const usableArea = {
     left: margin.left,
@@ -139,18 +141,12 @@ function renderScatterPlot(commits) {
 
   const svg = d3.select('#chart')
     .append('svg')
-    .attr('viewBox', `0 0 ${width} ${height}`)
+    .attr('width', width)
+    .attr('height', height)
     .style('overflow', 'visible');
 
-  const validCommits = commits.filter(d => d.datetime instanceof Date && !isNaN(d.datetime));
-
-  const [minLines, maxLines] = d3.extent(validCommits, d => d.totalLines);
-  const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([2, 24]);
-
-  const timeExtent = d3.extent(validCommits, d => d.datetime);
-  const timePad = 1000 * 60 * 60 * 12;
   xScale = d3.scaleTime()
-    .domain([new Date(timeExtent[0] - timePad), new Date(timeExtent[1] + timePad)])
+    .domain(d3.extent(commits, d => d.datetime))
     .range([usableArea.left, usableArea.right])
     .nice();
 
@@ -174,6 +170,10 @@ function renderScatterPlot(commits) {
   svg.call(d3.brush().on('start brush end', brushed));
   svg.selectAll('.dots, .overlay ~ *').raise();
 
+  const validCommits = commits.filter(d => d.datetime instanceof Date && !isNaN(d.datetime));
+  const [minLines, maxLines] = d3.extent(validCommits, d => d.totalLines);
+  const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([2, 30]);
+
   const dots = svg.append('g').attr('class', 'dots');
   dots.selectAll('circle')
     .data(d3.sort(validCommits, d => -d.totalLines))
@@ -181,6 +181,7 @@ function renderScatterPlot(commits) {
     .attr('cx', d => xScale(d.datetime))
     .attr('cy', d => yScale(d.hourFrac))
     .attr('r', d => rScale(d.totalLines))
+    .attr('fill', 'steelblue')
     .style('fill-opacity', 0.7)
     .on('mouseenter', (event, commit) => {
       d3.select(event.currentTarget).style('fill-opacity', 1);
