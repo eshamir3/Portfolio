@@ -539,4 +539,76 @@
     opacity: 0.3;
   }
   
+  /* Meta Analysis Page Styles */
+  .stats {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5em 1em;
+    margin: 1em 0;
+  }
+  
+  .stats dt {
+    font-weight: bold;
+    color: #666;
+  }
+  
+  .stats dd {
+    margin: 0;
+  }
+  
+  .tooltip {
+    position: fixed;
+    top: 1em;
+    left: 1em;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1em;
+    border-radius: 0.5em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+  }
+  
+  .gridlines line {
+    stroke: #ddd;
+    stroke-opacity: 0.5;
+  }
+  
+  circle {
+    transition: 200ms;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  
+  circle:hover {
+    transform: scale(1.5);
+  }
+  
+  circle.selected {
+    fill: #ff6b6b;
+  }
+  
+  @keyframes marching-ants {
+    to {
+        stroke-dashoffset: -8;
+    }
+  }
+  
+  .selection {
+    fill-opacity: 0.1;
+    stroke: black;
+    stroke-opacity: 0.7;
+    stroke-dasharray: 5 3;
+    animation: marching-ants 2s linear infinite;
+  }
+  
+  dl.info {
+    transition-duration: 500ms;
+    transition-property: opacity, visibility;
+  }
+  
+  dl.info[hidden]:not(:hover, :focus-within) {
+    opacity: 0;
+    visibility: hidden;
+  }
+  
   
