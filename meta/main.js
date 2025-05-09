@@ -103,20 +103,30 @@ function renderSelectionCount(selection) {
 }
 
 function renderLanguageBreakdown(selection) {
-  const selected = selection ? commits.filter(c => isCommitSelected(selection, c)) : [];
-  const container = document.getElementById('language-breakdown');
-  container.innerHTML = '';
-
-  if (selected.length === 0) return;
-
-  const lines = selected.flatMap(d => d.lines);
-  const breakdown = d3.rollup(lines, v => v.length, d => d.type);
-
-  for (const [lang, count] of breakdown) {
-    const pct = d3.format('.1~%')(count / lines.length);
-    container.innerHTML += `<dt><strong>${lang}</strong></dt><dd>${count} lines (${pct})</dd>`;
+    const selected = selection ? commits.filter(c => isCommitSelected(selection, c)) : [];
+    const container = document.getElementById('language-breakdown');
+    container.innerHTML = '';
+  
+    if (selected.length === 0) return;
+  
+    const lines = selected.flatMap(d => d.lines);
+    const breakdown = d3.rollup(lines, v => v.length, d => d.type);
+    const total = lines.length;
+  
+    for (const [lang, count] of breakdown) {
+      const pct = d3.format('.1%')(count / total);
+      const block = document.createElement('div');
+  
+      block.innerHTML = `
+        <dt>${lang}</dt>
+        <dd>${count} lines</dd>
+        <dd>(${pct})</dd>
+      `;
+  
+      container.appendChild(block);
+    }
   }
-}
+  
 
 function brushed(event) {
   const selection = event.selection;

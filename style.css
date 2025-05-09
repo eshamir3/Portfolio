@@ -697,5 +697,25 @@
     display: block;
     margin-top: 0.25em;
   }
+  #language-breakdown {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-family: monospace;
+    font-size: 1.1rem;
+    margin-top: 2em;
+    gap: 3em;
+  }
+  
+  #language-breakdown dt {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 0.2em;
+  }
+  
+  #language-breakdown dd {
+    margin: 0;
+  }
+  
   
   
