@@ -12,32 +12,29 @@ async function loadData() {
       depth: +row.depth,
       length: +row.length,
       datetime,
-      hourFrac: datetime.getHours() + datetime.getMinutes() / 60
+      hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
     };
   });
+
+  console.log("Parsed datetimes:", data.map(d => d.datetime));
   return data;
 }
 
 function processCommits(data) {
   return d3.groups(data, d => d.commit).map(([commit, lines]) => {
     const first = lines[0];
-    const { author, date, time, timezone, datetime, hourFrac } = first;
-    const obj = {
+    return {
       id: commit,
       url: `https://github.com/eshamir3/Portfolio/commit/${commit}`,
-      author,
-      date,
-      time,
-      timezone,
-      datetime,
-      hourFrac,
+      author: first.author,
+      date: first.date,
+      time: first.time,
+      timezone: first.timezone,
+      datetime: first.datetime,
+      hourFrac: first.hourFrac,
       totalLines: lines.length,
+      lines, // attach the lines array
     };
-    Object.defineProperty(obj, 'lines', {
-      value: lines,
-      enumerable: false
-    });
-    return obj;
   });
 }
 
@@ -104,8 +101,10 @@ function renderLanguageBreakdown(selection) {
     container.innerHTML = '';
     return;
   }
+
   const lines = selected.flatMap(d => d.lines);
   const breakdown = d3.rollup(lines, v => v.length, d => d.type);
+
   container.innerHTML = '';
   for (const [lang, count] of breakdown) {
     const pct = d3.format('.1~%')(count / lines.length);
@@ -162,36 +161,28 @@ function renderScatterPlot(commits) {
   svg.call(d3.brush().on('start brush end', brushed));
   svg.selectAll('.dots, .overlay ~ *').raise();
 
-  const validCommits = commits.filter(d => d.datetime instanceof Date && !isNaN(d.datetime));
-  const [minLines, maxLines] = d3.extent(validCommits, d => d.totalLines);
+  const [minLines, maxLines] = d3.extent(commits, d => d.totalLines);
   const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([2, 30]);
 
   const dots = svg.append('g').attr('class', 'dots');
   dots.selectAll('circle')
-    .data(d3.sort(validCommits, d => -d.totalLines))
+    .data(d3.sort(commits, d => -d.totalLines))
     .join('circle')
     .attr('cx', d => xScale(d.datetime))
     .attr('cy', d => yScale(d.hourFrac))
     .attr('r', d => rScale(d.totalLines))
-    .style('fill-opacity', 0.7)
     .on('mouseenter', (event, commit) => {
-      d3.select(event.currentTarget).style('fill-opacity', 1);
       renderTooltipContent(commit);
       updateTooltipVisibility(true);
       updateTooltipPosition(event);
     })
-    .on('mouseleave', (event) => {
-      d3.select(event.currentTarget).style('fill-opacity', 0.7);
+    .on('mouseleave', () => {
       updateTooltipVisibility(false);
     });
 }
 
-// MAIN EXECUTION
+// MAIN
 const rawData = await loadData();
 commits = processCommits(rawData);
 renderCommitInfo(rawData, commits);
 renderScatterPlot(commits);
-
-// ✅ Add these to show 0 stats at load
-renderSelectionCount(null);
-renderLanguageBreakdown(null);
