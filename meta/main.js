@@ -1,5 +1,8 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
+// Global variables for scales
+let xScale, yScale;
+
 async function loadData() {
     const data = await d3.csv('loc.csv', (row) => ({
         ...row,
@@ -20,7 +23,7 @@ function processCommits(data) {
             let { author, date, time, timezone, datetime } = first;
             let ret = {
                 id: commit,
-                url: 'https://github.com/vis-society/lab-7/commit/' + commit,
+                url: `https://github.com/YOUR_USERNAME/Portfolio/commit/${commit}`,
                 author,
                 date,
                 time,
@@ -93,13 +96,14 @@ function renderScatterPlot(data, commits) {
         .attr('viewBox', `0 0 ${width} ${height}`)
         .style('overflow', 'visible');
 
-    const xScale = d3
+    // Update global scale variables
+    xScale = d3
         .scaleTime()
         .domain(d3.extent(commits, d => d.datetime))
         .range([usableArea.left, usableArea.right])
         .nice();
 
-    const yScale = d3
+    yScale = d3
         .scaleLinear()
         .domain([0, 24])
         .range([usableArea.bottom, usableArea.top]);
