@@ -5,55 +5,50 @@ let commits = [];
 
 async function loadData() {
   const data = await d3.csv('./loc.csv', row => {
-    const datetime = new Date(row.datetime || `${row.date}T${row.time || '00:00'}${row.timezone || ''}`);
+    const datetime = new Date(row.datetime || `${row.date}T00:00${row.timezone || ''}`);
     return {
       ...row,
       line: +row.line,
       depth: +row.depth,
       length: +row.length,
       datetime,
-      hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
+      hourFrac: datetime.getHours() + datetime.getMinutes() / 60
     };
   });
-
-  console.log("Parsed datetimes:", data.map(d => d.datetime));
   return data;
 }
 
 function processCommits(data) {
   return d3.groups(data, d => d.commit).map(([commit, lines]) => {
     const first = lines[0];
-    return {
+    const { author, date, time, timezone, datetime, hourFrac } = first;
+    const obj = {
       id: commit,
       url: `https://github.com/eshamir3/Portfolio/commit/${commit}`,
-      author: first.author,
-      date: first.date,
-      time: first.time,
-      timezone: first.timezone,
-      datetime: first.datetime,
-      hourFrac: first.hourFrac,
+      author,
+      date,
+      time,
+      timezone,
+      datetime,
+      hourFrac,
       totalLines: lines.length,
-      lines, // attach the lines array
     };
+    Object.defineProperty(obj, 'lines', { value: lines, enumerable: false });
+    return obj;
   });
 }
 
 function renderCommitInfo(data, commits) {
   const dl = d3.select('#stats').append('dl').attr('class', 'stats');
-
   dl.append('dt').html('Total <abbr title="Lines of code">LOC</abbr>');
   dl.append('dd').text(data.length);
-
   dl.append('dt').text('Total commits');
   dl.append('dd').text(commits.length);
-
   dl.append('dt').text('Number of files');
   dl.append('dd').text(d3.group(data, d => d.file).size);
-
   const fileLengths = d3.rollups(data, v => d3.max(v, d => d.line), d => d.file);
   dl.append('dt').text('Average file length');
   dl.append('dd').text(Math.round(d3.mean(fileLengths, d => d[1])) + ' lines');
-
   dl.append('dt').text('Average line length');
   dl.append('dd').text(Math.round(d3.mean(data, d => d.length)) + ' characters');
 }
@@ -89,32 +84,36 @@ function isCommitSelected(selection, commit) {
 
 function renderSelectionCount(selection) {
   const selected = selection ? commits.filter(c => isCommitSelected(selection, c)) : [];
-  document.getElementById('selection-count').textContent =
-    `${selected.length || 'No'} commits selected`;
+  document.getElementById('selection-count').textContent = `${selected.length || 'No'} commits selected`;
   return selected;
 }
 
 function renderLanguageBreakdown(selection) {
   const selected = selection ? commits.filter(c => isCommitSelected(selection, c)) : [];
   const container = document.getElementById('language-breakdown');
-  if (selected.length === 0) {
-    container.innerHTML = '';
-    return;
-  }
+  container.innerHTML = '';
+
+  if (selected.length === 0) return;
 
   const lines = selected.flatMap(d => d.lines);
   const breakdown = d3.rollup(lines, v => v.length, d => d.type);
 
-  container.innerHTML = '';
   for (const [lang, count] of breakdown) {
     const pct = d3.format('.1~%')(count / lines.length);
-    container.innerHTML += `<dt>${lang}</dt><dd>${count} lines (${pct})</dd>`;
+    container.innerHTML += `
+      <div class="lang-break">
+        <span class="lang-label">${lang}</span>
+        <span class="lang-value">${count} lines (${pct})</span>
+      </div>`;
   }
 }
 
 function brushed(event) {
   const selection = event.selection;
-  d3.selectAll('circle').classed('selected', d => isCommitSelected(selection, d));
+  d3.selectAll('circle')
+    .classed('selected', d => isCommitSelected(selection, d))
+    .style('fill', d => isCommitSelected(selection, d) ? '#ff6b6b' : 'steelblue');
+
   renderSelectionCount(selection);
   renderLanguageBreakdown(selection);
 }
@@ -137,6 +136,14 @@ function renderScatterPlot(commits) {
     .append('svg')
     .attr('viewBox', `0 0 ${width} ${height}`)
     .style('overflow', 'visible');
+
+  svg.append("defs").append("clipPath")
+    .attr("id", "clip")
+    .append("rect")
+    .attr("x", usableArea.left)
+    .attr("y", usableArea.top)
+    .attr("width", usableArea.width)
+    .attr("height", usableArea.height);
 
   xScale = d3.scaleTime()
     .domain(d3.extent(commits, d => d.datetime))
@@ -161,22 +168,27 @@ function renderScatterPlot(commits) {
   svg.call(d3.brush().on('start brush end', brushed));
   svg.selectAll('.dots, .overlay ~ *').raise();
 
-  const [minLines, maxLines] = d3.extent(commits, d => d.totalLines);
+  const validCommits = commits.filter(d => d.datetime instanceof Date && !isNaN(d.datetime));
+  const [minLines, maxLines] = d3.extent(validCommits, d => d.totalLines);
   const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([2, 30]);
 
-  const dots = svg.append('g').attr('class', 'dots');
+  const dots = svg.append('g').attr('class', 'dots').attr('clip-path', 'url(#clip)');
   dots.selectAll('circle')
-    .data(d3.sort(commits, d => -d.totalLines))
+    .data(d3.sort(validCommits, d => -d.totalLines))
     .join('circle')
     .attr('cx', d => xScale(d.datetime))
     .attr('cy', d => yScale(d.hourFrac))
     .attr('r', d => rScale(d.totalLines))
+    .attr('fill', 'steelblue')
+    .style('fill-opacity', 0.7)
     .on('mouseenter', (event, commit) => {
+      d3.select(event.currentTarget).style('fill-opacity', 1);
       renderTooltipContent(commit);
       updateTooltipVisibility(true);
       updateTooltipPosition(event);
     })
-    .on('mouseleave', () => {
+    .on('mouseleave', (event) => {
+      d3.select(event.currentTarget).style('fill-opacity', 0.7);
       updateTooltipVisibility(false);
     });
 }
