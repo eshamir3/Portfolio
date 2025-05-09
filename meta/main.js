@@ -105,11 +105,12 @@ function renderSelectionCount(selection) {
 function renderLanguageBreakdown(selection) {
   const selected = selection ? commits.filter(c => isCommitSelected(selection, c)) : [];
   const container = document.getElementById('language-breakdown');
-  if (selected.length === 0) return container.innerHTML = '';
+  container.innerHTML = '';
+
+  if (selected.length === 0) return;
 
   const lines = selected.flatMap(d => d.lines);
   const breakdown = d3.rollup(lines, v => v.length, d => d.type);
-  container.innerHTML = '';
 
   for (const [lang, count] of breakdown) {
     const pct = d3.format('.1~%')(count / lines.length);
@@ -120,15 +121,16 @@ function renderLanguageBreakdown(selection) {
 function brushed(event) {
   const selection = event.selection;
   d3.selectAll('circle')
-    .classed('selected', d => isCommitSelected(selection, d));
+    .classed('selected', d => isCommitSelected(selection, d))
+    .classed('not-selected', d => selection && !isCommitSelected(selection, d));
   renderSelectionCount(selection);
   renderLanguageBreakdown(selection);
 }
 
 function renderScatterPlot(commits) {
-  const width = 1000;
-  const height = 600;
-  const margin = { top: 40, right: 40, bottom: 60, left: 60 };
+  const width = 1200;
+  const height = 700;
+  const margin = { top: 20, right: 40, bottom: 50, left: 60 };
 
   const usableArea = {
     left: margin.left,
@@ -150,9 +152,7 @@ function renderScatterPlot(commits) {
     .range([usableArea.left, usableArea.right])
     .nice();
 
-  yScale = d3.scaleLinear()
-    .domain([0, 24])
-    .range([usableArea.bottom, usableArea.top]);
+  yScale = d3.scaleLinear().domain([0, 24]).range([usableArea.bottom, usableArea.top]);
 
   svg.append('g')
     .attr('class', 'gridlines')
@@ -167,8 +167,7 @@ function renderScatterPlot(commits) {
     .attr('transform', `translate(${usableArea.left}, 0)`)
     .call(d3.axisLeft(yScale).tickFormat(d => `${String(d).padStart(2, '0')}:00`));
 
-  svg.call(d3.brush().on('start brush end', brushed));
-  svg.selectAll('.dots, .overlay ~ *').raise();
+  svg.call(d3.brush().extent([[usableArea.left, usableArea.top], [usableArea.right, usableArea.bottom]]).on('start brush end', brushed));
 
   const validCommits = commits.filter(d => d.datetime instanceof Date && !isNaN(d.datetime));
   const [minLines, maxLines] = d3.extent(validCommits, d => d.totalLines);
@@ -181,7 +180,7 @@ function renderScatterPlot(commits) {
     .attr('cx', d => xScale(d.datetime))
     .attr('cy', d => yScale(d.hourFrac))
     .attr('r', d => rScale(d.totalLines))
-    .attr('fill', 'steelblue')
+    .attr('fill', '#4682b4')
     .style('fill-opacity', 0.7)
     .on('mouseenter', (event, commit) => {
       d3.select(event.currentTarget).style('fill-opacity', 1);
@@ -195,7 +194,7 @@ function renderScatterPlot(commits) {
     });
 }
 
-// MAIN EXECUTION
+// MAIN
 const rawData = await loadData();
 commits = processCommits(rawData);
 renderCommitInfo(rawData, commits);
