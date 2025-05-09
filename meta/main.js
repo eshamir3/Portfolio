@@ -4,21 +4,30 @@ let xScale, yScale;
 let commits = [];
 
 async function loadData() {
-  const data = await d3.csv('./loc.csv', (row) => ({
-    ...row,
-    line: +row.line,
-    depth: +row.depth,
-    length: +row.length,
-    date: new Date(row.date + 'T00:00' + row.timezone),
-    datetime: new Date(row.datetime),
-  }));
+  const data = await d3.csv('./loc.csv', row => {
+    // Try to create datetime from existing field or reconstruct from date+time+timezone
+    const datetime = new Date(row.datetime || `${row.date}T00:00${row.timezone || ''}`);
+
+    return {
+      ...row,
+      line: +row.line,
+      depth: +row.depth,
+      length: +row.length,
+      datetime,
+      hourFrac: datetime.getHours() + datetime.getMinutes() / 60
+    };
+  });
+
+  console.log("Loaded rows:", data.length);
+  console.log("Sample row:", data[0]);
+
   return data;
 }
 
 function processCommits(data) {
   return d3.groups(data, d => d.commit).map(([commit, lines]) => {
     const first = lines[0];
-    const { author, date, time, timezone, datetime } = first;
+    const { author, date, time, timezone, datetime, hourFrac } = first;
 
     const obj = {
       id: commit,
@@ -28,7 +37,7 @@ function processCommits(data) {
       time,
       timezone,
       datetime,
-      hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
+      hourFrac,
       totalLines: lines.length,
     };
 
@@ -161,7 +170,9 @@ function renderScatterPlot(commits) {
   svg.call(d3.brush().on('start brush end', brushed));
   svg.selectAll('.dots, .overlay ~ *').raise();
 
-  const validCommits = commits.filter(d => d.datetime && !isNaN(d.hourFrac));
+  // Filter only valid commits
+  const validCommits = commits.filter(d => d.datetime instanceof Date && !isNaN(d.datetime));
+
   const [minLines, maxLines] = d3.extent(validCommits, d => d.totalLines);
   const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([2, 30]);
 
@@ -185,7 +196,7 @@ function renderScatterPlot(commits) {
     });
 }
 
-// Initialize everything
+// MAIN
 const rawData = await loadData();
 commits = processCommits(rawData);
 renderCommitInfo(rawData, commits);
