@@ -5,7 +5,7 @@ let commits = [];
 
 async function loadData() {
   const data = await d3.csv('./loc.csv', row => {
-    const datetime = new Date(row.datetime || `${row.date}T00:00${row.timezone || ''}`);
+    const datetime = new Date(row.datetime || `${row.date}T${row.time || '00:00'}${row.timezone || ''}`);
     return {
       ...row,
       line: +row.line,
@@ -15,9 +15,6 @@ async function loadData() {
       hourFrac: datetime.getHours() + datetime.getMinutes() / 60
     };
   });
-
-  // Debugging: check for valid datetime parsing
-  console.log("Parsed datetimes:", data.map(d => d.datetime));
   return data;
 }
 
@@ -25,7 +22,6 @@ function processCommits(data) {
   return d3.groups(data, d => d.commit).map(([commit, lines]) => {
     const first = lines[0];
     const { author, date, time, timezone, datetime, hourFrac } = first;
-
     const obj = {
       id: commit,
       url: `https://github.com/eshamir3/Portfolio/commit/${commit}`,
@@ -37,12 +33,10 @@ function processCommits(data) {
       hourFrac,
       totalLines: lines.length,
     };
-
     Object.defineProperty(obj, 'lines', {
       value: lines,
       enumerable: false
     });
-
     return obj;
   });
 }
@@ -106,12 +100,13 @@ function renderSelectionCount(selection) {
 function renderLanguageBreakdown(selection) {
   const selected = selection ? commits.filter(c => isCommitSelected(selection, c)) : [];
   const container = document.getElementById('language-breakdown');
-  if (selected.length === 0) return container.innerHTML = '';
-
+  if (selected.length === 0) {
+    container.innerHTML = '';
+    return;
+  }
   const lines = selected.flatMap(d => d.lines);
   const breakdown = d3.rollup(lines, v => v.length, d => d.type);
   container.innerHTML = '';
-
   for (const [lang, count] of breakdown) {
     const pct = d3.format('.1~%')(count / lines.length);
     container.innerHTML += `<dt>${lang}</dt><dd>${count} lines (${pct})</dd>`;
@@ -196,3 +191,7 @@ const rawData = await loadData();
 commits = processCommits(rawData);
 renderCommitInfo(rawData, commits);
 renderScatterPlot(commits);
+
+// ✅ Add these to show 0 stats at load
+renderSelectionCount(null);
+renderLanguageBreakdown(null);
