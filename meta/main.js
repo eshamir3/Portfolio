@@ -16,6 +16,8 @@ async function loadData() {
     };
   });
 
+  // Debugging: check for valid datetime parsing
+  console.log("Parsed datetimes:", data.map(d => d.datetime));
   return data;
 }
 
@@ -126,7 +128,7 @@ function brushed(event) {
 function renderScatterPlot(commits) {
   const width = 1000;
   const height = 600;
-  const margin = { top: 10, right: 10, bottom: 30, left: 20 };
+  const margin = { top: 10, right: 10, bottom: 30, left: 40 };
 
   const usableArea = {
     left: margin.left,
@@ -166,7 +168,6 @@ function renderScatterPlot(commits) {
   svg.selectAll('.dots, .overlay ~ *').raise();
 
   const validCommits = commits.filter(d => d.datetime instanceof Date && !isNaN(d.datetime));
-
   const [minLines, maxLines] = d3.extent(validCommits, d => d.totalLines);
   const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([2, 30]);
 
@@ -190,7 +191,7 @@ function renderScatterPlot(commits) {
     });
 }
 
-// MAIN
+// MAIN EXECUTION
 const rawData = await loadData();
 commits = processCommits(rawData);
 renderCommitInfo(rawData, commits);
