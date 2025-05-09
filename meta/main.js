@@ -5,9 +5,7 @@ let commits = [];
 
 async function loadData() {
   const data = await d3.csv('./loc.csv', row => {
-    // Try to create datetime from existing field or reconstruct from date+time+timezone
     const datetime = new Date(row.datetime || `${row.date}T00:00${row.timezone || ''}`);
-
     return {
       ...row,
       line: +row.line,
@@ -17,9 +15,6 @@ async function loadData() {
       hourFrac: datetime.getHours() + datetime.getMinutes() / 60
     };
   });
-
-  console.log("Loaded rows:", data.length);
-  console.log("Sample row:", data[0]);
 
   return data;
 }
@@ -170,7 +165,6 @@ function renderScatterPlot(commits) {
   svg.call(d3.brush().on('start brush end', brushed));
   svg.selectAll('.dots, .overlay ~ *').raise();
 
-  // Filter only valid commits
   const validCommits = commits.filter(d => d.datetime instanceof Date && !isNaN(d.datetime));
 
   const [minLines, maxLines] = d3.extent(validCommits, d => d.totalLines);
