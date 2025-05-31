@@ -1254,10 +1254,46 @@ img.hero {
   opacity: 0.3;
 }
 
-/* ================================ */
-/*      META ANALYSIS PAGE STYLES   */
-/* ================================ */
+#scrolly-2 {
+  display: flex;
+  gap: 2rem;
+  align-items: start;
+}
 
-.stats {
+#file-viz {
+  flex: 1;
+  position: sticky;
+  top: 2rem;
+  min-height: 60vh;
+}
+
+#file-story {
+  flex: 1;
+  padding-right: 1rem;
+}
+
+#file-viz dl {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr 4fr;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1rem;
+}
+
+#file-viz dt code {
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+#file-viz dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+  margin: 0;
+  padding-top: 0.25rem;
+}
+
+.loc {
+  width: 0.5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
