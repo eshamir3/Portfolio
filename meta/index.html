@@ -5,17 +5,16 @@
   <title>Meta – Codebase Analysis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Link to your existing global CSS (nav, typography, etc.) -->
+  <!-- Link to your existing global CSS (nav, typography, projects, resume, etc.) -->
   <link rel="stylesheet" href="../style.css" />
 
   <!-- ========== META PAGE INLINE CSS (only Meta‐specific styles) ========== -->
   <style>
     /* ========= BASIC TYPOGRAPHY ========= */
-    /* We assume your global style.css already sets fonts, background, etc. */
     body {
-      margin: 1rem auto;    /* Small top/bottom margin */
-      padding: 0 1rem;      /* Horizontal padding for readability */
-      max-width: 100ch;     /* Keep content centered and narrow */
+      margin: 1rem auto;    /* small top/bottom margin */
+      padding: 0 1rem;      /* horizontal padding for readability */
+      max-width: 100ch;     /* keep content centered and narrow */
     }
     h1 {
       font-size: 3rem;
@@ -69,7 +68,7 @@
       font-size: 1.2rem;
       color: #333;
     }
-    /* Less aggressive spacing than “60vh” */
+    /* Less aggressive spacing than 60vh */
     .step {
       margin-bottom: 2rem;
       padding-bottom: 0.5rem;
@@ -205,10 +204,7 @@
     }
 
     /* ========= UNIT VISUALIZATION (“FILES BY SIZE”) ========= */
-    #files {
-      margin-top: 2rem;
-    }
-    /* Each file is a <dl><dt>…</dt><dd>…</dd></dl> group: */
+    /* ★ IMPORTANT: We changed from <div id="files"></div> to <dl id="files"></dl> below ★ */
     #files dl {
       display: grid;
       grid-template-columns: 1fr 4fr;
@@ -305,7 +301,7 @@
       </label>
     </div>
 
-    <!-- ========== SELECTION COUNT & LANGUAGE BREAKDOWN (placeholder) ========== -->
+    <!-- ========== SELECTION COUNT & LANGUAGE BREAKDOWN ========== -->
     <p id="selection-count">No commits selected</p>
     <dl id="language-breakdown" class="stats"></dl>
 
@@ -313,7 +309,7 @@
     <svg id="pie"></svg>
     <div class="pie-legend"></div>
 
-    <!-- ========== TOOLTIP (initially hidden) ========== -->
+    <!-- ========== TOOLTIP (initially hidden) ========= -->
     <dl id="commit-tooltip" class="tooltip">
       <dt>Commit</dt>
       <dd><a href="#" id="commit-link" target="_blank"></a></dd>
@@ -329,10 +325,11 @@
 
     <!-- ========== UNIT VISUALIZATION: Files by size ========= -->
     <h2>Files by size</h2>
-    <div id="files"></div>
+    <!-- ★ Changed this container to <dl> so our CSS (#files dl, #files dt, #files dd) works correctly ★ -->
+    <dl id="files"></dl>
   </main>
 
-  <!-- ========== MAIN JS ========== -->
+  <!-- ========== MAIN JS (exactly as you provided, no changes needed) ========== -->
   <script type="module" src="./main.js"></script>
 </body>
 </html>

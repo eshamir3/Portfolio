@@ -136,13 +136,13 @@ function renderScatterPlot(allCommits) {
     .domain([0, 24])
     .range([usable.bottom, usable.top]);
 
-  // X‐axis (dates)
+  // X-axis (dates)
   svg.append('g')
     .attr('class', 'x-axis')
     .attr('transform', `translate(0, ${usable.bottom})`)
     .call(d3.axisBottom(xScale));
 
-  // Y‐axis (hours)
+  // Y-axis (hours)
   svg.append('g')
     .attr('class', 'y-axis')
     .attr('transform', `translate(${usable.left}, 0)`)
@@ -205,6 +205,7 @@ function updateFileDisplay(filteredCommits) {
 
   const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
 
+  // Because our HTML now has <dl id="files"> … </dl>, this will append child <dl> elements
   const container = d3.select('#files')
     .selectAll('dl')
     .data(files, d => d.name)
