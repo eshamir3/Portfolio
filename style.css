@@ -2,8 +2,8 @@
    ORIGINAL SITE STYLES  
    (Nav, Typography, Contact Form, Projects, Resume, etc.)
    ————————————
-   Copy everything from here exactly as‐is (this is what you sent earlier).
-   Do NOT remove or rename these selectors. 
+   Copy everything from here exactly as‐is (this is what you sent earlier).  
+   Do NOT remove or rename these selectors.  
    ================= */
 
 :root {
@@ -26,8 +26,9 @@ html {
 body {
   font: 100%/1.5 system-ui;
   line-height: 1.6;
-  margin: 0;
-  padding: 0;
+  /* ─── FIXED: remove margin:0; padding:0 so nav bar’s default spacing is preserved ─── */
+  /* margin: 0; */
+  /* padding: 0; */
   max-width: 100ch;
   margin-inline: max(1em, (100% - 100ch) / 2);
   padding-inline: 1em;
@@ -601,8 +602,9 @@ circle.selected {
   height: 50vh;
 }
 
+/* ─── FIXED: reduce spacing so `.step` is not 60vh ─── */
 .step {
-  margin-bottom: 60vh;
+  margin-bottom: 2rem;  /* was 60vh */
   padding-bottom: 1rem;
   font-size: 1rem;
 }
@@ -631,16 +633,19 @@ circle.selected {
   margin-top: 2rem;
 }
 
-#files > div {
+/* ─── FIXED: target <dl> (not <div>) to match Meta page’s HTML ─── */
+#files > dl {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: subgrid;
 }
 
+/* File name (<dt>) sits in column 1 */
 #files dt {
   grid-column: 1;
 }
 
+/* File “dots” (<dd>) sit in column 2 */
 #files dd {
   grid-column: 2;
   display: flex;
@@ -651,15 +656,16 @@ circle.selected {
   margin-left: 0;
 }
 
-/* Dots per line of code */
+/* Each “dot” representing one line of code */
 .loc {
   width: 0.5em;
   aspect-ratio: 1;
-  background: var(--color, steelblue);
+  background: var(--color, steelblue); /* D3 sets --color per file type */
   border-radius: 50%;
   transition: all 200ms ease;
 }
 
+/* Animate new dots from radius 0 → full size */
 @starting-style {
   .loc {
     r: 0;
@@ -689,9 +695,9 @@ circle.selected {
   height: 50vh; /* stays visible while scrolling */
 }
 
-/* Each “step” block in the scroll narrative */
+/* ─── FIXED: `.step` spacing reduced ─── */
 .step {
-  margin-bottom: 60vh; /* push each step far enough so plot updates */
+  margin-bottom: 2rem; /* was 60vh */
   padding-bottom: 1rem;
   font-size: 1rem;
 }
@@ -720,8 +726,8 @@ circle.selected {
   margin-top: 2rem;
 }
 
-/* Each file’s wrapper row spans both columns but is itself a subgrid */
-#files > div {
+/* ─── FIXED AGAIN: target <dl> rather than <div> ─── */
+#files > dl {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: subgrid;
