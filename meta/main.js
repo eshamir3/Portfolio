@@ -189,8 +189,6 @@ function updateScatterPlot(allCommits, filteredCommits) {
       .attr('r', d => rScale(d.totalLines))
       .attr('fill', d => {
         // color by file extension of the largest-file in that commit
-        // (you can customize logic; here we just pick the extension of the file
-        // with the most lines in that commit)
         const ext = d.lines
           .sort((a, b) => b.line - a.line)[0]
           .file.split('.').pop().toLowerCase();
@@ -315,7 +313,7 @@ function updateFilteredScatter(filteredList) {
     .select('g.x-axis')
     .call(
       d3.axisBottom(xScale)
-        .tickSize(- (d3.select('#chart').node().clientHeight - 60)) // match gridlines height
+        .tickSize(-(d3.select('#chart').node().clientHeight - 60)) // match gridlines height
         .tickPadding(10)
     );
 
@@ -397,7 +395,7 @@ function updateFileVizForCommit(commitObj) {
 
   // Color scale by extension
   const extColor = d3.scaleOrdinal()
-    .domain(['css', 'js', 'html', 'svelte', 'ts', 'json', 'md']) // add more as needed
+    .domain(['css', 'js', 'html', 'svelte', 'ts', 'json', 'md'])
     .range(d3.schemeTableau10);
 
   // Bind to <dl> in #file-viz

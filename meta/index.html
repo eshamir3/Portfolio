@@ -5,10 +5,10 @@
   <title>Meta – Codebase Analysis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Link to your existing “global” CSS (nav, typography, etc.) -->
+  <!-- 1) Link to your existing “global” CSS (controls nav styling, etc.) -->
   <link rel="stylesheet" href="../style.css" />
 
-  <!-- ========== META PAGE INLINE CSS (only Meta-specific styles) ========== -->
+  <!-- 2) META PAGE INLINE CSS (only Meta-specific tweaks) -->
   <style>
     /* ========= BASIC TYPOGRAPHY ========= */
     body {
@@ -66,7 +66,6 @@
       position: sticky;
       top: 1rem;
       height: 60vh;
-      /* Give enough height so that the scatter area is visible while scrolling */
     }
     #scatter-plot h3 {
       text-align: center;
@@ -169,13 +168,9 @@
       height: 100%;
       overflow: visible;
     }
-    .gridlines line {
-      stroke: #eee;
-      stroke-opacity: 0.7;
-    }
     .x-axis text,
     .y-axis text {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       fill: #333;
     }
     .x-axis path,
@@ -235,7 +230,6 @@
       flex: 1;
       position: sticky;
       top: 1rem;
-      /* So that it stays visible as you scroll the right column */
       min-height: 400px;
       border-left: 2px solid #eee;
       padding-left: 1rem;
@@ -259,7 +253,6 @@
     #file-story .step a:hover {
       text-decoration: underline;
     }
-
     /* Inside #file-viz, each file uses a <dl><dt>…</dt><dd>…</dd></dl> */
     #file-viz dl {
       display: grid;
@@ -299,6 +292,21 @@
 </head>
 
 <body>
+
+  <!-- ──  RE-INSERT YOUR SITE NAVIGATION BAR HERE  ── -->
+  <nav>
+    <ul>
+      <li><a href="/">🏠 Home</a></li>
+      <li><a href="/syllabus">📖 Syllabus</a></li>
+      <li><a href="/calendar">📆 Calendar</a></li>
+      <li><a href="/staff">👩‍🏫 Staff</a></li>
+      <li><a href="/projects">📝 Projects</a></li>
+      <li><a href="/labs">👩‍🔬 Programming Labs</a></li>
+      <li><a href="/resources">📚 Resources</a></li>
+    </ul>
+  </nav>
+  <!-- ──────────────────────────────────────────── -->
+
   <main>
     <!-- ========== PAGE TITLE + DESCRIPTION ========== -->
     <h1>Meta</h1>
