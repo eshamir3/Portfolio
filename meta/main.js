@@ -381,8 +381,10 @@ function setupScrollamaFiles() {
 // 13) UPDATE THE UNIT-VIZ FOR ONE COMMIT (Bottom)
 // ———————————————————————
 function updateFileVizForCommit(commitObj) {
-  // Extract all "lines" belonging to that single commit
-  const lines = commitObj.lines;
+  // Find the index of the current commit
+  const commitIdx = commits.findIndex(c => c.id === commitObj.id);
+  // Accumulate all lines from the first commit up to and including the current commit
+  const lines = commits.slice(0, commitIdx + 1).flatMap(c => c.lines);
 
   // Group them by file name, then sort descending by line‐count
   const files = d3.groups(lines, d => d.file)
