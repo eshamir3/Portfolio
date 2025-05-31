@@ -1223,3 +1223,30 @@ img.hero {
   opacity: 0.3;
 }
 
+#unit-viz {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+#unit-viz .file-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.2em;
+}
+#unit-viz .file-label {
+  font-family: monospace;
+  font-size: 1rem;
+  min-width: 200px;
+}
+#unit-viz .file-label small {
+  color: #888;
+  font-size: 0.8em;
+  margin-left: 0.5em;
+}
+#unit-viz .file-dots .loc {
+  display: inline-block;
+  width: 0.5em;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  margin: 0 0.08em;
+}
+

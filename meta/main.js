@@ -441,6 +441,53 @@ function extensionColor(ext) {
   return scale(ext);
 }
 
+function renderUnitViz(lines) {
+  // Group by file
+  const files = d3.groups(lines, d => d.file)
+    .map(([name, lines]) => ({
+      name,
+      lines,
+      type: lines[0]?.type || 'txt'
+    }))
+    .sort((a, b) => b.lines.length - a.lines.length);
+
+  // Color scale by extension
+  const extColor = d3.scaleOrdinal()
+    .domain(['css', 'js', 'html', 'svelte', 'ts', 'json', 'md'])
+    .range(d3.schemeTableau10);
+
+  // Render
+  const container = d3.select('#unit-viz');
+  container.html('');
+  const rows = container.selectAll('.file-row')
+    .data(files, d => d.name)
+    .join('div')
+    .attr('class', 'file-row')
+    .style('display', 'flex')
+    .style('align-items', 'center')
+    .style('margin-bottom', '0.2em');
+
+  rows.append('span')
+    .attr('class', 'file-label')
+    .style('font-family', 'monospace')
+    .style('font-size', '1rem')
+    .style('min-width', '200px')
+    .html(d => `${d.name} <small>${d.lines.length} lines</small>`);
+
+  rows.append('span')
+    .attr('class', 'file-dots')
+    .selectAll('span')
+    .data(d => d.lines)
+    .join('span')
+    .attr('class', 'loc')
+    .style('display', 'inline-block')
+    .style('width', '0.5em')
+    .style('aspect-ratio', '1')
+    .style('border-radius', '50%')
+    .style('background', d => extColor(d.type))
+    .style('margin', '0 0.08em');
+}
+
 // ———————————————————————
 // 15) MAIN ENTRY POINT
 // ———————————————————————
@@ -495,5 +542,10 @@ function extensionColor(ext) {
   // 15l) Initialize the unit-viz with the very first commit
   if (commits.length > 0) {
     updateFileVizForCommit(commits[0]);
+  }
+
+  // Render unit-viz for latest commit
+  if (commits.length > 0) {
+    renderUnitViz(commits[commits.length - 1].lines);
   }
 })();
