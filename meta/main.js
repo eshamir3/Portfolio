@@ -14,6 +14,11 @@ let timeScale;
 // Store all files ever seen in the repo
 let allFilesEver = [];
 
+// Add at the top:
+let commitFileMap = {}; // commitSha -> file -> {numLines, type}
+let allCommitsOrdered = []; // [{sha, date, time, author, datetime}]
+let allFilesEverSet = new Set();
+
 // ———————————————————————
 // 1) CACHE DOM SELECTORS
 // ———————————————————————
@@ -45,34 +50,40 @@ const fileStoryDiv = d3.select('#file-story');
 // ———————————————————————
 async function loadData() {
   const rows = await d3.csv('./loc.csv', row => {
-    const datetime = new Date(row.datetime || `${row.date}T00:00${row.timezone || ''}`);
+    const datetime = new Date(row.datetime || `${row.date}T${row.time || '00:00:00'}`);
     return {
       ...row,
-      line:   +row.line,
-      depth:  +row.depth,
-      length: +row.length,
+      line: +row.line,
+      num_lines: +row.length, // use 'length' as num_lines
       datetime,
-      hourFrac: datetime.getHours() + datetime.getMinutes() / 60
+      type: row.type,
+      file: row.file,
+      commit: row.commit,
+      author: row.author,
+      date: row.date,
+      time: row.time
     };
   });
 
-  const grouped = d3.groups(rows, d => d.commit).map(([sha, lines]) => {
-    const first = lines[0];
-    return {
-      id:         sha,
-      lines:      lines,
-      author:     first.author,
-      date:       first.date,
-      time:       first.time,
-      timezone:   first.timezone,
-      datetime:   new Date(first.datetime),
-      hourFrac:   first.hourFrac,
-      totalLines: lines.length,
-      url:        `https://github.com/eshamir/Portfolio/commit/${sha}`
-    };
+  // Build commitFileMap and allCommitsOrdered
+  commitFileMap = {};
+  let commitMeta = {};
+  rows.forEach(row => {
+    if (!commitFileMap[row.commit]) commitFileMap[row.commit] = {};
+    commitFileMap[row.commit][row.file] = { numLines: row.num_lines, type: row.type };
+    allFilesEverSet.add(row.file);
+    if (!commitMeta[row.commit]) {
+      commitMeta[row.commit] = {
+        sha: row.commit,
+        date: row.date,
+        time: row.time,
+        author: row.author,
+        datetime: row.datetime
+      };
+    }
   });
-  grouped.sort((a, b) => a.datetime - b.datetime);
-  return [grouped, rows];
+  allCommitsOrdered = Object.values(commitMeta).sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+  return rows;
 }
 
 // ———————————————————————
@@ -379,27 +390,14 @@ function setupScrollamaFiles() {
 // 13) UPDATE THE UNIT-VIZ FOR ONE COMMIT (Bottom)
 // ———————————————————————
 function updateFileVizForCommit(commitObj) {
-  // Find the index of the current commit
-  const commitIdx = commits.findIndex(c => c.id === commitObj.id);
-  // Accumulate all lines from the first commit up to and including the current commit
-  const lines = commits.slice(0, commitIdx + 1).flatMap(c => c.lines);
-
-  // For each file ever, count the number of lines up to this commit
-  const fileMap = new Map();
-  for (const file of allFilesEver) {
-    fileMap.set(file, []);
-  }
-  for (const line of lines) {
-    fileMap.get(line.file).push(line);
-  }
-  // Build array of {name, lines, ext}
-  const files = Array.from(fileMap.entries())
-    .map(([name, arr]) => ({
-      name,
-      lines: arr,
-      ext: name.split('.').pop().toLowerCase()
-    }))
-    .sort((a, b) => b.lines.length - a.lines.length);
+  const sha = commitObj.id || commitObj.sha;
+  const fileMap = commitFileMap[sha] || {};
+  // Build array of {name, numLines, type}
+  const files = Array.from(allFilesEverSet).map(name => ({
+    name,
+    numLines: fileMap[name] ? fileMap[name].numLines : 0,
+    type: fileMap[name] ? fileMap[name].type : name.split('.').pop().toLowerCase()
+  })).sort((a, b) => b.numLines - a.numLines);
 
   // Color scale by extension
   const extColor = d3.scaleOrdinal()
@@ -416,14 +414,14 @@ function updateFileVizForCommit(commitObj) {
     .join('div');
 
   fileGroups.append('dt')
-    .html(d => `<code>${d.name}</code><br><small>${d.lines.length} lines</small>`);
+    .html(d => `<code>${d.name}</code><br><small>${d.numLines} lines</small>`);
 
   fileGroups.append('dd')
     .selectAll('div')
-    .data(d => d.lines)
+    .data(d => Array(d.numLines).fill(0))
     .join('div')
     .attr('class', 'loc')
-    .attr('style', d => `--color: ${extColor(d.file.split('.').pop().toLowerCase())}`);
+    .attr('style', d => `--color: ${extColor(this.type)}`);
 }
 
 // ———————————————————————
@@ -441,11 +439,11 @@ function extensionColor(ext) {
 // ———————————————————————
 (async function main() {
   // 15a) Load + process data → [commitsArray, rawRowsArray]
-  const [grouped, rawRows] = await loadData();
-  commits = grouped;
+  const rawRows = await loadData();
+  commits = allCommitsOrdered;
 
   // Compute all files ever present in any commit
-  allFilesEver = Array.from(new Set(rawRows.map(d => d.file)));
+  allFilesEver = Array.from(allFilesEverSet);
 
   // 15b) Render top summary stats
   renderSummaryStats(rawRows, commits);
