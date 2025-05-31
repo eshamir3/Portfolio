@@ -1,3 +1,7 @@
+// ———————————————————————
+// meta/main.js
+// ———————————————————————
+
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 import scrollama from 'https://cdn.jsdelivr.net/npm/scrollama@3.2.0/+esm';
 
@@ -29,6 +33,11 @@ const tooltipLines   = document.getElementById('commit-lines');
 const pieContainer   = d3.select('#pie');
 const pieLegendDiv   = d3.select('.pie-legend');
 
+// For the unit-viz (bottom scrolly):
+const fileVizDiv     = d3.select('#file-viz');
+const fileStoryDiv   = d3.select('#file-story');
+
+
 // ———————————————————————
 // 2) LOAD + PROCESS “loc.csv” INTO `commits[]`
 // ———————————————————————
@@ -59,7 +68,7 @@ async function loadData() {
       datetime: new Date(first.datetime),
       hourFrac: first.hourFrac,
       totalLines: lines.length,
-      url: `https://github.com/eshamir3/Portfolio/commit/${sha}`
+      url: `https://github.com/USERNAME/REPO/commit/${sha}`  // <–– adjust this URL if needed
     };
   });
 
@@ -67,6 +76,7 @@ async function loadData() {
   grouped.sort((a, b) => a.datetime - b.datetime);
   return [grouped, rows];
 }
+
 
 // ———————————————————————
 // 3) RENDER SUMMARY STATS (TOP GRID)
@@ -91,19 +101,24 @@ function renderSummaryStats(allRows, allCommits) {
   maxLinesEl.textContent  = d3.max(allCommits, d => d.totalLines);
 }
 
+
 // ———————————————————————
 // 4) SET UP THE SLIDER
 // ———————————————————————
 function setupSlider() {
   slider.addEventListener('input', () => {
-    commitProgress    = +slider.value;
-    commitMaxTime     = timeScale.invert(commitProgress);
-    timeLabel.textContent = commitMaxTime.toLocaleString('en', { dateStyle: 'long', timeStyle: 'short' });
+    commitProgress      = +slider.value;
+    commitMaxTime       = timeScale.invert(commitProgress);
+    timeLabel.textContent = commitMaxTime.toLocaleString('en', {
+      dateStyle: 'long',
+      timeStyle: 'short'
+    });
 
     const filtered = commits.filter(d => d.datetime <= commitMaxTime);
-    updateFiltered(filtered);
+    updateFilteredScatter(filtered);
   });
 }
+
 
 // ———————————————————————
 // 5) RENDER SCATTER PLOT (once at start)
@@ -136,13 +151,13 @@ function renderScatterPlot(allCommits) {
     .domain([0, 24])
     .range([usable.bottom, usable.top]);
 
-  // X-axis (dates)
+  // X-axis
   svg.append('g')
     .attr('class', 'x-axis')
     .attr('transform', `translate(0, ${usable.bottom})`)
     .call(d3.axisBottom(xScale));
 
-  // Y-axis (hours)
+  // Y-axis
   svg.append('g')
     .attr('class', 'y-axis')
     .attr('transform', `translate(${usable.left}, 0)`)
@@ -152,8 +167,9 @@ function renderScatterPlot(allCommits) {
   svg.append('g').attr('class', 'dots');
 }
 
+
 // ———————————————————————
-// 6) UPDATE SCATTER PLOT (for each filter)
+// 6) UPDATE SCATTER PLOT (for each filter OR scroll step)
 // ———————————————————————
 function updateScatterPlot(allCommits, filteredCommits) {
   const svg    = d3.select('#chart svg');
@@ -167,6 +183,7 @@ function updateScatterPlot(allCommits, filteredCommits) {
 
   // ENTER / UPDATE / EXIT
   dots.join(
+    // ENTER
     enter => enter.append('circle')
       .attr('cx', d => xScale(d.datetime))
       .attr('cy', d => yScale(d.hourFrac))
@@ -184,111 +201,20 @@ function updateScatterPlot(allCommits, filteredCommits) {
       .attr('fill', '#2196f3')
       .style('fill-opacity', 0.7),
 
+    // UPDATE
     update => update.transition().duration(200)
       .attr('cx', d => xScale(d.datetime))
       .attr('cy', d => yScale(d.hourFrac))
       .attr('r', d => rScale(d.totalLines)),
 
+    // EXIT
     exit => exit.remove()
   );
 }
 
-// ———————————————————————
-// 7) UPDATE UNIT VISUALIZATION (“FILES BY SIZE”)
-// ———————————————————————
-function updateFileDisplay(filteredCommits) {
-  const lines = filteredCommits.flatMap(d => d.lines);
-
-  const files = d3.groups(lines, d => d.file)
-    .map(([name, arr]) => ({ name, lines: arr }))
-    .sort((a, b) => b.lines.length - a.lines.length);
-
-  const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
-
-  // Because our HTML now has <dl id="files"> … </dl>, this will append child <dl> elements
-  const container = d3.select('#files')
-    .selectAll('dl')
-    .data(files, d => d.name)
-    .join(
-      enter => enter.append('dl').call(dl => {
-        dl.append('dt');
-        dl.append('dd');
-      })
-    );
-
-  // Update the <dt> with filename + line count
-  container.select('dt')
-    .html(d => `${d.name}<br><small>${d.lines.length} lines</small>`);
-
-  // Update the <dd> with one <div class="loc"> per line
-  container.select('dd')
-    .selectAll('div')
-    .data(d => d.lines)
-    .join('div')
-    .attr('class', 'loc');
-}
 
 // ———————————————————————
-// 8) RENDER THE SCROLL “STORY”
-// ———————————————————————
-function renderStory(allCommits) {
-  d3.select('#scatter-story')
-    .selectAll('.step')
-    .data(allCommits)
-    .join('div')
-    .attr('class', 'step')
-    .html((d, i) => `
-      On ${d.datetime.toLocaleString('en', { dateStyle: 'full', timeStyle: 'short' })},
-      I made <a href="${d.url}" target="_blank">${i > 0 ? 'another glorious commit' : 'my first commit'}</a>.
-      I edited ${d.totalLines} lines across ${new Set(d.lines.map(l => l.file)).size} files.
-    `);
-}
-
-// ———————————————————————
-// 9) SET UP SCROLLAMA TO HANDLE STEPS
-// ———————————————————————
-function setupScrollama() {
-  const scroller = scrollama();
-  scroller
-    .setup({
-      container: '#scrolly-1',
-      step: '#scatter-story .step',
-      offset: 0.5
-    })
-    .onStepEnter(response => {
-      const commitObj   = response.element.__data__;
-      commitMaxTime     = commitObj.datetime;
-      const filtered    = commits.filter(d => d.datetime <= commitMaxTime);
-      updateFiltered(filtered);
-    });
-}
-
-// ———————————————————————
-// 10) TOOLTIP HELPERS
-// ———————————————————————
-function showTooltip(commitObj) {
-  tooltipLink.href           = commitObj.url;
-  tooltipLink.textContent    = commitObj.id;
-  tooltipDate.textContent    = commitObj.datetime.toLocaleDateString();
-  tooltipTime.textContent    = commitObj.datetime.toLocaleTimeString();
-  tooltipAuthor.textContent  = commitObj.author;
-  tooltipLines.textContent   = commitObj.totalLines;
-  tooltipEl.classList.add('visible');
-}
-
-function moveTooltip(event) {
-  const x = event.clientX + 10;
-  const y = event.clientY + 10;
-  tooltipEl.style.left = x + 'px';
-  tooltipEl.style.top  = y + 'px';
-}
-
-function hideTooltip() {
-  tooltipEl.classList.remove('visible');
-}
-
-// ———————————————————————
-// 11) DRAW STATIC PIE CHART OF LANGUAGE BREAKDOWN
+// 7) DRAW STATIC PIE CHART OF LANGUAGE BREAKDOWN
 // ———————————————————————
 function drawPieChart(allRows) {
   // Count lines by technology type
@@ -343,48 +269,213 @@ function drawPieChart(allRows) {
     .text(d => `${d.type} (${d.count})`);
 }
 
-// ———————————————————————
-// 12) UPDATE BOTH VISUALS WHEN FILTER CHANGES
-// ———————————————————————
-function updateFiltered(filteredList) {
-  updateScatterPlot(commits, filteredList);
-  updateFileDisplay(filteredList);
-}
 
 // ———————————————————————
-// 13) MAIN ENTRY POINT
+// 8) RENDER THE SCROLL “STORY” FOR SCATTER
+// ———————————————————————
+function renderStoryScatter(allCommits) {
+  d3.select('#scatter-story')
+    .selectAll('.step')
+    .data(allCommits)
+    .join('div')
+    .attr('class', 'step')
+    .html((d, i) => `
+      On ${d.datetime.toLocaleString('en', { dateStyle: 'full', timeStyle: 'short' })},
+      I made <a href="${d.url}" target="_blank">${i > 0 ? 'another glorious commit' : 'my first commit'}</a>.
+      I edited ${d.totalLines} lines across ${new Set(d.lines.map(l => l.file)).size} files.
+    `);
+}
+
+
+// ———————————————————————
+// 9) SET UP SCROLLAMA TO HANDLE STEPS FOR SCATTER
+// ———————————————————————
+function setupScrollamaScatter() {
+  const scroller = scrollama();
+  scroller
+    .setup({
+      container: '#scrolly-1',
+      step: '#scatter-story .step',
+      offset: 0.5
+    })
+    .onStepEnter(response => {
+      const commitObj   = response.element.__data__;
+      commitMaxTime     = commitObj.datetime;
+      const filtered    = commits.filter(d => d.datetime <= commitMaxTime);
+      updateFilteredScatter(filtered);
+    });
+}
+
+
+// ———————————————————————
+// Helper for Scatter: UPDATE both axes + circles
+// ———————————————————————
+function updateFilteredScatter(filteredList) {
+  // 1) update the x‐scale domain purely based on “visible” commits
+  xScale.domain(d3.extent(filteredList, d => d.datetime));
+  d3.select('#chart svg')
+    .select('g.x-axis')
+    .call(d3.axisBottom(xScale));
+
+  // 2) redraw/update circles
+  updateScatterPlot(commits, filteredList);
+}
+
+
+// ———————————————————————
+// 10) TOOLTIP HELPERS (SCATTER)
+// ———————————————————————
+function showTooltip(commitObj) {
+  tooltipLink.href           = commitObj.url;
+  tooltipLink.textContent    = commitObj.id;
+  tooltipDate.textContent    = commitObj.datetime.toLocaleDateString();
+  tooltipTime.textContent    = commitObj.datetime.toLocaleTimeString();
+  tooltipAuthor.textContent  = commitObj.author;
+  tooltipLines.textContent   = commitObj.totalLines;
+  tooltipEl.classList.add('visible');
+}
+
+function moveTooltip(event) {
+  const x = event.clientX + 10;
+  const y = event.clientY + 10;
+  tooltipEl.style.left = x + 'px';
+  tooltipEl.style.top  = y + 'px';
+}
+
+function hideTooltip() {
+  tooltipEl.classList.remove('visible');
+}
+
+
+// ———————————————————————
+// 11) “RENDER THE SCROLL STORY” FOR THE UNIT-VIZ (BOTTOM)
+// ———————————————————————
+function renderFileStory(allCommits) {
+  d3.select('#file-story')
+    .selectAll('.step')
+    .data(allCommits)
+    .join('div')
+    .attr('class', 'step')
+    .html((d, i) => `
+      On ${d.datetime.toLocaleString('en', { dateStyle: 'full', timeStyle: 'short' })},
+      I made <a href="${d.url}" target="_blank">${i > 0 ? 'another glorious commit' : 'my first commit, and it was glorious'}</a>.
+      I edited ${d.totalLines} lines across ${new Set(d.lines.map(l => l.file)).size} files.
+    `);
+}
+
+
+// ———————————————————————
+// 12) SET UP SCROLLAMA FOR THE UNIT-VIZ (BOTTOM)
+// ———————————————————————
+function setupScrollamaFiles() {
+  const scroller = scrollama();
+  scroller
+    .setup({
+      container: '#scrolly-2',
+      step: '#file-story .step',
+      offset: 0.5
+    })
+    .onStepEnter(response => {
+      const commitObj   = response.element.__data__;
+      updateFileVizForCommit(commitObj);
+    });
+}
+
+
+// ———————————————————————
+// 13) UPDATE THE UNIT-VIZ FOR ONE COMMIT (BOTTOM)
+// ———————————————————————
+function updateFileVizForCommit(commitObj) {
+  // Extract all “lines” belonging to that single commit
+  const lines = commitObj.lines;
+
+  // Group them by file name
+  const files = d3.groups(lines, d => d.file)
+    .map(([name, arr]) => ({ name, lines: arr }))
+    .sort((a, b) => b.lines.length - a.lines.length);
+
+  // Color scale (if you want different colors per file type, you can modify here)
+  const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
+
+  // Bind to <dl> in #file-viz
+  const container = fileVizDiv
+    .selectAll('dl')
+    .data(files, d => d.name)
+    .join(
+      enter => enter.append('dl').call(dl => {
+        dl.append('dt');
+        dl.append('dd');
+      }),
+      update => update
+    );
+
+  // Update the <dt> to show “filename” + line count
+  container.select('dt')
+    .html(d => `<code>${d.name}</code><br><small>${d.lines.length} lines</small>`);
+
+  // Bind each “d.lines” (an array of individual lines) to a <div class="loc"> inside <dd>
+  container.select('dd')
+    .selectAll('div')
+    .data(d => d.lines)
+    .join('div')
+    .attr('class', 'loc')
+    .style('background', d => colorScale(commitObj.id)); 
+    /* <–– you could vary color by “file type” or by SHA, etc. 
+       Here we just color them all the same per commit. 
+       Feel free to change “colorScale(d.someFileType)” if your CSV has a “type” column. */
+}
+
+
+// ———————————————————————
+// 14) MAIN ENTRY POINT
 // ———————————————————————
 (async function main() {
-  // 13a) Load + process data → [commitsArray, rawRowsArray]
+  // 14a) Load + process data → [commitsArray, rawRowsArray]
   const [commitsArr, rawRows] = await loadData();
   commits = commitsArr;
 
-  // 13b) Render top summary stats
+  // 14b) Render top summary stats
   renderSummaryStats(rawRows, commits);
 
-  // 13c) Draw scatter plot axes + empty dots
+  // 14c) Draw scatter plot axes + empty dots
   renderScatterPlot(commits);
 
-  // 13d) Populate story steps on left
-  renderStory(commits);
+  // 14d) Populate story steps on left (Scatter)
+  renderStoryScatter(commits);
 
-  // 13e) Draw static pie chart (language breakdown)
+  // 14e) Draw static pie chart (language breakdown)
   drawPieChart(rawRows);
 
-  // 13f) Set up slider (filters on input)
+  // 14f) Set up slider (filters on input)
   setupSlider();
 
-  // 13g) Build timeScale [0..100] for slider
+  // 14g) Build timeScale [0..100] for slider
   timeScale = d3.scaleTime()
     .domain(d3.extent(commits, d => d.datetime))
     .range([0, 100]);
   commitMaxTime = timeScale.invert(commitProgress);
-  timeLabel.textContent = commitMaxTime.toLocaleString('en', { dateStyle: 'long', timeStyle: 'short' });
+  timeLabel.textContent = commitMaxTime.toLocaleString('en', {
+    dateStyle: 'long',
+    timeStyle: 'short'
+  });
 
-  // 13h) Set up Scrollama for scrollytelling
-  setupScrollama();
+  // 14h) Set up Scrollama for scatter scrollytelling
+  setupScrollamaScatter();
 
-  // 13i) Draw initial filtered visuals (all commits ≤ commitMaxTime)
+  // 14i) Draw initial filtered visuals (all commits ≤ commitMaxTime)
   const initiallyFiltered = commits.filter(d => d.datetime <= commitMaxTime);
-  updateFiltered(initiallyFiltered);
+  updateFilteredScatter(initiallyFiltered);
+
+  // ======= Now: bottom “Codebase evolution” scrollytelling =======
+
+  // 14j) Populate story steps on right (File-story)
+  renderFileStory(commits);
+
+  // 14k) Set up Scrollama for files scrollytelling
+  setupScrollamaFiles();
+
+  // 14l) Initialize the unit-viz with the very first commit
+  if (commits.length > 0) {
+    updateFileVizForCommit(commits[0]);
+  }
 })();

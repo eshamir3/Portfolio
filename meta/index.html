@@ -5,16 +5,17 @@
   <title>Meta – Codebase Analysis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Link to your existing global CSS (nav, typography, projects, resume, etc.) -->
+  <!-- Link to your existing “global” CSS (nav, typography, contact form, etc.) -->
   <link rel="stylesheet" href="../style.css" />
 
-  <!-- ========== META PAGE INLINE CSS (only Meta‐specific styles) ========== -->
+  <!-- ========== META PAGE INLINE CSS (only Meta-specific styles) ========== -->
   <style>
     /* ========= BASIC TYPOGRAPHY ========= */
+    /* We assume your global style.css already sets fonts, background, etc. */
     body {
-      margin: 1rem auto;    /* small top/bottom margin */
-      padding: 0 1rem;      /* horizontal padding for readability */
-      max-width: 100ch;     /* keep content centered and narrow */
+      margin: 1rem auto;    /* Small top/bottom margin */
+      padding: 0 1rem;      /* Horizontal padding */
+      max-width: 100ch;     /* Keep content centered and narrow */
     }
     h1 {
       font-size: 3rem;
@@ -44,7 +45,7 @@
       color: #111;
     }
 
-    /* ========= SCROLLYTELLING LAYOUT ========= */
+    /* ========= SCROLLYTELLING LAYOUT (Scatter) ========= */
     #scrolly-1 {
       display: flex;
       gap: 2rem;
@@ -68,7 +69,7 @@
       font-size: 1.2rem;
       color: #333;
     }
-    /* Less aggressive spacing than 60vh */
+    /* Less aggressive spacing than “60vh” so the user can see multiple steps */
     .step {
       margin-bottom: 2rem;
       padding-bottom: 0.5rem;
@@ -121,7 +122,7 @@
       margin-top: -0.25rem;
     }
 
-    /* ========= TOOLTIP ========= */
+    /* ========= TOOLTIP FOR SCATTER ========= */
     .tooltip {
       position: fixed;
       top: 1rem;
@@ -203,25 +204,58 @@
       flex-shrink: 0;
     }
 
-    /* ========= UNIT VISUALIZATION (“FILES BY SIZE”) ========= */
-    /* ★ IMPORTANT: We changed from <div id="files"></div> to <dl id="files"></dl> below ★ */
-    #files dl {
+    /* ========= UNIT VISUALIZATION (“FILES BY SIZE”) IN SCROLL (BOTTOM) ========= */
+    #scrolly-2 {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    /* Left column: unit-viz of files (sticky) */
+    #file-viz {
+      flex: 1;
+      position: sticky;
+      top: 1rem;
+      /* give a min height so the user sees something before scrolling */
+      min-height: 300px;
+    }
+    /* Right column: commit story text for unit viz */
+    #file-story {
+      flex: 1;
+      padding-right: 1rem;
+    }
+    /* Each step in file-story */
+    #file-story .step {
+      margin-bottom: 2rem;
+      padding-bottom: 0.5rem;
+      font-size: 1rem;
+      color: #333;
+    }
+    #file-story .step a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    #file-story .step a:hover {
+      text-decoration: underline;
+    }
+
+    /* Inside #file-viz, we will place a <dl><dt>…</dt><dd>…</dd></dl> for each file */
+    #file-viz dl {
       display: grid;
       grid-template-columns: 1fr 4fr;
       gap: 0.5rem 1rem;
       align-items: start;
       margin-bottom: 1rem;
     }
-    #files dt {
+    #file-viz dt {
       font-weight: bold;
       color: #555;
     }
-    #files dt code {
+    #file-viz dt code {
       font-family: monospace;
       font-size: 0.9rem;
       word-break: break-all;
     }
-    #files dd {
+    #file-viz dd {
       display: flex;
       flex-wrap: wrap;
       gap: 0.15rem;
@@ -241,6 +275,7 @@
     }
   </style>
 </head>
+
 <body>
   <main>
     <!-- ========== PAGE TITLE + DESCRIPTION ========== -->
@@ -277,10 +312,10 @@
       </dl>
     </section>
 
-    <!-- ========== EVOLUTION HEADING ========== -->
+    <!-- ========== EVOLUTION HEADING (Scatter) ========== -->
     <h2>Evolution over time</h2>
 
-    <!-- ========== SCROLLYTELLING BLOCK ========== -->
+    <!-- ========== SCROLLYTELLING BLOCK (Scatter) ========= -->
     <div id="scrolly-1">
       <!-- LEFT: commit story text -->
       <div id="scatter-story"></div>
@@ -290,9 +325,9 @@
         <h3>Commits by time of day</h3>
         <div id="chart"></div>
       </div>
-    </div>
+    </div> <!-- ← Here we close #scrolly-1 so that only the above two <div> live inside it -->
 
-    <!-- ========== SLIDER & TIME LABEL ========== -->
+    <!-- ========== SLIDER & TIME LABEL ========= -->
     <div class="slider-container">
       <label for="commit-progress">
         Show commits until:
@@ -301,7 +336,7 @@
       </label>
     </div>
 
-    <!-- ========== SELECTION COUNT & LANGUAGE BREAKDOWN ========== -->
+    <!-- ========== SELECTION COUNT & LANGUAGE BREAKDOWN (placeholder) ========= -->
     <p id="selection-count">No commits selected</p>
     <dl id="language-breakdown" class="stats"></dl>
 
@@ -323,13 +358,18 @@
       <dd id="commit-lines"></dd>
     </dl>
 
-    <!-- ========== UNIT VISUALIZATION: Files by size ========= -->
-    <h2>Files by size</h2>
-    <!-- ★ Changed this container to <dl> so our CSS (#files dl, #files dt, #files dd) works correctly ★ -->
-    <dl id="files"></dl>
+    <!-- ========== CODEBASE EVOLUTION (UNIT VISUALIZATION) ========= -->
+    <h2>Codebase evolution</h2>
+    <div id="scrolly-2">
+      <!-- LEFT: sticky “files by size” -->
+      <div id="file-viz"></div>
+
+      <!-- RIGHT: commit story text for unit viz -->
+      <div id="file-story"></div>
+    </div> <!-- ← #scrolly-2 ends here -->
   </main>
 
-  <!-- ========== MAIN JS (exactly as you provided, no changes needed) ========== -->
+  <!-- ========== MAIN JS (scatter + unit-viz scrollytelling) ========== -->
   <script type="module" src="./main.js"></script>
 </body>
 </html>
