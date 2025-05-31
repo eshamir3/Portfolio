@@ -411,24 +411,19 @@ function updateFileVizForCommit(commitObj) {
     .domain(['css', 'js', 'html', 'svelte', 'ts', 'json', 'md'])
     .range(d3.schemeTableau10);
 
-  // Bind to <dl> in #file-viz
-  const container = fileVizDiv
-    .selectAll('dl')
-    .data(files, d => d.name)
-    .join(
-      enter => enter.append('dl').call(dl => {
-        dl.append('dt');
-        dl.append('dd');
-      }),
-      update => update
-    );
+  // Render a single unit visualization (clear previous)
+  fileVizDiv.html("");
+  const dl = fileVizDiv.append('dl');
 
-  // Update the <dt> with filename + line count
-  container.select('dt')
+  // For each file, render dt and dd
+  const fileGroups = dl.selectAll('div')
+    .data(files, d => d.name)
+    .join('div');
+
+  fileGroups.append('dt')
     .html(d => `<code>${d.name}</code><br><small>${d.lines.length} lines</small>`);
 
-  // Update the <dd> with one <div class="loc"> per line
-  container.select('dd')
+  fileGroups.append('dd')
     .selectAll('div')
     .data(d => d.lines)
     .join('div')
