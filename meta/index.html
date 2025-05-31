@@ -5,17 +5,16 @@
   <title>Meta – Codebase Analysis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Link to your existing “global” CSS (nav, typography, contact form, etc.) -->
+  <!-- Link to your existing global CSS (nav, typography, etc.) -->
   <link rel="stylesheet" href="../style.css" />
 
-  <!-- ========== META PAGE INLINE CSS (only Meta-specific styles) ========== -->
+  <!-- ========== META PAGE INLINE CSS (only Meta‐specific styles) ========== -->
   <style>
     /* ========= BASIC TYPOGRAPHY ========= */
-    /* We assume your global style.css already sets fonts, background, etc. */
     body {
-      margin: 1rem auto;    /* Small top/bottom margin */
-      padding: 0 1rem;      /* Horizontal padding */
-      max-width: 100ch;     /* Keep content centered and narrow */
+      margin: 1rem auto;
+      padding: 0 1rem;
+      max-width: 100ch;
     }
     h1 {
       font-size: 3rem;
@@ -69,7 +68,7 @@
       font-size: 1.2rem;
       color: #333;
     }
-    /* Less aggressive spacing than “60vh” so the user can see multiple steps */
+    /* Each “step” block */
     .step {
       margin-bottom: 2rem;
       padding-bottom: 0.5rem;
@@ -204,7 +203,7 @@
       flex-shrink: 0;
     }
 
-    /* ========= UNIT VISUALIZATION (“FILES BY SIZE”) IN SCROLL (BOTTOM) ========= */
+    /* ========= UNIT VISUALIZATION (“FILES BY SIZE”) IN SCROLL (Bottom) ========= */
     #scrolly-2 {
       display: flex;
       gap: 2rem;
@@ -215,15 +214,14 @@
       flex: 1;
       position: sticky;
       top: 1rem;
-      /* give a min height so the user sees something before scrolling */
       min-height: 300px;
     }
-    /* Right column: commit story text for unit viz */
+    /* Right column: commit story text for unit-viz */
     #file-story {
       flex: 1;
       padding-right: 1rem;
     }
-    /* Each step in file-story */
+    /* Each step for file-story */
     #file-story .step {
       margin-bottom: 2rem;
       padding-bottom: 0.5rem;
@@ -238,7 +236,7 @@
       text-decoration: underline;
     }
 
-    /* Inside #file-viz, we will place a <dl><dt>…</dt><dd>…</dd></dl> for each file */
+    /* Inside #file-viz, each file uses a <dl><dt>…</dt><dd>…</dd></dl> */
     #file-viz dl {
       display: grid;
       grid-template-columns: 1fr 4fr;
@@ -317,7 +315,7 @@
 
     <!-- ========== SCROLLYTELLING BLOCK (Scatter) ========= -->
     <div id="scrolly-1">
-      <!-- LEFT: commit story text -->
+      <!-- LEFT: commit story text for scatter -->
       <div id="scatter-story"></div>
 
       <!-- RIGHT: sticky scatter plot -->
@@ -325,7 +323,7 @@
         <h3>Commits by time of day</h3>
         <div id="chart"></div>
       </div>
-    </div> <!-- ← Here we close #scrolly-1 so that only the above two <div> live inside it -->
+    </div>
 
     <!-- ========== SLIDER & TIME LABEL ========= -->
     <div class="slider-container">
@@ -363,10 +361,9 @@
     <div id="scrolly-2">
       <!-- LEFT: sticky “files by size” -->
       <div id="file-viz"></div>
-
-      <!-- RIGHT: commit story text for unit viz -->
+      <!-- RIGHT: commit story text for unit-viz -->
       <div id="file-story"></div>
-    </div> <!-- ← #scrolly-2 ends here -->
+    </div>
   </main>
 
   <!-- ========== MAIN JS (scatter + unit-viz scrollytelling) ========== -->
