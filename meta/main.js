@@ -11,6 +11,9 @@ let commitProgress = 100;
 let commitMaxTime;
 let timeScale;
 
+// Store all files ever seen in the repo
+let allFilesEver = [];
+
 // ———————————————————————
 // 1) CACHE DOM SELECTORS
 // ———————————————————————
@@ -386,12 +389,20 @@ function updateFileVizForCommit(commitObj) {
   // Accumulate all lines from the first commit up to and including the current commit
   const lines = commits.slice(0, commitIdx + 1).flatMap(c => c.lines);
 
-  // Group them by file name, then sort descending by line‐count
-  const files = d3.groups(lines, d => d.file)
+  // For each file ever, count the number of lines up to this commit
+  const fileMap = new Map();
+  for (const file of allFilesEver) {
+    fileMap.set(file, []);
+  }
+  for (const line of lines) {
+    fileMap.get(line.file).push(line);
+  }
+  // Build array of {name, lines, ext}
+  const files = Array.from(fileMap.entries())
     .map(([name, arr]) => ({
       name,
       lines: arr,
-      ext:   name.split('.').pop().toLowerCase()
+      ext: name.split('.').pop().toLowerCase()
     }))
     .sort((a, b) => b.lines.length - a.lines.length);
 
@@ -442,6 +453,9 @@ function extensionColor(ext) {
   // 15a) Load + process data → [commitsArray, rawRowsArray]
   const [commitsArr, rawRows] = await loadData();
   commits = commitsArr;
+
+  // Compute all files ever present in any commit
+  allFilesEver = Array.from(new Set(commits.flatMap(c => c.lines.map(l => l.file))));
 
   // 15b) Render top summary stats
   renderSummaryStats(rawRows, commits);
