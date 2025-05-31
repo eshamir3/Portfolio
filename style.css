@@ -26,7 +26,7 @@ html {
 body {
   font: 100%/1.5 system-ui;
   line-height: 1.6;
-  /* ─── FIXED: remove margin:0; padding:0 so nav bar’s default spacing is preserved ─── */
+  /* ─── FIXED: remove margin:0; padding:0 so nav bar's default spacing is preserved ─── */
   /* margin: 0; */
   /* padding: 0; */
   max-width: 100ch;
@@ -523,64 +523,32 @@ dl.info[hidden]:not(:hover, :focus-within) {
 }
 
 circle {
-  transition: 200ms;
-  transform-origin: center;
-  transform-box: fill-box;
+  transition: all 0.2s, r 0.4s;
 }
 
-circle:hover {
-  transform: scale(1.5);
-}
-
-circle.selected {
-  fill: #ff6b6b;
-}
-
-@keyframes marching-ants {
-  to {
-    stroke-dashoffset: -8;
+@starting-style {
+  circle {
+    r: 0;
   }
 }
 
-.selection {
-  fill-opacity: 0.1;
-  stroke: black;
-  stroke-opacity: 0.7;
-  stroke-dasharray: 5 3;
-  animation: marching-ants 2s linear infinite;
-}
-
-dl.info {
-  transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
-dl.info[hidden] {
-  opacity: 0;
-  visibility: hidden;
-}
-
-circle.selected {
-  fill: #ff6b6b;
-}
-
-#language-breakdown {
+.loc {
   display: flex;
-  justify-content: center;
-  text-align: center;
-  font-family: monospace;
-  font-size: 1.1rem;
-  margin-top: 2em;
-  gap: 3em;
+  width: 0.5em;
+  aspect-ratio: 1;
+  background: var(--color, steelblue);
+  border-radius: 50%;
+  margin: 0.05em;
 }
 
-#language-breakdown dt {
-  font-weight: bold;
-  text-transform: uppercase;
-  margin-bottom: 0.2em;
-}
-
-#language-breakdown dd {
-  margin: 0;
+#file-viz dd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  align-content: start;
+  gap: 0.15em;
+  padding-top: 0.6em;
+  margin-left: 0;
 }
 
 /* ===== Scrollytelling Layout ===== */
@@ -633,7 +601,7 @@ circle.selected {
   margin-top: 2rem;
 }
 
-/* ─── FIXED: target <dl> (not <div>) to match Meta page’s HTML ─── */
+/* ─── FIXED: target <dl> (not <div>) to match Meta page's HTML ─── */
 #files > dl {
   grid-column: 1 / -1;
   display: grid;
@@ -645,7 +613,7 @@ circle.selected {
   grid-column: 1;
 }
 
-/* File “dots” (<dd>) sit in column 2 */
+/* File "dots" (<dd>) sit in column 2 */
 #files dd {
   grid-column: 2;
   display: flex;
@@ -656,7 +624,7 @@ circle.selected {
   margin-left: 0;
 }
 
-/* Each “dot” representing one line of code */
+/* Each "dot" representing one line of code */
 .loc {
   width: 0.5em;
   aspect-ratio: 1;
@@ -674,7 +642,7 @@ circle.selected {
 
 /* ===== Lab 8: Scrollytelling & Unit Visualization Additions ===== */
 
-/* Container for the two‐column scrollytelling section */
+/* Container for the two-column scrollytelling section */
 #scrolly-1 {
   display: flex;
   gap: 1rem;
@@ -738,7 +706,7 @@ circle.selected {
   grid-column: 1;
 }
 
-/* File “dots” (<dd>) sit in column 2 */
+/* File "dots" (<dd>) sit in column 2 */
 #files dd {
   grid-column: 2;
   display: flex;
@@ -749,7 +717,7 @@ circle.selected {
   margin-left: 0;
 }
 
-/* Each “dot” representing one line of code */
+/* Each "dot" representing one line of code */
 .loc {
   width: 0.5em;
   aspect-ratio: 1;
@@ -764,6 +732,7 @@ circle.selected {
     r: 0;
   }
 }
+
 /* ===============  
    ORIGINAL SITE STYLES  
    (Nav, Typography, Contact Form, Projects, Resume, etc.)

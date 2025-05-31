@@ -38,7 +38,7 @@ const fileVizDiv   = d3.select('#file-viz');
 const fileStoryDiv = d3.select('#file-story');
 
 // ———————————————————————
-// 2) LOAD + PROCESS “loc.csv” INTO `commits[]`
+// 2) LOAD + PROCESS "loc.csv" INTO `commits[]`
 // ———————————————————————
 async function loadData() {
   // 2a) Load each CSV row, parse numeric & date fields
@@ -54,7 +54,7 @@ async function loadData() {
     };
   });
 
-  // 2b) Group all “lines” by commit SHA → produce one object per commit
+  // 2b) Group all "lines" by commit SHA → produce one object per commit
   const grouped = d3.groups(rows, d => d.commit).map(([sha, lines]) => {
     const first = lines[0];
     return {
@@ -269,7 +269,7 @@ function drawPieChart(allRows) {
 }
 
 // ———————————————————————
-// 8) RENDER SCROLL “STORY” FOR SCATTER
+// 8) RENDER SCROLL "STORY" FOR SCATTER
 // ———————————————————————
 function renderStoryScatter(allCommits) {
   d3.select('#scatter-story')
@@ -345,7 +345,7 @@ function hideTooltip() {
 }
 
 // ———————————————————————
-// 11) “RENDER THE STORY” FOR THE UNIT-VIZ (Bottom)
+// 11) "RENDER THE STORY" FOR THE UNIT-VIZ (Bottom)
 // ———————————————————————
 function renderFileStory(allCommits) {
   d3.select('#file-story')
@@ -381,7 +381,7 @@ function setupScrollamaFiles() {
 // 13) UPDATE THE UNIT-VIZ FOR ONE COMMIT (Bottom)
 // ———————————————————————
 function updateFileVizForCommit(commitObj) {
-  // Extract all “lines” belonging to that single commit
+  // Extract all "lines" belonging to that single commit
   const lines = commitObj.lines;
 
   // Group them by file name, then sort descending by line‐count
@@ -420,7 +420,7 @@ function updateFileVizForCommit(commitObj) {
     .data(d => d.lines)
     .join('div')
     .attr('class', 'loc')
-    .style('background', d => extColor(d.file.split('.').pop().toLowerCase()));
+    .attr('style', d => `--color: ${extColor(d.file.split('.').pop().toLowerCase())}`);
 }
 
 // ———————————————————————
@@ -444,7 +444,7 @@ function extensionColor(ext) {
   // 15b) Render top summary stats
   renderSummaryStats(rawRows, commits);
 
-  // 15c) Draw scatter plot axes + empty “dots” group
+  // 15c) Draw scatter plot axes + empty "dots" group
   renderScatterPlot(commits);
 
   // 15d) Populate story steps on left (Scatter)
@@ -473,7 +473,7 @@ function extensionColor(ext) {
   const initiallyFiltered = commits.filter(d => d.datetime <= commitMaxTime);
   updateFilteredScatter(initiallyFiltered);
 
-  // ===== bottom “Codebase evolution” scrollytelling =====
+  // ===== bottom "Codebase evolution" scrollytelling =====
 
   // 15j) Populate story steps on right (File-story)
   renderFileStory(commits);

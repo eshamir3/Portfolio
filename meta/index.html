@@ -5,7 +5,7 @@
   <title>Meta – Codebase Analysis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- 1) Link to your existing “global” CSS (controls nav styling, etc.) -->
+  <!-- 1) Link to your existing "global" CSS (controls nav styling, etc.) -->
   <link rel="stylesheet" href="../style.css" />
 
   <!-- 2) META PAGE INLINE CSS (only Meta-specific tweaks) -->
@@ -73,7 +73,7 @@
       font-size: 1.3rem;
       color: #333;
     }
-    /* Each “step” block */
+    /* Each "step" block */
     #scatter-story .step {
       margin-bottom: 2.5rem;
       padding-bottom: 0.5rem;
@@ -218,7 +218,7 @@
       flex-shrink: 0;
     }
 
-    /* ========= UNIT VISUALIZATION (“FILES BY SIZE”) – Bottom scrollytelling ========= */
+    /* ========= UNIT VISUALIZATION ("FILES BY SIZE") – Bottom scrollytelling ========= */
     #scrolly-2 {
       display: flex;
       gap: 2rem;
@@ -292,8 +292,6 @@
 </head>
 
 <body>
-
-  <!-- ──  RE-INSERT YOUR SITE NAVIGATION BAR HERE  ── -->
   <nav>
     <ul>
       <li><a href="/">🏠 Home</a></li>
@@ -305,12 +303,19 @@
       <li><a href="/resources">📚 Resources</a></li>
     </ul>
   </nav>
-  <!-- ──────────────────────────────────────────── -->
-
   <main>
     <!-- ========== PAGE TITLE + DESCRIPTION ========== -->
     <h1>Meta</h1>
     <p>This page includes stats about the code of this website.</p>
+
+    <!-- ========== SLIDER & TIME LABEL ========= -->
+    <div class="slider-container">
+      <label for="commit-progress">
+        Show commits until:
+        <input type="range" id="commit-progress" min="0" max="100" value="100" />
+        <time id="commit-time"></time>
+      </label>
+    </div>
 
     <!-- ========== SUMMARY STATS GRID ========== -->
     <section id="stats">
@@ -357,15 +362,6 @@
       </div>
     </div>
 
-    <!-- ========== SLIDER & TIME LABEL ========= -->
-    <div class="slider-container">
-      <label for="commit-progress">
-        Show commits until:
-        <input type="range" id="commit-progress" min="0" max="100" value="100" />
-        <time id="commit-time"></time>
-      </label>
-    </div>
-
     <!-- ========== SELECTION COUNT & LANGUAGE BREAKDOWN (Placeholder) ========= -->
     <p id="selection-count">No commits selected</p>
     <dl id="language-breakdown" class="stats"></dl>
@@ -391,7 +387,7 @@
     <!-- ========== CODEBASE EVOLUTION (Bottom unit-viz scrollytelling) ========= -->
     <h2>Codebase evolution</h2>
     <div id="scrolly-2">
-      <!-- LEFT: sticky “files by size” unit visualization -->
+      <!-- LEFT: sticky "files by size" unit visualization -->
       <div id="file-viz"></div>
 
       <!-- RIGHT: commit story text for unit-viz -->
