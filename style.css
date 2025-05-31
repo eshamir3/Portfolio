@@ -1,3 +1,11 @@
+/* ===============  
+   ORIGINAL SITE STYLES  
+   (Nav, Typography, Contact Form, Projects, Resume, etc.)
+   ————————————
+   Copy everything from here exactly as‐is (this is what you sent earlier).
+   Do NOT remove or rename these selectors. 
+   ================= */
+
 :root {
   --color-accent: oklch(65% 50% 0);
   --edu: #f6bd60;
@@ -325,7 +333,7 @@ img.hero {
 }
 
 /* ================================ */
-/*            PROJECT TEXT          */
+/*         PROJECT TEXT & PIE       */
 /* ================================ */
 
 .project-text {
@@ -338,10 +346,6 @@ img.hero {
   font-style: italic;
   margin-top: 0.5rem;
 }
-
-/* ================================ */
-/*           PIE CHART PAGE         */
-/* ================================ */
 
 #projects-pie-plot {
   max-width: 20em;
@@ -362,7 +366,6 @@ img.hero {
   align-items: flex-start;
 }
 
-/* Search bar inside controls */
 .searchBar {
   flex: 1 1 100%;
   max-width: none;
@@ -371,7 +374,6 @@ img.hero {
   box-sizing: border-box;
 }
 
-/* Wrap pie, legend & search into one responsive row */
 .controls {
   display: flex;
   flex-wrap: wrap;
@@ -381,14 +383,12 @@ img.hero {
   margin-bottom: 2rem;
 }
 
-/* Make SVG flex-grow so it and the legend share space */
 .controls svg#projects-pie-plot {
   flex: 1 1 300px;
-  max-width: 20em; 
+  max-width: 20em;
   overflow: visible;
 }
 
-/* Legend container as a wide card */
 .controls .legend {
   flex: 1 1 300px;
   width: 100%;
@@ -405,7 +405,6 @@ img.hero {
   margin: 0;
 }
 
-/* Each legend entry lines up swatch and text */
 .controls .legend-item {
   display: flex;
   align-items: center;
@@ -414,7 +413,6 @@ img.hero {
   cursor: pointer;
 }
 
-/* Color swatch inside legend */
 .controls .legend-item .swatch {
   width: 1em;
   aspect-ratio: 1/1;
@@ -423,7 +421,6 @@ img.hero {
   flex-shrink: 0;
 }
 
-/* Highlight on hover for pie slices */
 #projects-pie-plot path {
   transition: opacity 0.3s, transform 0.3s;
   cursor: pointer;
@@ -433,7 +430,6 @@ img.hero {
   opacity: 0.5;
 }
 
-/* Selected slice or legend */
 #projects-pie-plot path.selected {
   transform: scale(1.05);
   stroke: white;
@@ -444,7 +440,6 @@ img.hero {
   background: var(--color-accent);
 }
 
-/* Wide search bar under legend */
 .searchBar {
   flex: 1 1 100%;
   max-width: 700px;
@@ -455,7 +450,6 @@ img.hero {
   border-radius: 0.25rem;
 }
 
-/* Selected slice/legend */
 .selected {
   opacity: 1;
   stroke: white;
@@ -463,13 +457,11 @@ img.hero {
   transition: opacity 0.3s ease;
 }
 
-/* Dimmed (non-selected) slices and project cards */
 .dimmed {
   opacity: 0.3;
   transition: opacity 0.3s ease;
 }
 
-/* Legend item styling */
 .legend-item {
   cursor: pointer;
   margin: 0.5em 0;
@@ -486,12 +478,10 @@ img.hero {
   border-radius: 50%;
 }
 
-/* Optional: Give selected legend items a subtle highlight */
 .legend-item.selected {
   font-weight: bold;
 }
 
-/* Optional: Give dimmed legend items reduced contrast */
 .legend-item.dimmed {
   opacity: 0.3;
 }
@@ -516,7 +506,6 @@ img.hero {
   margin: 0;
 }
 
-/* Tooltip on meta page */
 dl.info {
   transition-duration: 500ms;
   transition-property: opacity, visibility;
@@ -599,16 +588,19 @@ circle.selected {
   gap: 1rem;
   margin-top: 2rem;
 }
+
 #scatter-story {
   flex: 1;
   padding-right: 1rem;
 }
+
 #scatter-plot {
   flex: 1;
   position: sticky;
   top: 0;
   height: 50vh;
 }
+
 .step {
   margin-bottom: 60vh;
   padding-bottom: 1rem;
@@ -619,11 +611,13 @@ circle.selected {
 .slider-container {
   margin-top: 1rem;
 }
+
 .slider-container label {
   display: flex;
   align-items: baseline;
   gap: 1rem;
 }
+
 #commit-time {
   margin-left: auto;
   font-weight: bold;
@@ -636,14 +630,17 @@ circle.selected {
   gap: 1rem;
   margin-top: 2rem;
 }
+
 #files > div {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: subgrid;
 }
+
 #files dt {
   grid-column: 1;
 }
+
 #files dd {
   grid-column: 2;
   display: flex;
@@ -653,6 +650,7 @@ circle.selected {
   padding-top: 0.6em;
   margin-left: 0;
 }
+
 /* Dots per line of code */
 .loc {
   width: 0.5em;
@@ -661,6 +659,7 @@ circle.selected {
   border-radius: 50%;
   transition: all 200ms ease;
 }
+
 @starting-style {
   .loc {
     r: 0;
@@ -669,30 +668,30 @@ circle.selected {
 
 /* ===== Lab 8: Scrollytelling & Unit Visualization Additions ===== */
 
-/* Container that holds the story (left) and the sticky scatter plot (right) */
+/* Container for the two‐column scrollytelling section */
 #scrolly-1 {
   display: flex;
   gap: 1rem;
   margin-top: 2rem;
 }
 
-/* Left column: commit story text */
+/* Left column: commit text steps */
 #scatter-story {
   flex: 1;
   padding-right: 1rem;
 }
 
-/* Right column: sticky scatter plot SVG */
+/* Right column: sticky scatter plot (keeps at top) */
 #scatter-plot {
   flex: 1;
   position: sticky;
   top: 0;
-  height: 50vh; /* so that it stays visible while scrolling */
+  height: 50vh; /* stays visible while scrolling */
 }
 
-/* Each “step” in the scroll narrative */
+/* Each “step” block in the scroll narrative */
 .step {
-  margin-bottom: 60vh; /* push each step far enough so the plot can update */
+  margin-bottom: 60vh; /* push each step far enough so plot updates */
   padding-bottom: 1rem;
   font-size: 1rem;
 }
@@ -721,19 +720,19 @@ circle.selected {
   margin-top: 2rem;
 }
 
-/* Each file’s wrapper row spans both columns, but itself is a two-column subgrid */
+/* Each file’s wrapper row spans both columns but is itself a subgrid */
 #files > div {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: subgrid;
 }
 
-/* File name (in <dt>) sits in column 1 */
+/* File name (<dt>) sits in column 1 */
 #files dt {
   grid-column: 1;
 }
 
-/* File lines visualization (in <dd>) sits in column 2 */
+/* File “dots” (<dd>) sit in column 2 */
 #files dd {
   grid-column: 2;
   display: flex;
@@ -744,16 +743,16 @@ circle.selected {
   margin-left: 0;
 }
 
-/* Each “dot” (line of code) in the unit viz */
+/* Each “dot” representing one line of code */
 .loc {
   width: 0.5em;
   aspect-ratio: 1;
-  background: var(--color, steelblue); /* D3 will set --color per file-type */
+  background: var(--color, steelblue); /* D3 sets --color per file type */
   border-radius: 50%;
   transition: all 200ms ease;
 }
 
-/* Starting style so new .loc dots animate from r = 0 to full size */
+/* Animate new dots from radius 0 → full size */
 @starting-style {
   .loc {
     r: 0;

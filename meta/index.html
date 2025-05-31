@@ -3,51 +3,102 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meta - Codebase Analysis</title>
+  <title>Meta – Codebase Analysis</title>
+
+  <!-- Link to your existing global CSS (nav, typography, theme, etc.) -->
   <link rel="stylesheet" href="../style.css" />
+  <!-- Link to this page’s CSS (you’ll replace or append it in style.css) -->
+  <!-- (If you keep a separate file for Meta styles, adjust accordingly) -->
 </head>
 <body>
+  <!-- If you use a global nav via a Jekyll template or global.js, it will appear here -->
   <script type="module" src="../global.js"></script>
 
   <main>
+    <!-- Page Title -->
     <h1>Meta</h1>
-    <p>This page provides insights and statistics about the codebase of this portfolio website.</p>
+    <p>This page includes stats about the code of this website.</p>
 
-    <div id="stats"></div>
+    <!-- ======= SUMMARY STATS GRID ======= -->
+    <section id="stats">
+      <dl>
+        <div class="stat-item">
+          <dt>COMMITS</dt>
+          <dd id="stat-commits">—</dd>
+        </div>
+        <div class="stat-item">
+          <dt>FILES</dt>
+          <dd id="stat-files">—</dd>
+        </div>
+        <div class="stat-item">
+          <dt>TOTAL LOC</dt>
+          <dd id="stat-loc">—</dd>
+        </div>
+        <div class="stat-item">
+          <dt>MAX DEPTH</dt>
+          <dd id="stat-depth">—</dd>
+        </div>
+        <div class="stat-item">
+          <dt>LONGEST LINE</dt>
+          <dd id="stat-longest">—</dd>
+        </div>
+        <div class="stat-item">
+          <dt>MAX LINES</dt>
+          <dd id="stat-maxlines">—</dd>
+        </div>
+      </dl>
+    </section>
 
+    <!-- ======= EVOLUTION HEADING ======= -->
+    <h2>Evolution over time</h2>
+
+    <!-- ======= SCROLLYTELLING BLOCK ======= -->
     <div id="scrolly-1">
-      <div id="scatter-story"></div>
+      <!-- Left column: commit text steps -->
+      <div id="scatter-story">
+        <!-- JS will populate .step <div>s here -->
+      </div>
+
+      <!-- Right column: sticky scatter plot -->
       <div id="scatter-plot">
+        <h3>Commits by time of day</h3>
         <div id="chart"></div>
       </div>
     </div>
 
+    <!-- ======= SLIDER & TIME LABEL (below scrollytelling) ======= -->
     <div class="slider-container">
-      <label for="commit-progress">Show commits until:
+      <label for="commit-progress">
+        Show commits until:
         <input type="range" id="commit-progress" min="0" max="100" />
         <time id="commit-time"></time>
       </label>
     </div>
 
+    <!-- ======= BRUSH SELECTION STATS ======= -->
     <p id="selection-count">No commits selected</p>
     <dl id="language-breakdown" class="stats"></dl>
+
+    <!-- ======= TOOLTIP (hidden until hover) ======= -->
     <dl id="commit-tooltip" class="info tooltip" hidden>
       <dt>Commit</dt>
       <dd><a href="" id="commit-link" target="_blank"></a></dd>
       <dt>Date</dt>
       <dd id="commit-date"></dd>
       <dt>Time</dt>
-      <dd id="commit-time"></dd>
+      <dd id="commit-time-tooltip"></dd>
       <dt>Author</dt>
       <dd id="commit-author"></dd>
       <dt>Lines edited</dt>
       <dd id="commit-lines"></dd>
     </dl>
 
+    <!-- ======= UNIT VISUALIZATION (files by size) ======= -->
     <h2>Files by size</h2>
     <dl id="files"></dl>
   </main>
 
+  <!-- Link to your Meta‐page script -->
   <script type="module" src="./main.js"></script>
 </body>
 </html>
