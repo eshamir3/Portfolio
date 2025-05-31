@@ -5,27 +5,17 @@
   <title>Meta – Codebase Analysis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Link to your existing global CSS for nav, typography, etc. -->
+  <!-- Link to your existing global CSS (nav, typography, etc.) -->
   <link rel="stylesheet" href="../style.css" />
 
-  <!-- ========== META PAGE INLINE CSS ========== -->
+  <!-- ========== META PAGE INLINE CSS (only Meta‐specific styles) ========== -->
   <style>
-    /* ========================
-       RESET + BASIC TYPOGRAPHY
-       ======================== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    /* ========= BASIC TYPOGRAPHY ========= */
+    /* We assume your global style.css already sets fonts, background, etc. */
     body {
-      font-family: system-ui, sans-serif;
-      line-height: 1.5;
-      max-width: 100ch;
-      margin: 1rem auto;
-      padding: 0 1rem;
-      color: #222;
-      background: #fff;
+      margin: 1rem auto;    /* Small top/bottom margin */
+      padding: 0 1rem;      /* Horizontal padding for readability */
+      max-width: 100ch;     /* Keep content centered and narrow */
     }
     h1 {
       font-size: 3rem;
@@ -37,9 +27,7 @@
       margin-bottom: 1rem;
     }
 
-    /* ====================
-       SUMMARY STATS GRID
-       ==================== */
+    /* ========= SUMMARY STATS GRID ========= */
     #stats dl {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -57,20 +45,18 @@
       color: #111;
     }
 
-    /* ===========================
-       SCROLLYTELLING (TWO COLUMNS)
-       =========================== */
+    /* ========= SCROLLYTELLING LAYOUT ========= */
     #scrolly-1 {
       display: flex;
       gap: 2rem;
       margin-bottom: 2rem;
     }
-    /* Left: commit story text */
+    /* Left column: commit story text */
     #scatter-story {
       flex: 1;
       padding-right: 1rem;
     }
-    /* Right: sticky scatter plot */
+    /* Right column: sticky scatter plot */
     #scatter-plot {
       flex: 1;
       position: sticky;
@@ -83,9 +69,10 @@
       font-size: 1.2rem;
       color: #333;
     }
+    /* Less aggressive spacing than “60vh” */
     .step {
-      margin-bottom: 60vh;
-      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 0.5rem;
       font-size: 1rem;
       color: #333;
     }
@@ -198,7 +185,6 @@
       max-width: 300px;
       max-height: 300px;
     }
-    /* Legend styling */
     .pie-legend {
       display: flex;
       justify-content: center;
@@ -218,15 +204,17 @@
       flex-shrink: 0;
     }
 
-    /* ========= UNIT VISUALIZATION ========= */
+    /* ========= UNIT VISUALIZATION (“FILES BY SIZE”) ========= */
     #files {
       margin-top: 2rem;
     }
+    /* Each file is a <dl><dt>…</dt><dd>…</dd></dl> group: */
     #files dl {
       display: grid;
       grid-template-columns: 1fr 4fr;
       gap: 0.5rem 1rem;
       align-items: start;
+      margin-bottom: 1rem;
     }
     #files dt {
       font-weight: bold;
@@ -240,7 +228,7 @@
     #files dd {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.1rem;
+      gap: 0.15rem;
       align-items: start;
       padding-top: 0.5rem;
       margin-left: 0;
@@ -298,10 +286,10 @@
 
     <!-- ========== SCROLLYTELLING BLOCK ========== -->
     <div id="scrolly-1">
-      <!-- Left column: commit story text -->
+      <!-- LEFT: commit story text -->
       <div id="scatter-story"></div>
 
-      <!-- Right column: sticky scatter plot -->
+      <!-- RIGHT: sticky scatter plot -->
       <div id="scatter-plot">
         <h3>Commits by time of day</h3>
         <div id="chart"></div>
@@ -321,7 +309,7 @@
     <p id="selection-count">No commits selected</p>
     <dl id="language-breakdown" class="stats"></dl>
 
-    <!-- ========== PIE CHART (static, shows total lines by type) ========== -->
+    <!-- ========== PIE CHART (static) ========= -->
     <svg id="pie"></svg>
     <div class="pie-legend"></div>
 
@@ -339,7 +327,7 @@
       <dd id="commit-lines"></dd>
     </dl>
 
-    <!-- ========== UNIT VISUALIZATION: Files by size ========== -->
+    <!-- ========== UNIT VISUALIZATION: Files by size ========= -->
     <h2>Files by size</h2>
     <div id="files"></div>
   </main>
