@@ -33,7 +33,7 @@ const tooltipLines = document.getElementById('commit-lines');
 const pieContainer = d3.select('#pie');
 const pieLegendDiv = d3.select('.pie-legend');
 
-// For the bottom unit‐viz scrolly:
+// For the bottom unit-viz scrolly:
 const fileVizDiv   = d3.select('#file-viz');
 const fileStoryDiv = d3.select('#file-story');
 
@@ -58,16 +58,17 @@ async function loadData() {
   const grouped = d3.groups(rows, d => d.commit).map(([sha, lines]) => {
     const first = lines[0];
     return {
-      id:        sha,
-      lines:     lines,
-      author:    first.author,
-      date:      first.date,
-      time:      first.time,
-      timezone:  first.timezone,
-      datetime:  new Date(first.datetime),
-      hourFrac:  first.hourFrac,
+      id:         sha,
+      lines:      lines,
+      author:     first.author,
+      date:       first.date,
+      time:       first.time,
+      timezone:   first.timezone,
+      datetime:   new Date(first.datetime),
+      hourFrac:   first.hourFrac,
       totalLines: lines.length,
-      url:       `https://github.com/eshamir/Portfolio/commit/${sha}`
+      // Replace YOURUSERNAME/YOURREPO with your GitHub username and repo name
+      url:        `https://github.com/eshamir/Portfolio/commit/${sha}`
     };
   });
 
@@ -110,7 +111,7 @@ function setupSlider() {
 // ———————————————————————
 function renderScatterPlot(allCommits) {
   const width  = 1000, height = 500;
-  const margin = { top: 30, right: 30, bottom: 50, left: 60 };
+  const margin = { top: 30, right: 30, bottom: 60, left: 70 };
   const usable = {
     left:   margin.left,
     top:    margin.top,
@@ -120,7 +121,7 @@ function renderScatterPlot(allCommits) {
     height: height - margin.top - margin.bottom
   };
 
-  // Make SVG
+  // Create SVG
   const svg = d3.select('#chart')
     .append('svg')
     .attr('viewBox', `0 0 ${width} ${height}`)
@@ -137,17 +138,30 @@ function renderScatterPlot(allCommits) {
     .domain([0, 24])
     .range([usable.bottom, usable.top]);
 
-  // X‐axis
+  // X-axis
   svg.append('g')
     .attr('class', 'x-axis')
     .attr('transform', `translate(0, ${usable.bottom})`)
-    .call(d3.axisBottom(xScale).tickSizeOuter(0));
+    .call(
+      d3.axisBottom(xScale)
+        .tickSize(-usable.height)
+        .tickPadding(10)
+    )
+    .selectAll('text')
+    .attr('font-size', '0.9rem');
 
-  // Y‐axis
+  // Y-axis
   svg.append('g')
     .attr('class', 'y-axis')
     .attr('transform', `translate(${usable.left}, 0)`)
-    .call(d3.axisLeft(yScale).tickFormat(d => `${String(d).padStart(2, '0')}:00`).tickSizeOuter(0));
+    .call(
+      d3.axisLeft(yScale)
+        .tickFormat(d => `${String(d).padStart(2, '0')}:00`)
+        .tickSize(-usable.width)
+        .tickPadding(10)
+    )
+    .selectAll('text')
+    .attr('font-size', '0.9rem');
 
   // Group for circles
   svg.append('g').attr('class', 'dots');
@@ -160,7 +174,7 @@ function updateScatterPlot(allCommits, filteredCommits) {
   const svg    = d3.select('#chart svg');
   const rScale = d3.scaleSqrt()
     .domain(d3.extent(allCommits, d => d.totalLines))
-    .range([3, 30]); // slightly larger dots
+    .range([3, 25]); // adjust max radius as you like
 
   const dots = svg.select('.dots')
     .selectAll('circle')
@@ -173,6 +187,16 @@ function updateScatterPlot(allCommits, filteredCommits) {
       .attr('cx', d => xScale(d.datetime))
       .attr('cy', d => yScale(d.hourFrac))
       .attr('r', d => rScale(d.totalLines))
+      .attr('fill', d => {
+        // color by file extension of the largest-file in that commit
+        // (you can customize logic; here we just pick the extension of the file
+        // with the most lines in that commit)
+        const ext = d.lines
+          .sort((a, b) => b.line - a.line)[0]
+          .file.split('.').pop().toLowerCase();
+        return extensionColor(ext);
+      })
+      .style('fill-opacity', 0.7)
       .on('mouseenter', (event, commitObj) => {
         d3.select(event.currentTarget).style('fill-opacity', 1);
         showTooltip(commitObj);
@@ -182,9 +206,7 @@ function updateScatterPlot(allCommits, filteredCommits) {
       .on('mouseleave', event => {
         d3.select(event.currentTarget).style('fill-opacity', 0.7);
         hideTooltip();
-      })
-      .attr('fill', '#2196f3')
-      .style('fill-opacity', 0.7),
+      }),
 
     // UPDATE
     update => update.transition().duration(200)
@@ -278,7 +300,6 @@ function setupScrollamaScatter() {
     .onStepEnter(response => {
       const commitObj   = response.element.__data__;
       commitMaxTime     = commitObj.datetime;
-      // Filter all commits up to this one
       const filtered    = commits.filter(d => d.datetime <= commitMaxTime);
       updateFilteredScatter(filtered);
     });
@@ -292,7 +313,11 @@ function updateFilteredScatter(filteredList) {
   xScale.domain(d3.extent(filteredList, d => d.datetime));
   d3.select('#chart svg')
     .select('g.x-axis')
-    .call(d3.axisBottom(xScale).tickSizeOuter(0));
+    .call(
+      d3.axisBottom(xScale)
+        .tickSize(- (d3.select('#chart').node().clientHeight - 60)) // match gridlines height
+        .tickPadding(10)
+    );
 
   // 2) update circles
   updateScatterPlot(commits, filteredList);
@@ -311,6 +336,7 @@ function showTooltip(commitObj) {
   tooltipEl.classList.add('visible');
 }
 function moveTooltip(event) {
+  // Position it just offset from cursor
   const x = event.clientX + 10;
   const y = event.clientY + 10;
   tooltipEl.style.left = x + 'px';
@@ -357,16 +383,22 @@ function setupScrollamaFiles() {
 // 13) UPDATE THE UNIT-VIZ FOR ONE COMMIT (Bottom)
 // ———————————————————————
 function updateFileVizForCommit(commitObj) {
-  // All “lines” for this single commit
+  // Extract all “lines” belonging to that single commit
   const lines = commitObj.lines;
 
   // Group them by file name, then sort descending by line‐count
   const files = d3.groups(lines, d => d.file)
-    .map(([name, arr]) => ({ name, lines: arr }))
+    .map(([name, arr]) => ({
+      name,
+      lines: arr,
+      ext:   name.split('.').pop().toLowerCase()
+    }))
     .sort((a, b) => b.lines.length - a.lines.length);
 
-  // Color scale (here: one color per commit SHA; you can tweak if you have `type`)
-  const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
+  // Color scale by extension
+  const extColor = d3.scaleOrdinal()
+    .domain(['css', 'js', 'html', 'svelte', 'ts', 'json', 'md']) // add more as needed
+    .range(d3.schemeTableau10);
 
   // Bind to <dl> in #file-viz
   const container = fileVizDiv
@@ -390,34 +422,43 @@ function updateFileVizForCommit(commitObj) {
     .data(d => d.lines)
     .join('div')
     .attr('class', 'loc')
-    .style('background', colorScale(commitObj.id)); 
-    /* You can replace `commitObj.id` with `d.type` if your CSV has a `type` column. */
+    .style('background', d => extColor(d.file.split('.').pop().toLowerCase()));
 }
 
 // ———————————————————————
-// 14) MAIN ENTRY POINT
+// 14) Color-by-extension helper (for scatter bubbles)
+// ———————————————————————
+function extensionColor(ext) {
+  const scale = d3.scaleOrdinal()
+    .domain(['css','js','html','svelte','ts','json','md'])
+    .range(d3.schemeTableau10);
+  return scale(ext);
+}
+
+// ———————————————————————
+// 15) MAIN ENTRY POINT
 // ———————————————————————
 (async function main() {
-  // 14a) Load + process data → [commitsArray, rawRowsArray]
+  // 15a) Load + process data → [commitsArray, rawRowsArray]
   const [commitsArr, rawRows] = await loadData();
   commits = commitsArr;
 
-  // 14b) Render top summary stats
+  // 15b) Render top summary stats
   renderSummaryStats(rawRows, commits);
 
-  // 14c) Draw scatter plot axes + empty “dots” group
+  // 15c) Draw scatter plot axes + empty “dots” group
   renderScatterPlot(commits);
 
-  // 14d) Populate story steps on left (Scatter)
+  // 15d) Populate story steps on left (Scatter)
   renderStoryScatter(commits);
 
-  // 14e) Draw static pie chart (language breakdown)
+  // 15e) Draw static pie chart (language breakdown)
   drawPieChart(rawRows);
 
-  // 14f) Set up slider (filters on input)
+  // 15f) Set up slider (filters on input)
   setupSlider();
 
-  // 14g) Build timeScale [0..100] for slider
+  // 15g) Build timeScale [0..100] for slider
   timeScale = d3.scaleTime()
     .domain(d3.extent(commits, d => d.datetime))
     .range([0, 100]);
@@ -427,22 +468,22 @@ function updateFileVizForCommit(commitObj) {
     timeStyle: 'short'
   });
 
-  // 14h) Set up Scrollama for scatter scrollytelling
+  // 15h) Set up Scrollama for scatter scrollytelling
   setupScrollamaScatter();
 
-  // 14i) Draw initial filtered visuals (all commits ≤ commitMaxTime)
+  // 15i) Draw initial filtered visuals (all commits ≤ commitMaxTime)
   const initiallyFiltered = commits.filter(d => d.datetime <= commitMaxTime);
   updateFilteredScatter(initiallyFiltered);
 
-  // ====== Now: bottom “Codebase evolution” scrollytelling ======
+  // ===== bottom “Codebase evolution” scrollytelling =====
 
-  // 14j) Populate story steps on right (File-story)
+  // 15j) Populate story steps on right (File-story)
   renderFileStory(commits);
 
-  // 14k) Set up Scrollama for files scrollytelling
+  // 15k) Set up Scrollama for files scrollytelling
   setupScrollamaFiles();
 
-  // 14l) Initialize the unit‐viz with the very first commit
+  // 15l) Initialize the unit-viz with the very first commit
   if (commits.length > 0) {
     updateFileVizForCommit(commits[0]);
   }

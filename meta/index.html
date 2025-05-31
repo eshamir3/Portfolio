@@ -5,20 +5,23 @@
   <title>Meta – Codebase Analysis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Link to your existing global CSS (nav, typography, etc.) -->
+  <!-- Link to your existing “global” CSS (nav, typography, etc.) -->
   <link rel="stylesheet" href="../style.css" />
 
-  <!-- ========== META PAGE INLINE CSS (only Meta‐specific styles) ========== -->
+  <!-- ========== META PAGE INLINE CSS (only Meta-specific styles) ========== -->
   <style>
     /* ========= BASIC TYPOGRAPHY ========= */
     body {
       margin: 1rem auto;
       padding: 0 1rem;
       max-width: 100ch;
+      font-family: system-ui, sans-serif;
+      line-height: 1.5;
+      color: #111;
     }
     h1 {
       font-size: 3rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
     }
     h2 {
       font-size: 2rem;
@@ -32,11 +35,13 @@
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 1rem 2rem;
       margin-bottom: 2rem;
+      align-items: start;
     }
     #stats dt {
       font-weight: bold;
       font-size: 0.9rem;
       color: #555;
+      text-transform: uppercase;
     }
     #stats dd {
       font-size: 1.25rem;
@@ -60,26 +65,27 @@
       flex: 1;
       position: sticky;
       top: 1rem;
-      height: 50vh;
+      height: 60vh;
+      /* Give enough height so that the scatter area is visible while scrolling */
     }
     #scatter-plot h3 {
       text-align: center;
       margin-bottom: 0.5rem;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: #333;
     }
     /* Each “step” block */
-    .step {
-      margin-bottom: 2rem;
+    #scatter-story .step {
+      margin-bottom: 2.5rem;
       padding-bottom: 0.5rem;
       font-size: 1rem;
       color: #333;
     }
-    .step a {
+    #scatter-story .step a {
       color: #0066cc;
       text-decoration: none;
     }
-    .step a:hover {
+    #scatter-story .step a:hover {
       text-decoration: underline;
     }
 
@@ -88,7 +94,7 @@
       display: flex;
       align-items: center;
       gap: 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
     .slider-container label {
       font-size: 1rem;
@@ -157,22 +163,36 @@
       word-break: break-all;
     }
 
-    /* ========= SCATTER PLOT SVG ========= */
+    /* ========= SCATTER PLOT SVG – Big axes labels ========= */
     #chart svg {
       width: 100%;
       height: 100%;
+      overflow: visible;
     }
     .gridlines line {
       stroke: #eee;
       stroke-opacity: 0.7;
     }
+    .x-axis text,
+    .y-axis text {
+      font-size: 0.85rem;
+      fill: #333;
+    }
+    .x-axis path,
+    .x-axis line,
+    .y-axis path,
+    .y-axis line {
+      stroke: #aaa;
+      stroke-opacity: 0.5;
+    }
     circle {
-      fill: #2196f3;
       fill-opacity: 0.7;
+      stroke: #fff;
+      stroke-width: 1px;
       transition: transform 0.2s ease, fill-opacity 0.2s ease;
     }
     circle:hover {
-      transform: scale(1.5);
+      transform: scale(1.4);
       fill-opacity: 1;
       cursor: pointer;
     }
@@ -203,10 +223,11 @@
       flex-shrink: 0;
     }
 
-    /* ========= UNIT VISUALIZATION (“FILES BY SIZE”) IN SCROLL (Bottom) ========= */
+    /* ========= UNIT VISUALIZATION (“FILES BY SIZE”) – Bottom scrollytelling ========= */
     #scrolly-2 {
       display: flex;
       gap: 2rem;
+      margin-top: 3rem;
       margin-bottom: 2rem;
     }
     /* Left column: unit-viz of files (sticky) */
@@ -214,7 +235,10 @@
       flex: 1;
       position: sticky;
       top: 1rem;
-      min-height: 300px;
+      /* So that it stays visible as you scroll the right column */
+      min-height: 400px;
+      border-left: 2px solid #eee;
+      padding-left: 1rem;
     }
     /* Right column: commit story text for unit-viz */
     #file-story {
@@ -223,7 +247,7 @@
     }
     /* Each step for file-story */
     #file-story .step {
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
       padding-bottom: 0.5rem;
       font-size: 1rem;
       color: #333;
@@ -247,6 +271,7 @@
     #file-viz dt {
       font-weight: bold;
       color: #555;
+      font-size: 0.9rem;
     }
     #file-viz dt code {
       font-family: monospace;
@@ -264,7 +289,6 @@
     .loc {
       width: 0.5rem;
       aspect-ratio: 1;
-      background: steelblue;
       border-radius: 50%;
       transition: opacity 0.2s ease;
     }
@@ -315,7 +339,7 @@
 
     <!-- ========== SCROLLYTELLING BLOCK (Scatter) ========= -->
     <div id="scrolly-1">
-      <!-- LEFT: commit story text for scatter -->
+      <!-- LEFT: commit story text (Scrollama steps) -->
       <div id="scatter-story"></div>
 
       <!-- RIGHT: sticky scatter plot -->
@@ -334,15 +358,15 @@
       </label>
     </div>
 
-    <!-- ========== SELECTION COUNT & LANGUAGE BREAKDOWN (placeholder) ========= -->
+    <!-- ========== SELECTION COUNT & LANGUAGE BREAKDOWN (Placeholder) ========= -->
     <p id="selection-count">No commits selected</p>
     <dl id="language-breakdown" class="stats"></dl>
 
-    <!-- ========== PIE CHART (static) ========= -->
+    <!-- ========== PIE CHART (Static) ========= -->
     <svg id="pie"></svg>
     <div class="pie-legend"></div>
 
-    <!-- ========== TOOLTIP (initially hidden) ========= -->
+    <!-- ========== TOOLTIP (Initially hidden) ========= -->
     <dl id="commit-tooltip" class="tooltip">
       <dt>Commit</dt>
       <dd><a href="#" id="commit-link" target="_blank"></a></dd>
@@ -356,11 +380,12 @@
       <dd id="commit-lines"></dd>
     </dl>
 
-    <!-- ========== CODEBASE EVOLUTION (UNIT VISUALIZATION) ========= -->
+    <!-- ========== CODEBASE EVOLUTION (Bottom unit-viz scrollytelling) ========= -->
     <h2>Codebase evolution</h2>
     <div id="scrolly-2">
-      <!-- LEFT: sticky “files by size” -->
+      <!-- LEFT: sticky “files by size” unit visualization -->
       <div id="file-viz"></div>
+
       <!-- RIGHT: commit story text for unit-viz -->
       <div id="file-story"></div>
     </div>
