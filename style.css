@@ -17,6 +17,7 @@ html {
 
 body {
   font: 100%/1.5 system-ui;
+  line-height: 1.6;
   margin: 0;
   padding: 0;
   max-width: 100ch;
@@ -24,7 +25,7 @@ body {
   padding-inline: 1em;
 }
 
-h1, h2 {
+h1, h2, h3, h4, h5, h6 {
   line-height: 1.1;
   text-wrap: balance;
 }
@@ -33,6 +34,12 @@ h1 {
   font-size: 4rem;
   margin: 1.5rem 0;
 }
+
+h2 {
+  margin: 0;
+}
+
+/* ============== TOP NAVIGATION ============== */
 
 nav {
   display: flex;
@@ -49,8 +56,10 @@ nav ul, nav li {
 }
 
 nav a {
+  flex: 1;
   text-decoration: none;
   color: inherit;
+  text-align: center;
   padding: 0.5em;
   transition: all 0.2s ease;
   border-bottom: 0 solid transparent;
@@ -58,6 +67,7 @@ nav a {
 
 nav a.current {
   border-bottom: 0.4em solid var(--border-color);
+  padding-bottom: 0.1em;
   font-weight: bold;
 }
 
@@ -67,7 +77,428 @@ nav a:hover {
   cursor: pointer;
 }
 
-/* ===== Meta Page: Stats, Scatter, Tooltip ===== */
+/* ============== THEME SWITCHER ============== */
+
+label.color-scheme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.8em;
+  font-family: inherit;
+  background-color: Canvas;
+  color: CanvasText;
+  padding: 0.4em 0.6em;
+  border: 1px solid var(--border-color);
+  border-radius: 0.4em;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+label.color-scheme select {
+  background: inherit;
+  color: inherit;
+  border: 1px solid var(--border-color);
+  border-radius: 0.3em;
+  font: inherit;
+}
+
+/* ============== CONTACT FORM ============== */
+
+#contact-form {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: oklch(95% 20% 330);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#contact-form label {
+  font-weight: bold;
+  color: CanvasText;
+}
+
+#contact-form input,
+#contact-form textarea {
+  font: inherit;
+  padding: 0.7em;
+  border: 1px solid var(--border-color, #ccc);
+  border-radius: 0.6em;
+  background-color: white;
+  color: black;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+  border-color: var(--color-accent);
+  outline: none;
+  box-shadow: 0 0 0 3px oklch(from var(--color-accent) 95% 10% h / 30%);
+}
+
+#contact-form button {
+  align-self: flex-start;
+  font: inherit;
+  padding: 0.6em 1.2em;
+  border: none;
+  border-radius: 0.6em;
+  background-color: var(--color-accent);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#contact-form button:hover {
+  background-color: oklch(from var(--color-accent) 60% 40% h);
+}
+
+/* Add responsiveness */
+@media screen and (max-width: 600px) {
+  #contact-form {
+    padding: 1rem;
+  }
+}
+
+/* ============== HERO IMAGE ============== */
+
+img.hero {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 2rem auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ================================ */
+/*            PROJECTS PAGE         */
+/* ================================ */
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.projects article {
+  background-color: canvas;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.projects img {
+  width: 100%;
+  max-height: 150px;
+  object-fit: cover;
+  background-color: #dbe1e8;
+  display: block;
+  margin: 1rem auto;
+}
+
+.projects h2, .projects h3 {
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.projects p {
+  font-size: 0.9rem;
+  color: inherit;
+}
+
+.projects article:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease-out;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ================================ */
+/*         PROFILE STATS GRID       */
+/* ================================ */
+
+#profile-stats dl {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  text-align: center;
+  background: canvas;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-top: 2rem;
+}
+
+#profile-stats dt {
+  font-weight: bold;
+  font-size: 1rem;
+  grid-row: 1;
+}
+
+#profile-stats dd {
+  margin: 0;
+  font-size: 0.9rem;
+  grid-row: 2;
+}
+
+/* ================================ */
+/*            RESUME PAGE           */
+/* ================================ */
+
+.resume-wrapper {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 100vh;
+  gap: 2rem;
+}
+
+.resume-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: #fff;
+  border-right: 1px solid var(--border-color);
+  padding: 2rem 1rem;
+}
+
+.resume-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.resume-sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.resume-sidebar nav ul li {
+  margin-bottom: 1rem;
+}
+
+.resume-sidebar nav ul li a {
+  display: block;
+  padding: 0.5rem 0.8rem;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+/* Color coding for sidebar links */
+.resume-sidebar a.edu {
+  background-color: var(--edu);
+}
+.resume-sidebar a.exp {
+  background-color: var(--exp);
+}
+.resume-sidebar a.lead {
+  background-color: var(--lead);
+}
+.resume-sidebar a.awards {
+  background-color: var(--awards);
+}
+.resume-sidebar a.skills {
+  background-color: var(--skills);
+}
+
+.resume-sidebar nav ul li a:hover {
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+.resume-main {
+  padding: 2rem;
+}
+
+.resume-main section {
+  margin-bottom: 4rem;
+}
+
+/* ================================ */
+/*            PROJECT TEXT          */
+/* ================================ */
+
+.project-text {
+  font-family: Georgia, Baskerville, serif;
+  font-variant-numeric: oldstyle-nums;
+}
+
+.project-year {
+  color: gray;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+/* ================================ */
+/*           PIE CHART PAGE         */
+/* ================================ */
+
+#projects-pie-plot {
+  max-width: 20em;
+  margin-block: 2em;
+  overflow: visible;
+}
+
+.github-stats {
+  margin-top: 2rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+/* Search bar inside controls */
+.searchBar {
+  flex: 1 1 100%;
+  max-width: none;
+  padding: 0.75rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Wrap pie, legend & search into one responsive row */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+/* Make SVG flex-grow so it and the legend share space */
+.controls svg#projects-pie-plot {
+  flex: 1 1 300px;
+  max-width: 20em; 
+  overflow: visible;
+}
+
+/* Legend container as a wide card */
+.controls .legend {
+  flex: 1 1 300px;
+  width: 100%;
+  max-width: 700px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color, #ccc);
+  border-radius: 0.25rem;
+  background: #fafafa;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
+  gap: 0.5rem;
+  box-sizing: border-box;
+  list-style: none;
+  margin: 0;
+}
+
+/* Each legend entry lines up swatch and text */
+.controls .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* Color swatch inside legend */
+.controls .legend-item .swatch {
+  width: 1em;
+  aspect-ratio: 1/1;
+  background: var(--color);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Highlight on hover for pie slices */
+#projects-pie-plot path {
+  transition: opacity 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+
+#projects-pie-plot:has(path:hover) path:not(:hover) {
+  opacity: 0.5;
+}
+
+/* Selected slice or legend */
+#projects-pie-plot path.selected {
+  transform: scale(1.05);
+  stroke: white;
+  stroke-width: 2px;
+}
+
+.controls .legend-item.selected .swatch {
+  background: var(--color-accent);
+}
+
+/* Wide search bar under legend */
+.searchBar {
+  flex: 1 1 100%;
+  max-width: 700px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  border: 1px solid var(--border-color, #ccc);
+  border-radius: 0.25rem;
+}
+
+/* Selected slice/legend */
+.selected {
+  opacity: 1;
+  stroke: white;
+  stroke-width: 2px;
+  transition: opacity 0.3s ease;
+}
+
+/* Dimmed (non-selected) slices and project cards */
+.dimmed {
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+/* Legend item styling */
+.legend-item {
+  cursor: pointer;
+  margin: 0.5em 0;
+  display: flex;
+  align-items: center;
+}
+
+.legend-item .swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  background-color: var(--color);
+  border-radius: 50%;
+}
+
+/* Optional: Give selected legend items a subtle highlight */
+.legend-item.selected {
+  font-weight: bold;
+}
+
+/* Optional: Give dimmed legend items reduced contrast */
+.legend-item.dimmed {
+  opacity: 0.3;
+}
+
+/* ================================ */
+/*      META ANALYSIS PAGE STYLES   */
+/* ================================ */
 
 .stats {
   display: grid;
@@ -85,22 +516,15 @@ nav a:hover {
   margin: 0;
 }
 
-.tooltip {
-  position: fixed;
-  top: 1em;
-  left: 1em;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 1em;
-  border-radius: 0.5em;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(4px);
-  z-index: 1000;
+/* Tooltip on meta page */
+dl.info {
+  transition-duration: 500ms;
+  transition-property: opacity, visibility;
 }
 
-dl.info[hidden] {
+dl.info[hidden]:not(:hover, :focus-within) {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.5s ease;
 }
 
 .gridlines line {
@@ -111,26 +535,15 @@ dl.info[hidden] {
 circle {
   transition: 200ms;
   transform-origin: center;
-  fill: steelblue;
-  fill-opacity: 0.7;
+  transform-box: fill-box;
 }
 
 circle:hover {
   transform: scale(1.5);
-  fill-opacity: 1;
 }
 
 circle.selected {
   fill: #ff6b6b;
-}
-
-/* ===== Brush Selection ===== */
-.selection {
-  fill-opacity: 0.1;
-  stroke: black;
-  stroke-opacity: 0.7;
-  stroke-dasharray: 5 3;
-  animation: marching-ants 2s linear infinite;
 }
 
 @keyframes marching-ants {
@@ -139,7 +552,27 @@ circle.selected {
   }
 }
 
-/* ===== Language Breakdown ===== */
+.selection {
+  fill-opacity: 0.1;
+  stroke: black;
+  stroke-opacity: 0.7;
+  stroke-dasharray: 5 3;
+  animation: marching-ants 2s linear infinite;
+}
+
+dl.info {
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+dl.info[hidden] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+circle.selected {
+  fill: #ff6b6b;
+}
+
 #language-breakdown {
   display: flex;
   justify-content: center;
@@ -160,31 +593,111 @@ circle.selected {
   margin: 0;
 }
 
-/* ===== Lab 8: Scrollytelling & Unit Viz ===== */
+/* ===== Scrollytelling Layout ===== */
 #scrolly-1 {
   display: flex;
   gap: 1rem;
   margin-top: 2rem;
 }
-
 #scatter-story {
   flex: 1;
   padding-right: 1rem;
 }
-
 #scatter-plot {
   flex: 1;
   position: sticky;
   top: 0;
   height: 50vh;
 }
-
 .step {
   margin-bottom: 60vh;
   padding-bottom: 1rem;
   font-size: 1rem;
 }
 
+/* ===== Slider ===== */
+.slider-container {
+  margin-top: 1rem;
+}
+.slider-container label {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+#commit-time {
+  margin-left: auto;
+  font-weight: bold;
+}
+
+/* ===== Unit Visualization ===== */
+#files {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+#files > div {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+}
+#files dt {
+  grid-column: 1;
+}
+#files dd {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: 0.15em;
+  padding-top: 0.6em;
+  margin-left: 0;
+}
+/* Dots per line of code */
+.loc {
+  width: 0.5em;
+  aspect-ratio: 1;
+  background: var(--color, steelblue);
+  border-radius: 50%;
+  transition: all 200ms ease;
+}
+@starting-style {
+  .loc {
+    r: 0;
+  }
+}
+
+/* ===== Lab 8: Scrollytelling & Unit Visualization Additions ===== */
+
+/* Container that holds the story (left) and the sticky scatter plot (right) */
+#scrolly-1 {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Left column: commit story text */
+#scatter-story {
+  flex: 1;
+  padding-right: 1rem;
+}
+
+/* Right column: sticky scatter plot SVG */
+#scatter-plot {
+  flex: 1;
+  position: sticky;
+  top: 0;
+  height: 50vh; /* so that it stays visible while scrolling */
+}
+
+/* Each “step” in the scroll narrative */
+.step {
+  margin-bottom: 60vh; /* push each step far enough so the plot can update */
+  padding-bottom: 1rem;
+  font-size: 1rem;
+}
+
+/* ===== Slider styling ===== */
 .slider-container {
   margin-top: 1rem;
 }
@@ -200,6 +713,7 @@ circle.selected {
   font-weight: bold;
 }
 
+/* ===== Unit Visualization (files list) ===== */
 #files {
   display: grid;
   grid-template-columns: 1fr 4fr;
@@ -207,16 +721,19 @@ circle.selected {
   margin-top: 2rem;
 }
 
+/* Each file’s wrapper row spans both columns, but itself is a two-column subgrid */
 #files > div {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: subgrid;
 }
 
+/* File name (in <dt>) sits in column 1 */
 #files dt {
   grid-column: 1;
 }
 
+/* File lines visualization (in <dd>) sits in column 2 */
 #files dd {
   grid-column: 2;
   display: flex;
@@ -227,14 +744,16 @@ circle.selected {
   margin-left: 0;
 }
 
+/* Each “dot” (line of code) in the unit viz */
 .loc {
   width: 0.5em;
   aspect-ratio: 1;
-  background: var(--color, steelblue);
+  background: var(--color, steelblue); /* D3 will set --color per file-type */
   border-radius: 50%;
   transition: all 200ms ease;
 }
 
+/* Starting style so new .loc dots animate from r = 0 to full size */
 @starting-style {
   .loc {
     r: 0;
