@@ -2,24 +2,268 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Meta – Codebase Analysis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Link to your existing global CSS (nav, typography, theme, etc.) -->
+  <!-- Link to your existing global CSS for nav, typography, etc. -->
   <link rel="stylesheet" href="../style.css" />
-  <!-- Link to this page’s CSS (you’ll replace or append it in style.css) -->
-  <!-- (If you keep a separate file for Meta styles, adjust accordingly) -->
+
+  <!-- ========== META PAGE INLINE CSS ========== -->
+  <style>
+    /* ========================
+       RESET + BASIC TYPOGRAPHY
+       ======================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: system-ui, sans-serif;
+      line-height: 1.5;
+      max-width: 100ch;
+      margin: 1rem auto;
+      padding: 0 1rem;
+      color: #222;
+      background: #fff;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      font-size: 2rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ====================
+       SUMMARY STATS GRID
+       ==================== */
+    #stats dl {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem 2rem;
+      margin-bottom: 2rem;
+    }
+    #stats dt {
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    #stats dd {
+      font-size: 1.25rem;
+      margin: 0;
+      color: #111;
+    }
+
+    /* ===========================
+       SCROLLYTELLING (TWO COLUMNS)
+       =========================== */
+    #scrolly-1 {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    /* Left: commit story text */
+    #scatter-story {
+      flex: 1;
+      padding-right: 1rem;
+    }
+    /* Right: sticky scatter plot */
+    #scatter-plot {
+      flex: 1;
+      position: sticky;
+      top: 1rem;
+      height: 50vh;
+    }
+    #scatter-plot h3 {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+      color: #333;
+    }
+    .step {
+      margin-bottom: 60vh;
+      padding-bottom: 1rem;
+      font-size: 1rem;
+      color: #333;
+    }
+    .step a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    .step a:hover {
+      text-decoration: underline;
+    }
+
+    /* ========= SLIDER ========= */
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .slider-container label {
+      font-size: 1rem;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    #commit-time {
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: #111;
+    }
+    input[type="range"] {
+      flex: 1;
+      height: 1.5rem;
+      -webkit-appearance: none;
+      background: #ddd;
+      border-radius: 5px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 1.5rem;
+      height: 1.5rem;
+      background: #e91e63;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #c2185b;
+      margin-top: -0.25rem;
+    }
+
+    /* ========= TOOLTIP ========= */
+    .tooltip {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid #ccc;
+      padding: 0.75rem;
+      border-radius: 0.4rem;
+      font-size: 0.9rem;
+      color: #222;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+      z-index: 1000;
+    }
+    .tooltip.visible {
+      visibility: visible;
+      opacity: 1;
+    }
+    .tooltip dt {
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+      color: #444;
+    }
+    .tooltip dd {
+      margin-left: 0;
+      margin-bottom: 0.5rem;
+    }
+    .tooltip a {
+      color: #e91e63;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    /* ========= SCATTER PLOT SVG ========= */
+    #chart svg {
+      width: 100%;
+      height: 100%;
+    }
+    .gridlines line {
+      stroke: #eee;
+      stroke-opacity: 0.7;
+    }
+    circle {
+      fill: #2196f3;
+      fill-opacity: 0.7;
+      transition: transform 0.2s ease, fill-opacity 0.2s ease;
+    }
+    circle:hover {
+      transform: scale(1.5);
+      fill-opacity: 1;
+      cursor: pointer;
+    }
+
+    /* ========= PIE CHART ========= */
+    #pie {
+      display: block;
+      margin: 1.5rem auto;
+      max-width: 300px;
+      max-height: 300px;
+    }
+    /* Legend styling */
+    .pie-legend {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .pie-legend .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .pie-legend .swatch {
+      width: 1rem;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ========= UNIT VISUALIZATION ========= */
+    #files {
+      margin-top: 2rem;
+    }
+    #files dl {
+      display: grid;
+      grid-template-columns: 1fr 4fr;
+      gap: 0.5rem 1rem;
+      align-items: start;
+    }
+    #files dt {
+      font-weight: bold;
+      color: #555;
+    }
+    #files dt code {
+      font-family: monospace;
+      font-size: 0.9rem;
+      word-break: break-all;
+    }
+    #files dd {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.1rem;
+      align-items: start;
+      padding-top: 0.5rem;
+      margin-left: 0;
+    }
+    .loc {
+      width: 0.5rem;
+      aspect-ratio: 1;
+      background: steelblue;
+      border-radius: 50%;
+      transition: opacity 0.2s ease;
+    }
+    .loc:hover {
+      opacity: 0.6;
+    }
+  </style>
 </head>
 <body>
-  <!-- If you use a global nav via a Jekyll template or global.js, it will appear here -->
-  <script type="module" src="../global.js"></script>
-
   <main>
-    <!-- Page Title -->
+    <!-- ========== PAGE TITLE + DESCRIPTION ========== -->
     <h1>Meta</h1>
     <p>This page includes stats about the code of this website.</p>
 
-    <!-- ======= SUMMARY STATS GRID ======= -->
+    <!-- ========== SUMMARY STATS GRID ========== -->
     <section id="stats">
       <dl>
         <div class="stat-item">
@@ -49,15 +293,13 @@
       </dl>
     </section>
 
-    <!-- ======= EVOLUTION HEADING ======= -->
+    <!-- ========== EVOLUTION HEADING ========== -->
     <h2>Evolution over time</h2>
 
-    <!-- ======= SCROLLYTELLING BLOCK ======= -->
+    <!-- ========== SCROLLYTELLING BLOCK ========== -->
     <div id="scrolly-1">
-      <!-- Left column: commit text steps -->
-      <div id="scatter-story">
-        <!-- JS will populate .step <div>s here -->
-      </div>
+      <!-- Left column: commit story text -->
+      <div id="scatter-story"></div>
 
       <!-- Right column: sticky scatter plot -->
       <div id="scatter-plot">
@@ -66,23 +308,27 @@
       </div>
     </div>
 
-    <!-- ======= SLIDER & TIME LABEL (below scrollytelling) ======= -->
+    <!-- ========== SLIDER & TIME LABEL ========== -->
     <div class="slider-container">
       <label for="commit-progress">
         Show commits until:
-        <input type="range" id="commit-progress" min="0" max="100" />
+        <input type="range" id="commit-progress" min="0" max="100" value="100" />
         <time id="commit-time"></time>
       </label>
     </div>
 
-    <!-- ======= BRUSH SELECTION STATS ======= -->
+    <!-- ========== SELECTION COUNT & LANGUAGE BREAKDOWN (placeholder) ========== -->
     <p id="selection-count">No commits selected</p>
     <dl id="language-breakdown" class="stats"></dl>
 
-    <!-- ======= TOOLTIP (hidden until hover) ======= -->
-    <dl id="commit-tooltip" class="info tooltip" hidden>
+    <!-- ========== PIE CHART (static, shows total lines by type) ========== -->
+    <svg id="pie"></svg>
+    <div class="pie-legend"></div>
+
+    <!-- ========== TOOLTIP (initially hidden) ========== -->
+    <dl id="commit-tooltip" class="tooltip">
       <dt>Commit</dt>
-      <dd><a href="" id="commit-link" target="_blank"></a></dd>
+      <dd><a href="#" id="commit-link" target="_blank"></a></dd>
       <dt>Date</dt>
       <dd id="commit-date"></dd>
       <dt>Time</dt>
@@ -93,12 +339,12 @@
       <dd id="commit-lines"></dd>
     </dl>
 
-    <!-- ======= UNIT VISUALIZATION (files by size) ======= -->
+    <!-- ========== UNIT VISUALIZATION: Files by size ========== -->
     <h2>Files by size</h2>
-    <dl id="files"></dl>
+    <div id="files"></div>
   </main>
 
-  <!-- Link to your Meta‐page script -->
+  <!-- ========== MAIN JS ========== -->
   <script type="module" src="./main.js"></script>
 </body>
 </html>
