@@ -718,4 +718,87 @@
   }
   
   
-  
+  /* ===== Scrollytelling Layout ===== */
+#scrolly-1 {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+#scatter-story {
+  flex: 1;
+  padding-right: 1rem;
+}
+
+#scatter-plot {
+  flex: 1;
+  position: sticky;
+  top: 0;
+  height: 50vh;
+}
+
+/* ===== Scroll Steps ===== */
+.step {
+  margin-bottom: 60vh;
+  padding-bottom: 1rem;
+  font-size: 1rem;
+}
+
+/* ===== Commit Slider ===== */
+.slider-container {
+  margin-top: 1rem;
+}
+
+.slider-container label {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+#commit-time {
+  margin-left: auto;
+  font-weight: bold;
+}
+
+/* ===== Unit Visualization ===== */
+#files {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+#files > div {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+#files dt {
+  grid-column: 1;
+}
+
+#files dd {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: 0.15em;
+  padding-top: 0.6em;
+  margin-left: 0;
+}
+
+/* Dots per line of code */
+.loc {
+  width: 0.5em;
+  aspect-ratio: 1;
+  background: var(--color, steelblue);
+  border-radius: 50%;
+  transition: all 200ms ease;
+}
+
+@starting-style {
+  .loc {
+    r: 0;
+  }
+}
